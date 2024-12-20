@@ -114,7 +114,7 @@ LRESULT Window::HandleMessageRepeated(HWND hWnd, UINT uMsg, WPARAM wParam, LPARA
 	return pWindow->HandleMessage(hWnd, uMsg, wParam, lParam);
 }
 
-void Window::ProcessMessages()
+int Window::ProcessMessages()
 {
 	MSG msg = { 0 };
 
@@ -123,13 +123,13 @@ void Window::ProcessMessages()
 	{
 		// INFO: Check for quit message
 		if (msg.message == WM_QUIT)
-			break;
+			return -1;
 
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 
-	return;
+	return 0;
 }
 
 LRESULT Window::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

@@ -14,7 +14,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,
 
 	while (true)
 	{
-		Window::ProcessMessages();
+		// INFO: Break if the application should quit
+		if (Window::ProcessMessages() == -1)
+			break;
 	}
 
 	return 0;

@@ -27,7 +27,10 @@ public:
 
 	static LRESULT CALLBACK HandleMessageSetup(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK HandleMessageRepeated(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-	static void ProcessMessages();
+
+	/// @retval 0 : If all messages were processed
+	/// @retval -1 : If the application should quit
+	static int ProcessMessages();
 
 	LRESULT HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

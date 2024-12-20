@@ -15,7 +15,7 @@ Window::~Window()
 	DestroyWindow(hWnd);
 }
 
-HRESULT Window::Initialise(HINSTANCE _hInstance, int nCmdShow, WindowInfo _windowInfo)
+HRESULT Window::Initialise(HINSTANCE _hInstance, int nCmdShow, const WindowInfo& _windowInfo)
 {
 	hInstance = _hInstance;
 	windowInfo = _windowInfo;

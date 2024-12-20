@@ -23,7 +23,7 @@ public:
 	Window();
 	~Window();
 
-	HRESULT Initialise(HINSTANCE _hInstance, int nCmdShow, WindowInfo _windowInfo);
+	HRESULT Initialise(HINSTANCE _hInstance, int nCmdShow, const WindowInfo& _windowInfo);
 
 	static LRESULT CALLBACK HandleMessageSetup(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK HandleMessageRepeated(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -34,6 +34,7 @@ public:
 
 	LRESULT HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+	inline HWND GetWindowHandle() const { return hWnd; }
 	inline void SetOnQuit(std::function<void()> _OnQuit) { OnQuit = _OnQuit; }
 
 private:

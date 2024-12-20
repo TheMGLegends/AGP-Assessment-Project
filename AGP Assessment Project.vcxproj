@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\Application\Application.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Core\Time\Time.cpp" />
     <ClCompile Include="Source\Core\Application\Window.cpp" />
@@ -139,9 +140,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Application\Application.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Source\Core\Time\Time.h" />
     <ClInclude Include="Source\Core\Application\Window.h" />
+    <ClInclude Include="Source\Debug\MemoryLeakDetector.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

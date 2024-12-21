@@ -74,7 +74,7 @@ inline std::weak_ptr<T> GameObject::AddComponent(Args && ...args)
 	std::weak_ptr<T> existingComponent = GetComponent<T>();
 
 	// INFO: Do not add the component if it already exists and we can only have one
-	if (!existingComponent.expired() && !existingComponent.lock()->canHaveMultiple)
+	if (!existingComponent.expired() && !existingComponent.lock()->GetCanHaveMultiple())
 		return existingComponent;
 
 	// INFO: Create the component

@@ -18,7 +18,7 @@ public:
 	void Update(float deltaTime);
 	void RenderFrame();
 
-	void SetIsRunning(const bool _isRunning) { isRunning = _isRunning; }
+	void SetIsRunning(bool _isRunning) { isRunning = _isRunning; }
 
 private:
 	Window window;

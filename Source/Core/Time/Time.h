@@ -7,11 +7,11 @@ class Time
 public:
 	static void Tick();
 
-	static inline const float GetDeltaTime() { return static_cast<float>(deltaTime); }
-	static inline const float GetElapsedTime() { return static_cast<float>(elapsedTime); }
+	static inline float GetDeltaTime() { return static_cast<float>(deltaTime); }
+	static inline float GetElapsedTime() { return static_cast<float>(elapsedTime); }
 
 	static inline void SetTimeScale(const float _timeScale) { timeScale = _timeScale; }
-	static inline const float GetTimeScale() { return timeScale; }
+	static inline float GetTimeScale() { return timeScale; }
 
 private:
 	static double deltaTime;

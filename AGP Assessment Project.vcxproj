@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Game\Camera\Camera.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Player.cpp" />
     <ClCompile Include="Source\Components\Core\Component.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Core\GameObject.cpp" />
@@ -144,6 +145,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Game\Camera\Camera.h" />
     <ClInclude Include="Source\Game\GameObjects\Player.h" />
     <ClInclude Include="Source\Components\Core\Component.h" />
     <ClInclude Include="Source\Game\GameObjects\Core\GameObject.h" />

@@ -1,15 +1,17 @@
 #include "GameObject.h"
 
+#include "../../../Components/Transform/Transform.h"
+
 GameObject::GameObject() : isActive(true), markedForDeletion(false)
 {
-	// TODO: Add a Transform Component
+	transform = AddComponent<Transform>(this);
 }
 
 GameObject::~GameObject()
 {
 }
 
-inline void GameObject::Destroy()
+void GameObject::Destroy()
 {
 	// INFO: Return if the GameObject is already marked for Deletion
 	if (markedForDeletion)

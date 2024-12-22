@@ -131,17 +131,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Game\GameObjects\Player.cpp" />
     <ClCompile Include="Source\Components\Core\Component.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Core\GameObject.cpp" />
     <ClCompile Include="Source\Core\Application\Application.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Core\Time\Time.cpp" />
     <ClCompile Include="Source\Core\Application\Window.cpp" />
+    <ClCompile Include="Source\Components\Transform\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Game\GameObjects\Player.h" />
     <ClInclude Include="Source\Components\Core\Component.h" />
     <ClInclude Include="Source\Game\GameObjects\Core\GameObject.h" />
     <ClInclude Include="Source\Core\Application\Application.h" />
@@ -149,6 +152,7 @@
     <ClInclude Include="Source\Core\Time\Time.h" />
     <ClInclude Include="Source\Core\Application\Window.h" />
     <ClInclude Include="Source\Debug\MemoryLeakDetector.h" />
+    <ClInclude Include="Source\Components\Transform\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

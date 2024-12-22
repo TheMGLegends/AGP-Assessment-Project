@@ -3,9 +3,11 @@
 #include <memory>
 #include <vector>
 
+//#include "../../../Components/Physics/Collider.h"
+#include "../../../Components/Transform/Transform.h"
+
 class Collider;
 class Component;
-class Transform;
 
 class GameObject
 {
@@ -25,7 +27,7 @@ public:
 	inline void SetIsActive(bool _isActive) { isActive = _isActive; }
 	inline bool GetIsActive() const { return isActive; }
 
-	inline void Destroy();
+	void Destroy();
 	inline bool GetIsMarkedForDeletion() const { return markedForDeletion; }
 
 	virtual void Start() {}
@@ -46,7 +48,6 @@ private:
 	std::vector<std::shared_ptr<Component>> components;
 
 	bool markedForDeletion;
-
 };
 
 template<class T>

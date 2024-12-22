@@ -6,6 +6,9 @@
 
 Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& windowInfo) : window(), isRunning(false)
 {
+	// INFO: Seed the random number generator
+	srand(static_cast<unsigned int>(time(nullptr)));
+
 	// INFO: Initialise the window
 	if (FAILED(window.Initialise(hInstance, nCmdShow, windowInfo)))
 	{

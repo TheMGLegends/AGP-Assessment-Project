@@ -7,10 +7,6 @@ Transform::Transform(GameObject* _gameObject) : Component(_gameObject), rotation
 {
 }
 
-Transform::~Transform()
-{
-}
-
 DirectX::XMMATRIX Transform::GetWorldMatrix() const
 {
 	DirectX::XMMATRIX translationMatrix = DirectX::XMMatrixTranslationFromVector(position);

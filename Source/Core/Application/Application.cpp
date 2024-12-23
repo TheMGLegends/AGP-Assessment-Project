@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "../../Core/Renderer/Renderer.h"
 #include "../../Scene/GameScene.h"
 #include "../Time/Time.h"
 
@@ -18,12 +19,12 @@ Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& wi
 	}
 
 	// INFO: Initialise the renderer
-	//renderer = std::make_unique<Renderer>();
-	//if (FAILED(renderer->Initialise(window.GetWindowHandle())))
-	//{
-	//	std::cout << "Application::Application(): Failed to initialise the renderer!" << std::endl;
-	//	return;
-	//}
+	renderer = std::make_unique<Renderer>();
+	if (FAILED(renderer->Initialise(window.GetWindowHandle())))
+	{
+		std::cout << "Application::Application(): Failed to initialise the renderer!" << std::endl;
+		return;
+	}
 
 	// INFO: Initialise the scene
 	currentScene = std::make_unique<GameScene>();
@@ -87,5 +88,5 @@ void Application::Update(float deltaTime)
 
 void Application::RenderFrame()
 {
-	// TODO: Handle rendering via renderer
+	renderer->RenderFrame();
 }

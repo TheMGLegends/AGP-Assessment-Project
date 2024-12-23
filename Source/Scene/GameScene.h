@@ -6,7 +6,7 @@ class GameScene : public Scene
 {
 public:
 	using Scene::Scene;
-	virtual ~GameScene() override;
+	virtual ~GameScene() override {}
 
 	virtual bool Initialise() override;
 };

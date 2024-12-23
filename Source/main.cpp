@@ -11,7 +11,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	// INFO: Create the application
-	Application app(hInstance, nCmdShow, WindowInfo(L"Window", 800, 600));
+	Application app(hInstance, nCmdShow, WindowInfo(L"AGP Assessment Project", 800, 600));
 
 	// INFO: Run the application
 	app.Run();

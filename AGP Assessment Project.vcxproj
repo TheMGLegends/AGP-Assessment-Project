@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Core\Renderer\Renderer.cpp" />
     <ClCompile Include="Source\Scene\GameScene.cpp" />
     <ClCompile Include="Source\Scene\Core\Scene.cpp" />
     <ClCompile Include="Source\Game\Camera\Camera.cpp" />
@@ -147,6 +148,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Core\Renderer\Renderer.h" />
     <ClInclude Include="Source\Scene\GameScene.h" />
     <ClInclude Include="Source\Scene\Core\Scene.h" />
     <ClInclude Include="Source\Game\Camera\Camera.h" />

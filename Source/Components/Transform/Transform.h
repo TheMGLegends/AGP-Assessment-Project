@@ -6,7 +6,7 @@ class Transform : public Component
 {
 public:
 	Transform(GameObject* _gameObject);
-	virtual ~Transform() override;
+	virtual ~Transform() override {}
 
 	DirectX::XMMATRIX GetWorldMatrix() const;
 

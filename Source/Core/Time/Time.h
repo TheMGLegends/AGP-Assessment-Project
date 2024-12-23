@@ -5,6 +5,11 @@
 class Time
 {
 public:
+	Time() = delete;
+	~Time() = delete;
+	Time(const Time&) = delete;
+	Time& operator=(const Time&) = delete;
+
 	static void Tick();
 
 	static inline float GetDeltaTime() { return static_cast<float>(deltaTime); }

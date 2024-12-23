@@ -4,7 +4,7 @@
 
 #include "Window.h"
 
-//class Renderer;
+class Renderer;
 class Scene;
 
 class Application
@@ -23,7 +23,7 @@ public:
 
 private:
 	Window window;
-	//std::unique_ptr<Renderer> renderer;
+	std::unique_ptr<Renderer> renderer;
 	std::unique_ptr<Scene> currentScene;
 
 	bool isRunning;

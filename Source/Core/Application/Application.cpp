@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "../../Scene/GameScene.h"
 #include "../Time/Time.h"
 
 Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& windowInfo) : window(), isRunning(false)
@@ -25,12 +26,12 @@ Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& wi
 	//}
 
 	// INFO: Initialise the scene
-	//currentScene = std::make_unique<Scene>();
-	//if (!currentScene->Initialise())
-	//{
-	//	std::cout << "Application::Application(): Failed to initialise the scene!" << std::endl;
-	//	return;
-	//}
+	currentScene = std::make_unique<GameScene>();
+	if (!currentScene->Initialise())
+	{
+		std::cout << "Application::Application(): Failed to initialise the scene!" << std::endl;
+		return;
+	}
 
 	// INFO: Set the window's quit callback
 	window.SetOnQuit([this]() { isRunning = false; });
@@ -46,7 +47,8 @@ Application::~Application()
 
 void Application::Run()
 {
-	// TODO: Handle start via scene
+	// INFO: Start the current scene
+	currentScene->Start();
 
 	// INFO: Run the application loop
 	while (isRunning)
@@ -63,6 +65,9 @@ void Application::Run()
 		// TODO: Handle collision detection via ComponentHandler (CollisionHandler)
 
 		RenderFrame();
+
+		// INFO: Process Destruction of Game Objects
+		currentScene->ProcessDestroyedGameObjects();
 	}
 }
 
@@ -73,7 +78,11 @@ void Application::HandleInput()
 
 void Application::Update(float deltaTime)
 {
-	// TODO: Handle updating via current scene
+	// INFO: Update the current scene
+	currentScene->Update(deltaTime);
+
+	// INFO: Late update the current scene
+	currentScene->LateUpdate(deltaTime);
 }
 
 void Application::RenderFrame()

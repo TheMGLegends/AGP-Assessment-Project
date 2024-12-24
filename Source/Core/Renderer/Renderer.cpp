@@ -2,8 +2,16 @@
 
 #include <iostream>
 
+#include "../../Scene/Core/Scene.h"
+
 using namespace DirectX;
 using namespace Microsoft::WRL;
+
+Renderer::Renderer() : device(nullptr), deviceContext(nullptr), swapChain(nullptr), 
+					   renderTargetView(nullptr), depthStencilView(nullptr), viewport({ 0 }), 
+					   spriteBatch(nullptr)
+{
+}
 
 HRESULT Renderer::Initialise(HWND hWnd)
 {
@@ -143,7 +151,7 @@ HRESULT Renderer::Initialise(HWND hWnd)
 	return S_OK;
 }
 
-void Renderer::RenderFrame()
+void Renderer::RenderFrame(Scene* scene)
 {
 	// MAYBE WE CAN PASS IN A REFERENCE TO THE SCENE INSTEAD OF CREATING A SCENE CONTEXT AND CALLING IT HERE?
 

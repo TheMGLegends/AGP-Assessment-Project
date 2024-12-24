@@ -10,6 +10,9 @@
 
 class Scene
 {
+	friend class Renderer;
+	friend class SceneContext;
+
 public:
 	Scene() = default;
 	virtual ~Scene() = 0;

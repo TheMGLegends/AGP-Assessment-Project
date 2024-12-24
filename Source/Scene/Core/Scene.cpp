@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include "SceneContext.h"
+
 Scene::~Scene()
 {
 }
@@ -20,6 +22,9 @@ bool Scene::Initialise()
 
 	// INFO: Create a skybox
 	// TODO: Create a skybox
+
+	// INFO: Reference the scene in the scene context
+	SceneContext::SetScene(this);
 
 	return true;
 }

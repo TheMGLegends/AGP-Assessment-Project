@@ -5,15 +5,17 @@
 #include <Windows.h>
 #include <wrl.h>
 
+class Scene;
+
 class Renderer
 {
 public:
-	Renderer() = default;
+	Renderer();
 	~Renderer() = default;
 
 	HRESULT Initialise(HWND hWnd);
 
-	void RenderFrame();
+	void RenderFrame(Scene* scene);
 
 	inline ID3D11Device* GetDevice() const { return device.Get(); }
 	inline ID3D11DeviceContext* GetDeviceContext() const { return deviceContext.Get(); }

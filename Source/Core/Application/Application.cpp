@@ -88,5 +88,5 @@ void Application::Update(float deltaTime)
 
 void Application::RenderFrame()
 {
-	renderer->RenderFrame();
+	renderer->RenderFrame(currentScene.get());
 }

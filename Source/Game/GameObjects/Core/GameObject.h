@@ -81,8 +81,8 @@ inline std::weak_ptr<T> GameObject::AddComponent(Args && ...args)
 	// INFO: Create the component
 	components.emplace_back(std::make_shared<T>(std::forward<Args>(args)...));
 
-	// TODO: Register the component with the ComponentHandler (Maybe call a function defined in Component Base that does this,
-	//       rather than calling ComponentHandler directly here)
+	// INFO: Register the component with the ComponentHandler
+	components.back()->RegisterComponent(); // TODO: Test this once you have a component that registers
 
 	// INFO: Return the newly created component
 	return std::dynamic_pointer_cast<T>(components.back());

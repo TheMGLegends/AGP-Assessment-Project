@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Components\Core\ComponentHandler.cpp" />
     <ClCompile Include="Source\Scene\Core\SceneContext.cpp" />
     <ClCompile Include="Source\Core\Renderer\Renderer.cpp" />
     <ClCompile Include="Source\Scene\GameScene.cpp" />
@@ -149,6 +150,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Components\Core\ComponentHandler.h" />
     <ClInclude Include="Source\Scene\Core\SceneContext.h" />
     <ClInclude Include="Source\Core\Renderer\Renderer.h" />
     <ClInclude Include="Source\Scene\GameScene.h" />

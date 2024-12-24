@@ -153,8 +153,6 @@ HRESULT Renderer::Initialise(HWND hWnd)
 
 void Renderer::RenderFrame(Scene* scene)
 {
-	// MAYBE WE CAN PASS IN A REFERENCE TO THE SCENE INSTEAD OF CREATING A SCENE CONTEXT AND CALLING IT HERE?
-
 	// INFO: Clear the render target view and depth stencil view
 	deviceContext->ClearRenderTargetView(renderTargetView.Get(), Colors::DarkSeaGreen);
 	deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);

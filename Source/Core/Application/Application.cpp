@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "../../Components/Core/ComponentHandler.h"
 #include "../../Core/Renderer/Renderer.h"
 #include "../../Scene/GameScene.h"
 #include "../Time/Time.h"
@@ -63,7 +64,8 @@ void Application::Run()
 		HandleInput();
 		Update(Time::GetDeltaTime());
 
-		// TODO: Handle collision detection via ComponentHandler (CollisionHandler)
+		// INFO: Handle collision detection via ComponentHandler (CollisionHandler)
+		ComponentHandler::CheckCollisions();
 
 		RenderFrame();
 

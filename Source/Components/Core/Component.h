@@ -6,6 +6,8 @@ class GameObject;
 
 class Component
 {
+	friend class GameObject;
+
 public:
 	Component(GameObject* _gameObject);
 	virtual ~Component() = 0;
@@ -25,6 +27,10 @@ public:
 	inline bool GetIsActive() const { return isActive; }
 
 	inline bool GetCanHaveMultiple() const { return canHaveMultiple; }
+
+private:
+	/// @brief Register the component with the ComponentHandler
+	virtual void RegisterComponent() {}
 
 protected:
 	DirectX::SimpleMath::Vector3 position;

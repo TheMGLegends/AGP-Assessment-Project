@@ -2,7 +2,7 @@
 
 #include <DirectXMath.h>
 
-//#include "../Components/Lighting/Light.h"
+//#include "../../Components/Lighting/Light.h"
 
 namespace ConstantBuffers
 {

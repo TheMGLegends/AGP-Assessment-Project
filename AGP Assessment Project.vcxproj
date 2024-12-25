@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Assets\Material\Material.cpp" />
     <ClCompile Include="Source\Components\Core\ComponentHandler.cpp" />
     <ClCompile Include="Source\Scene\Core\SceneContext.cpp" />
     <ClCompile Include="Source\Core\Renderer\Renderer.cpp" />
@@ -150,6 +151,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Assets\Material\Material.h" />
+    <ClInclude Include="Source\Assets\Config\DirectXConfig.h" />
+    <ClInclude Include="Source\Assets\ConstantBuffers\ConstantBuffers.h" />
     <ClInclude Include="Source\Components\Core\ComponentHandler.h" />
     <ClInclude Include="Source\Scene\Core\SceneContext.h" />
     <ClInclude Include="Source\Core\Renderer\Renderer.h" />

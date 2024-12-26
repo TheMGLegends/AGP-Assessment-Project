@@ -2,10 +2,11 @@
 
 #include <iostream>
 
-#include "../../Components/Core/ComponentHandler.h"
-#include "../../Core/Renderer/Renderer.h"
-#include "../../Scene/GameScene.h"
+#include "../Input/InputHandler.h"
+#include "../Renderer/Renderer.h"
 #include "../Time/Time.h"
+#include "../../Components/Core/ComponentHandler.h"
+#include "../../Scene/GameScene.h"
 
 Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& windowInfo) : window(), isRunning(false)
 {
@@ -76,7 +77,8 @@ void Application::Run()
 
 void Application::HandleInput()
 {
-	// TODO: Handle input via InputHandler
+	// INFO: Handle input for application
+	InputHandler::HandleInput();
 }
 
 void Application::Update(float deltaTime)

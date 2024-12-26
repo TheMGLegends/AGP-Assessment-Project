@@ -2,7 +2,10 @@
 
 #include <iostream>
 
+#include "../Input/InputHandler.h"
 #include "../../../resource.h"
+
+using namespace DirectX;
 
 Window::Window() : hInstance(nullptr), hWnd(nullptr), windowInfo(), OnQuit(nullptr)
 {
@@ -76,6 +79,13 @@ HRESULT Window::Initialise(HINSTANCE _hInstance, int nCmdShow, const WindowInfo&
 		return E_FAIL;
 	}
 
+	// INFO: Initialise input handler
+	if (!InputHandler::Initialise(hWnd))
+	{
+		std::cout << "Window::Initialise(): Failed to initialise input handler!" << std::endl;
+		return E_FAIL;
+	}
+
 	// INFO: Show the window
 	ShowWindow(hWnd, nCmdShow);
 
@@ -136,21 +146,61 @@ LRESULT Window::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 {
 	switch (uMsg)
 	{
+	case WM_ACTIVATEAPP:
+	{
+		Keyboard::ProcessMessage(uMsg, wParam, lParam);
+		Mouse::ProcessMessage(uMsg, wParam, lParam);
+		break;
+	}
 	case WM_DESTROY:
+	{
 		Quit();
 		break;
+	}
 	case WM_KEYDOWN:
 	{
+		Keyboard::ProcessMessage(uMsg, wParam, lParam);
 		switch (wParam)
 		{
 		case VK_ESCAPE:
 			Quit();
 			break;
 		}
+		break;
+	}
+	case WM_KEYUP:
+	case WM_SYSKEYDOWN:
+	case WM_SYSKEYUP:
+	{
+		Keyboard::ProcessMessage(uMsg, wParam, lParam);
+		break;
+	}
+	case WM_ACTIVATE:
+	case WM_INPUT:
+	case WM_MOUSEMOVE:
+	case WM_LBUTTONDOWN:
+	case WM_LBUTTONUP:
+	case WM_RBUTTONDOWN:
+	case WM_RBUTTONUP:
+	case WM_MBUTTONDOWN:
+	case WM_MBUTTONUP:
+	case WM_MOUSEWHEEL:
+	case WM_XBUTTONDOWN:
+	case WM_XBUTTONUP:
+	case WM_MOUSEHOVER:
+	{
+		Mouse::ProcessMessage(uMsg, wParam, lParam);
+		break;
+	}
+	case WM_MOUSEACTIVATE:
+	{
+		return MA_ACTIVATEANDEAT;
 	}
 	default:
+	{
 		// INFO: Default Message Handling for the Window
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
+	}
 	}
 
 	return 0;

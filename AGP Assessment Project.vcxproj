@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Assets\AssetHandler.cpp" />
     <ClCompile Include="Source\Core\Input\InputHandler.cpp" />
     <ClCompile Include="Source\Assets\Material\Material.cpp" />
     <ClCompile Include="Source\Components\Core\ComponentHandler.cpp" />
@@ -152,6 +153,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Assets\AssetHandler.h" />
     <ClInclude Include="Source\Core\Input\InputHandler.h" />
     <ClInclude Include="Source\Assets\Material\Material.h" />
     <ClInclude Include="Source\Assets\Config\DirectXConfig.h" />

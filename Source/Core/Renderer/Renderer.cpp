@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "../../Assets/AssetHandler.h"
 #include "../../Scene/Core/Scene.h"
 
 using namespace DirectX;
@@ -61,6 +62,7 @@ HRESULT Renderer::Initialise(HWND hWnd)
 
 	// INFO: Get the back buffer
 	ComPtr<ID3D11Resource> backBuffer;
+
 	hResult = swapChain->GetBuffer(0, __uuidof(ID3D11Resource), &backBuffer);
 
 	if (FAILED(hResult))
@@ -146,6 +148,15 @@ HRESULT Renderer::Initialise(HWND hWnd)
 	{
 		std::cout << "Renderer::Initialise(): Failed to create sprite batch!" << std::endl;
 		return E_FAIL;
+	}
+
+	// INFO: Load all assets via the AssetHandler
+	hResult = AssetHandler::LoadAssets();
+
+	if (FAILED(hResult))
+	{
+		std::cout << "Renderer::Initialise(): Failed to load assets!" << std::endl;
+		return hResult;
 	}
 
 	return S_OK;

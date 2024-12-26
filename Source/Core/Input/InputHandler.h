@@ -29,10 +29,8 @@ enum class ButtonState
 struct BindData
 {
 public:
-	/// @brief Allows for the binding of any function with any number of arguments to a button state
-	template<class Action, typename... Args>
-	BindData(ButtonState _buttonState, Action&& _action, Args&&... args);
 	BindData() : action(nullptr), buttonState(ButtonState::None) {}
+	BindData(std::function<void()> _action, ButtonState _buttonState) : action(_action), buttonState(_buttonState) {}
 	~BindData() = default;
 
 	inline void Execute() { action(); }
@@ -54,7 +52,7 @@ public:
 	static bool Initialise(HWND hWnd);
 	static void HandleInput();
 	static inline void ClearBindings() { keyboardActions.clear(); mouseActions.clear(); }
-	static inline void SetMouseMode(DirectX::Mouse::Mode mouseMode) { mouse->SetMode(mouseMode); }
+	static void SetMouseMode(DirectX::Mouse::Mode mouseMode);
 
 	static inline void BindKeyToAction(DirectX::Keyboard::Keys key, BindData bindData) { keyboardActions[key] = bindData; }
 	static inline bool GetKey(DirectX::Keyboard::Keys key) { return keyboardState.IsKeyDown(key); }
@@ -80,11 +78,7 @@ private:
 	static DirectX::Mouse::State mouseState;
 	static DirectX::Mouse::ButtonStateTracker mouseStateTracker;
 	static std::unordered_map<MouseButton, BindData> mouseActions;
+
+	static DirectX::Mouse::Mode currentMouseMode;
 };
 
-template<class Action, typename ...Args>
-inline BindData::BindData(ButtonState _buttonState, Action&& _action, Args && ...args)
-{
-	buttonState = _buttonState;
-	action = std::bind(std::forward<Action>(_action), std::forward<Args>(args)...);
-}

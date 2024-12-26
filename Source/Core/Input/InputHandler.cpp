@@ -14,6 +14,8 @@ Mouse::State InputHandler::mouseState;
 Mouse::ButtonStateTracker InputHandler::mouseStateTracker;
 std::unordered_map<MouseButton, BindData> InputHandler::mouseActions;
 
+Mouse::Mode InputHandler::currentMouseMode = Mouse::Mode::MODE_ABSOLUTE;
+
 bool InputHandler::Initialise(HWND hWnd)
 {
 	// INFO: Create a keyboard and mouse
@@ -28,7 +30,7 @@ bool InputHandler::Initialise(HWND hWnd)
 
 	// INFO: Set mouse properties
 	mouse->SetWindow(hWnd);
-	mouse->SetMode(Mouse::MODE_RELATIVE); // Relative mode is used for first person camera
+	mouse->SetMode(currentMouseMode);
 
 	return true;
 }
@@ -86,6 +88,21 @@ void InputHandler::HandleInput()
 			break;
 		}
 	}
+}
+
+void InputHandler::SetMouseMode(DirectX::Mouse::Mode mouseMode)
+{
+	if (mouseMode == currentMouseMode)
+		return;
+
+	currentMouseMode = mouseMode;
+
+	if (currentMouseMode == Mouse::Mode::MODE_ABSOLUTE)
+		ShowCursor(TRUE);
+	else if (currentMouseMode == Mouse::Mode::MODE_RELATIVE)
+		ShowCursor(FALSE);
+
+	mouse->SetMode(currentMouseMode);
 }
 
 bool InputHandler::GetMouseButton(MouseButton mouseButton)

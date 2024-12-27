@@ -124,7 +124,7 @@ HRESULT AssetHandler::LoadVertexShader(const std::string& name, LPCWSTR filename
 	// INFO: Get the signature parameter descriptions
 	D3D11_SIGNATURE_PARAMETER_DESC* signatureParameterDescriptions = new D3D11_SIGNATURE_PARAMETER_DESC[vertexShaderDescription.InputParameters]{ 0 };
 
-	for (size_t i = 0; i < vertexShaderDescription.InputParameters; ++i)
+	for (UINT i = 0; i < vertexShaderDescription.InputParameters; ++i)
 	{
 		vertexShaderReflection->GetInputParameterDesc(i, &signatureParameterDescriptions[i]);
 	}
@@ -484,7 +484,7 @@ HRESULT AssetHandler::LoadMaterial(const std::string& name, Material* _material)
 HRESULT AssetHandler::LoadModel(const std::string& name, char* filename)
 {
 	// INFO: Create a new model object
-	std::unique_ptr<Model> model = std::make_unique<Model>(deviceRef, deviceContextRef, filename);
+	std::unique_ptr<Model> model = std::make_unique<Model>(filename, deviceRef, deviceContextRef);
 
 	if (model == nullptr)
 	{

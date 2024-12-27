@@ -151,4 +151,8 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\ReflectiveVertexShader.hlsl" />
+    <FxCompile Include="Shaders\ReflectivePixelShader.hlsl" />
+  </ItemGroup>
 </Project>

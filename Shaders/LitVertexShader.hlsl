@@ -20,10 +20,10 @@ cbuffer LitBuffer
 //    float2 padding;
 //};
 
-struct VIn
+struct VIn // Has to match Model vertex buffer layout
 {
     float3 position : POSITION;
-    //float4 colour : COLOR0;
+    float4 colour : COLOR0;
     float2 uv : TEXCOORD0;
     float3 normal : NORMAL;
 };

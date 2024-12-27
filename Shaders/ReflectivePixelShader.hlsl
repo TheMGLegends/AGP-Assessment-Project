@@ -1,3 +1,7 @@
+Texture2D texture0 : register(t0);
+TextureCube skybox0 : register(t1);
+sampler samplerState : register(s0);
+
 struct PIn
 {
     float4 position : SV_Position;
@@ -5,10 +9,6 @@ struct PIn
     float2 uv : TEXCOORD0;
     float3 reflectedUVW : TEXCOORD1;
 };
-
-Texture2D texture0 : register(t0);
-TextureCube skybox0 : register(t1);
-sampler samplerState : register(s0);
 
 float4 main(PIn input) : SV_TARGET
 {

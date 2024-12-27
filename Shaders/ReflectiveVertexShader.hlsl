@@ -1,5 +1,26 @@
 #define MAX_LIGHTS 8
 
+cbuffer ReflectiveBuffer
+{
+    matrix wvp;
+    matrix wv;
+    float4 ambientLightColour;
+    float4 directionalLightColour;
+    float4 directionalLightDirection;
+    // TODO: Point Lights
+	// PointLight pointLights[MAX_LIGHTS];
+};
+
+// TODO: This when lights made
+//struct PointLight
+//{
+//    float4 position;
+//    float4 colour;
+//    float strength;
+//    bool enabled;
+//    float2 padding;
+//};
+
 struct VIn
 {
     float3 position : POSITION;
@@ -14,27 +35,6 @@ struct VOut
     float4 colour : COLOR0;
     float2 uv : TEXCOORD0;
     float3 reflectedUVW : TEXCOORD1;
-};
-
-// TODO: This when lights made
-//struct PointLight
-//{
-//    float4 position;
-//    float4 colour;
-//    float strength;
-//    bool enabled;
-//    float2 padding;
-//};
-
-cbuffer ReflectiveBuffer
-{
-    matrix wvp;
-    matrix wv;
-    float4 ambientLightColour;
-    float4 directionalLightColour;
-    float4 directionalLightDirection;
-    // TODO: Point Lights
-	// PointLight pointLights[MAX_LIGHTS];
 };
 
 VOut main(VIn input)

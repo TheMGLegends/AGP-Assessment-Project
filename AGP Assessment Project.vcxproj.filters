@@ -154,5 +154,7 @@
   <ItemGroup>
     <FxCompile Include="Shaders\ReflectiveVertexShader.hlsl" />
     <FxCompile Include="Shaders\ReflectivePixelShader.hlsl" />
+    <FxCompile Include="Shaders\ParticleVertexShader.hlsl" />
+    <FxCompile Include="Shaders\ParticlePixelShader.hlsl" />
   </ItemGroup>
 </Project>

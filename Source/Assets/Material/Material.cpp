@@ -19,7 +19,26 @@ Material::Material(std::string vertexShaderName, std::string pixelShaderName,
 																			 skyboxTexture(nullptr),
 																			 sampler(nullptr)
 {
-	// TODO: Use asset handler to populate the material properties from the asset files
+	// INFO: Use asset handler to populate the material properties from the asset files
+
+	const VertexShaderData& vertexShaderData = AssetHandler::GetVertexShaderData(vertexShaderName);
+	vertexShader = vertexShaderData.GetVertexShader();
+	inputLayout = vertexShaderData.GetInputLayout();
+
+	pixelShader = AssetHandler::GetPixelShader(pixelShaderName);
+
+	const ConstantBufferData& constantBufferData = AssetHandler::GetConstantBufferData(constantBufferType);
+	constantBuffer = constantBufferData.GetConstantBuffer();
+	constantBufferType = constantBufferData.GetConstantBufferType();
+
+	depthWrite = AssetHandler::GetDepthWrite(depthWriteType);
+	cullingMode = AssetHandler::GetCullingMode(cullingModeType);
+	blendState = AssetHandler::GetBlendState(blendStateType);
+
+	texture = AssetHandler::GetTexture(textureName);
+	skyboxTexture = AssetHandler::GetTexture(skyboxTextureName);
+
+	sampler = AssetHandler::GetSamplerState();
 }
 
 void Material::Set(ID3D11DeviceContext* deviceContext)

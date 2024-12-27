@@ -79,7 +79,59 @@ HRESULT AssetHandler::Initialise(ID3D11Device* device, ID3D11DeviceContext* devi
 
 HRESULT AssetHandler::LoadAssets()
 {
-	// TODO: Load all assets here
+	// INFO: Load all assets here
+
+	// INFO: Load Vertex Shaders
+	if (FAILED(LoadVertexShader("Lit", L"Compiled Shaders/LitVertexShader.cso"))) return E_FAIL;
+	if (FAILED(LoadVertexShader("Unlit", L"Compiled Shaders/UnlitVertexShader.cso"))) return E_FAIL;
+	if (FAILED(LoadVertexShader("Reflective", L"Compiled Shaders/ReflectiveVertexShader.cso"))) return E_FAIL;
+	if (FAILED(LoadVertexShader("Particle", L"Compiled Shaders/ParticleVertexShader.cso"))) return E_FAIL;
+	if (FAILED(LoadVertexShader("Skybox", L"Compiled Shaders/SkyboxVertexShader.cso"))) return E_FAIL;
+
+	// INFO: Load Pixel Shaders
+	if (FAILED(LoadPixelShader("Lit", L"Compiled Shaders/LitPixelShader.cso"))) return E_FAIL;
+	if (FAILED(LoadPixelShader("Unlit", L"Compiled Shaders/UnlitPixelShader.cso"))) return E_FAIL;
+	if (FAILED(LoadPixelShader("Reflective", L"Compiled Shaders/ReflectivePixelShader.cso"))) return E_FAIL;
+	if (FAILED(LoadPixelShader("Particle", L"Compiled Shaders/ParticlePixelShader.cso"))) return E_FAIL;
+	if (FAILED(LoadPixelShader("Skybox", L"Compiled Shaders/SkyboxPixelShader.cso"))) return E_FAIL;
+
+	// INFO: Load Textures
+	if (FAILED(LoadTexture("Box", L"Resources/Textures/Box.bmp"))) return E_FAIL;
+	if (FAILED(LoadTexture("DebugSkybox", L"Resources/Textures/DebugSkybox.dds", true))) return E_FAIL;
+	
+	// INFO: Load Fonts
+	if (FAILED(LoadFont("SimpleFont", L"Resources/Fonts/SimpleFont.spriteFont"))) return E_FAIL;
+
+	// INFO: Load Constant Buffers
+	if (FAILED(LoadConstantBuffer(ConstantBufferType::Lit))) return E_FAIL;
+	if (FAILED(LoadConstantBuffer(ConstantBufferType::Unlit))) return E_FAIL;
+	if (FAILED(LoadConstantBuffer(ConstantBufferType::Reflective))) return E_FAIL;
+	if (FAILED(LoadConstantBuffer(ConstantBufferType::Particle))) return E_FAIL;
+
+	// INFO: Load Depth Writes
+	if (FAILED(LoadDepthWrite(DepthWriteType::Enabled))) return E_FAIL;
+	if (FAILED(LoadDepthWrite(DepthWriteType::Disabled))) return E_FAIL;
+
+	// INFO: Load Culling Modes
+	if (FAILED(LoadCullingMode(CullingModeType::NoneSolid))) return E_FAIL;
+	if (FAILED(LoadCullingMode(CullingModeType::NoneWireframe))) return E_FAIL;
+	if (FAILED(LoadCullingMode(CullingModeType::FrontSolid))) return E_FAIL;
+	if (FAILED(LoadCullingMode(CullingModeType::FrontWireframe))) return E_FAIL;
+	if (FAILED(LoadCullingMode(CullingModeType::BackSolid))) return E_FAIL;
+	if (FAILED(LoadCullingMode(CullingModeType::BackWireframe))) return E_FAIL;
+
+	// INFO: Load Blend States
+	if (FAILED(LoadBlendState(BlendStateType::Enabled))) return E_FAIL;
+	if (FAILED(LoadBlendState(BlendStateType::Disabled))) return E_FAIL;
+
+	// INFO: Load Materials
+	// TEST MATERIAL
+	Material* testMaterial = new Material("Lit", "Lit", ConstantBufferType::Lit, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::Disabled, "Box", "DebugSkybox");
+	if (FAILED(LoadMaterial("TestMaterial", testMaterial))) return E_FAIL;
+
+	// INFO: Load Models
+	if (FAILED(LoadModel("Cube", (char*)"Resources/Models/Cube.obj"))) return E_FAIL;
+	if (FAILED(LoadModel("Sphere", (char*)"Resources/Models/Sphere.obj"))) return E_FAIL;
 
 	return S_OK;
 }

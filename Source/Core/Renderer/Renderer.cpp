@@ -150,6 +150,15 @@ HRESULT Renderer::Initialise(HWND hWnd)
 		return E_FAIL;
 	}
 
+	// INFO: Initialise the AssetHandler
+	hResult = AssetHandler::Initialise(device.Get(), deviceContext.Get());
+
+	if (FAILED(hResult))
+	{
+		std::cout << "Renderer::Initialise(): Failed to initialise the AssetHandler!" << std::endl;
+		return hResult;
+	}
+
 	// INFO: Load all assets via the AssetHandler
 	hResult = AssetHandler::LoadAssets();
 

@@ -1,6 +1,6 @@
 #include "Material.h"
 
-//#include "../AssetHandler.h"
+#include "../AssetHandler.h"
 
 using namespace DirectXConfig;
 
@@ -11,6 +11,7 @@ Material::Material(std::string vertexShaderName, std::string pixelShaderName,
 																			 pixelShader(nullptr),
 																			 inputLayout(nullptr),
 																			 constantBuffer(nullptr),
+																			 constantBufferType(constantBufferType),
 																			 depthWrite(nullptr),
 																			 cullingMode(nullptr),
 																			 blendState(nullptr),

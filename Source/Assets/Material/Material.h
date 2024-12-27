@@ -22,6 +22,7 @@ private:
 	ID3D11InputLayout* inputLayout;
 
 	ID3D11Buffer* constantBuffer;
+	DirectXConfig::ConstantBufferType constantBufferType;
 
 	ID3D11DepthStencilState* depthWrite;
 	ID3D11RasterizerState* cullingMode;

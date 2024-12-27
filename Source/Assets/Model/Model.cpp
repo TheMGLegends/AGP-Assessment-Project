@@ -69,21 +69,13 @@ int Model::LoadFile(char* fname)
 
 	// copy file into memory
 	actualSize = fread(fbuffer,1,fbufferSize,pFile); // actualSize may be less than fbufferSize in text mode as \r are stripped
-	if (actualSize > fbufferSize)
+	if (actualSize == 0) 
 	{
-		fclose(pFile);
-		OutputDebugString(L"Failed to read model file");
-		OutputDebugStringA(fname);
-		return 0;
+		fclose(pFile); 
+		OutputDebugString(L"Failed to read model file"); 
+		OutputDebugStringA(fname); 
+		return 0 ;
 	}
-
-	//if (actualSize == 0) 
-	//{
-	//	fclose(pFile); 
-	//	OutputDebugString(L"Failed to read model file"); 
-	//	OutputDebugStringA(fname); 
-	//	return 0 ;
-	//}
 
 	// add a newline at end in case file does not, so can deal with whole buffer as a set of lines of text
 	fbuffer[actualSize] = '\n'; fclose(pFile);

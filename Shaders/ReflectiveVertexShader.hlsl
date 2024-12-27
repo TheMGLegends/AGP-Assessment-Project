@@ -21,7 +21,7 @@ cbuffer ReflectiveBuffer
 //    float2 padding;
 //};
 
-struct VIn
+struct VIn // Has to match Model vertex buffer layout
 {
     float3 position : POSITION;
     float4 colour : COLOR0;

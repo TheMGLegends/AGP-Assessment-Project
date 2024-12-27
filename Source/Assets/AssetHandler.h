@@ -7,10 +7,9 @@
 #include <unordered_map>
 #include <wrl.h>
 
+#include "Material/Material.h"
+#include "Model/Model.h"
 #include "Config/DirectXConfig.h"
-
-class Material;
-//class Model;
 
 struct VertexShaderData
 {
@@ -57,7 +56,7 @@ public:
 	static inline ID3D11BlendState* GetBlendState(DirectXConfig::BlendStateType type) { return blendStateLib[type].Get(); }
 
 	static inline Material* GetMaterial(const std::string& name) { return materialLib[name].get(); }
-	//static inline Model* GetModel(const std::string& name) { return modelLib[name].get(); }
+	static inline Model* GetModel(const std::string& name) { return modelLib[name].get(); }
 
 private:
 	static std::unordered_map<std::string, VertexShaderData> vertexShaderLib;
@@ -73,6 +72,6 @@ private:
 	static std::unordered_map<DirectXConfig::BlendStateType, Microsoft::WRL::ComPtr<ID3D11BlendState>> blendStateLib;
 
 	static std::unordered_map<std::string, std::unique_ptr<Material>> materialLib;
-	//static std::unordered_map<std::string, std::unique_ptr<Model>> modelLib;
+	static std::unordered_map<std::string, std::unique_ptr<Model>> modelLib;
 };
 

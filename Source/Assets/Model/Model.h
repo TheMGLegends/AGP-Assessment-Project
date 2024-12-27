@@ -45,10 +45,10 @@ public:
 	// Define model vertex structure
 	struct MODEL_POS_COL_TEX_NORM_VERTEX
 	{
-		XMFLOAT3 pos;
-		XMFLOAT4 col;
-		XMFLOAT2 texCoord;
-		XMFLOAT3 normal;
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMFLOAT4 col;
+		DirectX::XMFLOAT2 texCoord;
+		DirectX::XMFLOAT3 normal;
 	};
 
 	std::string filename;

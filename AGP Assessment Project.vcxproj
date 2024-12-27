@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Assets\AssetHandler.cpp" />
+    <ClCompile Include="Source\Assets\Model\Model.cpp" />
     <ClCompile Include="Source\Core\Input\InputHandler.cpp" />
     <ClCompile Include="Source\Assets\Material\Material.cpp" />
     <ClCompile Include="Source\Components\Core\ComponentHandler.cpp" />
@@ -154,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Assets\AssetHandler.h" />
+    <ClInclude Include="Source\Assets\Model\Model.h" />
     <ClInclude Include="Source\Core\Input\InputHandler.h" />
     <ClInclude Include="Source\Assets\Material\Material.h" />
     <ClInclude Include="Source\Assets\Config\DirectXConfig.h" />
@@ -173,6 +175,7 @@
     <ClInclude Include="Source\Core\Application\Window.h" />
     <ClInclude Include="Source\Debug\MemoryLeakDetector.h" />
     <ClInclude Include="Source\Components\Transform\Transform.h" />
+    <ClInclude Include="Source\Assets\ReadData.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

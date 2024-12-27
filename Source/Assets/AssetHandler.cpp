@@ -16,7 +16,7 @@ std::unordered_map<CullingModeType, ComPtr<ID3D11RasterizerState>> AssetHandler:
 std::unordered_map<BlendStateType, ComPtr<ID3D11BlendState>> AssetHandler::blendStateLib;
 
 std::unordered_map<std::string, std::unique_ptr<Material>> AssetHandler::materialLib;
-//std::unordered_map<std::string, std::unique_ptr<Model>> AssetHandler::modelLib;
+std::unordered_map<std::string, std::unique_ptr<Model>> AssetHandler::modelLib;
 
 HRESULT AssetHandler::LoadAssets()
 {

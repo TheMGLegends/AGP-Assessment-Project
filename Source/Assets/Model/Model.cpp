@@ -69,14 +69,21 @@ int Model::LoadFile(char* fname)
 
 	// copy file into memory
 	actualSize = fread(fbuffer,1,fbufferSize,pFile); // actualSize may be less than fbufferSize in text mode as \r are stripped
-
-	if (actualSize == 0) 
+	if (actualSize > fbufferSize)
 	{
-		fclose(pFile); 
-		OutputDebugString(L"Failed to read model file"); 
-		OutputDebugStringA(fname); 
-		return 0 ;
+		fclose(pFile);
+		OutputDebugString(L"Failed to read model file");
+		OutputDebugStringA(fname);
+		return 0;
 	}
+
+	//if (actualSize == 0) 
+	//{
+	//	fclose(pFile); 
+	//	OutputDebugString(L"Failed to read model file"); 
+	//	OutputDebugStringA(fname); 
+	//	return 0 ;
+	//}
 
 	// add a newline at end in case file does not, so can deal with whole buffer as a set of lines of text
 	fbuffer[actualSize] = '\n'; fclose(pFile);
@@ -263,7 +270,7 @@ bool Model::GetNextLine()
 bool Model::CreateVB()
 {
 	// create vertex array to pass to vertex buffer from parsed data
-	numVerts = pIndices.size();
+	numVerts = static_cast<unsigned int>(pIndices.size());
 
 	vertices = new MODEL_POS_COL_TEX_NORM_VERTEX[numVerts]; // create big enough vertex array
 

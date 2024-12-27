@@ -156,5 +156,11 @@
     <FxCompile Include="Shaders\ReflectivePixelShader.hlsl" />
     <FxCompile Include="Shaders\ParticleVertexShader.hlsl" />
     <FxCompile Include="Shaders\ParticlePixelShader.hlsl" />
+    <FxCompile Include="Shaders\LitVertexShader.hlsl" />
+    <FxCompile Include="Shaders\LitPixelShader.hlsl" />
+    <FxCompile Include="Shaders\UnlitVertexShader.hlsl" />
+    <FxCompile Include="Shaders\UnlitPixelShader.hlsl" />
+    <FxCompile Include="Shaders\SkyboxVertexShader.hlsl" />
+    <FxCompile Include="Shaders\SkyboxPixelShader.hlsl" />
   </ItemGroup>
 </Project>

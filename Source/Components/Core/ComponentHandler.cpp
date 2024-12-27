@@ -27,5 +27,27 @@ void ComponentHandler::CheckCollisions()
 
 void ComponentHandler::ClearExpired()
 {
-	// TODO: Clear all expired components here
+	// INFO: Clear all expired colliders
+	colliders.erase(
+		std::remove_if(colliders.begin(), colliders.end(), 
+		[](const std::weak_ptr<Collider>& collider) { return collider.expired(); }), 
+	colliders.end());
+
+	// INFO: Clear all expired emitters
+	emitters.erase(
+		std::remove_if(emitters.begin(), emitters.end(),
+		[](const std::weak_ptr<Emitter>& emitter) { return emitter.expired(); }),
+	emitters.end());
+
+	// INFO: Clear all expired lights
+	lights.erase(
+		std::remove_if(lights.begin(), lights.end(),
+		[](const std::weak_ptr<Light>& light) { return light.expired(); }),
+	lights.end());
+
+	// INFO: Clear all expired rigidbodies
+	rigidbodies.erase(
+		std::remove_if(rigidbodies.begin(), rigidbodies.end(),
+		[](const std::weak_ptr<Rigidbody>& rigidbody) { return rigidbody.expired(); }),
+	rigidbodies.end());
 }

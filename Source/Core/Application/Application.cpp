@@ -45,7 +45,6 @@ Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& wi
 
 Application::~Application()
 {
-	// TODO: Cleanup the application
 }
 
 void Application::Run()
@@ -72,6 +71,9 @@ void Application::Run()
 
 		// INFO: Process Destruction of Game Objects
 		currentScene->ProcessDestroyedGameObjects();
+
+		// INFO: Clear all expired components
+		ComponentHandler::ClearExpired();
 	}
 }
 

@@ -47,7 +47,7 @@ void Material::Set(ID3D11DeviceContext* deviceContext)
 {
 	if (!deviceContext)
 	{
-		std::cout << "Material::Set() deviceContext is nullptr!" << std::endl;
+		std::cout << "Material::Set(): DeviceContext is nullptr!" << std::endl;
 		return;
 	}
 

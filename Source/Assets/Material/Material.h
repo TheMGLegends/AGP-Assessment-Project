@@ -13,6 +13,8 @@ public:
 		     DirectXConfig::BlendStateType blendStateType, std::string textureName, std::string skyboxTextureName);
 	~Material() = default;
 
+	inline ID3D11Buffer* GetConstantBuffer() const { return constantBuffer; }
+
 	/// @brief Set all material properties on the device context
 	void Set(ID3D11DeviceContext* deviceContext);
 

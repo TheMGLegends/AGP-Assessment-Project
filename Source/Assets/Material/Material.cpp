@@ -1,5 +1,7 @@
 #include "Material.h"
 
+#include <iostream>
+
 #include "../AssetHandler.h"
 
 using namespace DirectXConfig;
@@ -43,5 +45,42 @@ Material::Material(std::string vertexShaderName, std::string pixelShaderName,
 
 void Material::Set(ID3D11DeviceContext* deviceContext)
 {
-	// TODO: Set all material properties on the device context ready for rendering
+	if (!deviceContext)
+	{
+		std::cout << "Material::Set() deviceContext is nullptr!" << std::endl;
+		return;
+	}
+
+	// INFO: Set all material properties on the device context ready for rendering
+
+	if (inputLayout)
+		deviceContext->IASetInputLayout(inputLayout);
+
+	if (vertexShader)
+		deviceContext->VSSetShader(vertexShader, nullptr, 0);
+
+	if (pixelShader)
+		deviceContext->PSSetShader(pixelShader, nullptr, 0);
+
+	if (constantBuffer)
+		deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+
+	if (texture)
+		deviceContext->PSSetShaderResources(0, 1, &texture);
+
+	// INFO: Only set if the material is reflective
+	if (skyboxTexture && constantBufferType == ConstantBufferType::Reflective)
+		deviceContext->PSSetShaderResources(1, 1, &skyboxTexture);
+
+	if (sampler)
+		deviceContext->PSSetSamplers(0, 1, &sampler);
+
+	if (cullingMode)
+		deviceContext->RSSetState(cullingMode);
+
+	if (depthWrite)
+		deviceContext->OMSetDepthStencilState(depthWrite, 0);
+
+	if (blendState)
+		deviceContext->OMSetBlendState(blendState, nullptr, 0xFFFFFFFF);
 }

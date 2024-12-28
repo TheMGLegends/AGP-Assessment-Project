@@ -4,17 +4,17 @@
 
 #include "../../Assets/AssetHandler.h"
 
-Mesh::Mesh(GameObject* _gameObject, std::string modelName, std::string materialName) : Component(_gameObject)
+Mesh::Mesh(GameObject* _gameObject, const std::string& modelName, const std::string& materialName) : Component(_gameObject)
 {
 	model = AssetHandler::GetModel(modelName);
 
 	if (!model)
-		std::cout << "Mesh::Mesh(): Model is nullptr!" << std::endl;
+		std::cout << "Mesh::Mesh(): Model is nullptr! Model name: " << modelName << std::endl;
 
 	material = AssetHandler::GetMaterial(materialName);
 
 	if (!material)
-		std::cout << "Mesh::Mesh(): Material is nullptr!" << std::endl;
+		std::cout << "Mesh::Mesh(): Material is nullptr! Material name: " << materialName << std::endl;
 }
 
 void Mesh::Draw(ID3D11DeviceContext* deviceContext)

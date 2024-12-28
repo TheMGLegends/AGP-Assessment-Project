@@ -52,6 +52,7 @@ public:
 	/// @brief Resets the camera to its default position and rotation, doesn't reset the other settings
 	void Reset();
 
+	inline const DirectX::SimpleMath::Vector3& GetPosition() const { return position; }
 	inline void SetOffset(const DirectX::SimpleMath::Vector3& _offset) { offset = _offset; }
 
 	/// @brief Setting target automatically sets camera to not be free

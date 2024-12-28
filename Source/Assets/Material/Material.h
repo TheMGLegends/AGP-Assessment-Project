@@ -14,6 +14,7 @@ public:
 	~Material() = default;
 
 	inline ID3D11Buffer* GetConstantBuffer() const { return constantBuffer; }
+	inline DirectXConfig::ConstantBufferType GetConstantBufferType() const { return constantBufferType; }
 
 	/// @brief Set all material properties on the device context
 	void Set(ID3D11DeviceContext* deviceContext);

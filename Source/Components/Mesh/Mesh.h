@@ -11,7 +11,7 @@ class Model;
 class Mesh : public Component
 {
 public:
-	Mesh(GameObject* _gameObject, std::string modelName, std::string materialName);
+	Mesh(GameObject* _gameObject, const std::string& modelName, const std::string& materialName);
 	virtual ~Mesh() override {}
 
 	inline Material* GetMaterial() const { return material; }

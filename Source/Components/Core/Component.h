@@ -18,10 +18,14 @@ public:
 	inline unsigned int GetComponentID() const { return componentID; }
 
 	inline void SetPosition(const DirectX::SimpleMath::Vector3& _position) { position = _position; }
-	inline DirectX::SimpleMath::Vector3 GetPosition() const { return position; }
+	inline const DirectX::SimpleMath::Vector3& GetPosition() const { return position; }
+
+	/// @brief Set the previous position to the current position
+	inline void SetPreviousPosition() { previousPosition = position; }
+	inline const DirectX::SimpleMath::Vector3& GetPreviousPosition() const { return previousPosition; }
 
 	inline void SetOffset(const DirectX::SimpleMath::Vector3& _offset) { offset = _offset; }
-	inline DirectX::SimpleMath::Vector3 GetOffset() const { return offset; }
+	inline const DirectX::SimpleMath::Vector3& GetOffset() const { return offset; }
 
 	inline void SetIsActive(bool _isActive) { isActive = _isActive; }
 	inline bool GetIsActive() const { return isActive; }
@@ -34,6 +38,7 @@ private:
 
 protected:
 	DirectX::SimpleMath::Vector3 position;
+	DirectX::SimpleMath::Vector3 previousPosition;
 	DirectX::SimpleMath::Vector3 offset;
 
 	bool isActive;

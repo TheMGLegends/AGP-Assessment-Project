@@ -6,10 +6,17 @@
 class Collider;
 class Emitter;
 class Light;
+class Mesh;
 class Rigidbody;
 
 class ComponentHandler
 {
+	friend class Collider;
+	friend class Emitter;
+	friend class Light;
+	friend class Mesh;
+	friend class Rigidbody;
+
 public:
 	ComponentHandler() = delete;
 	~ComponentHandler() = delete;
@@ -27,6 +34,7 @@ private:
 	static std::vector<std::weak_ptr<Collider>> colliders;
 	static std::vector<std::weak_ptr<Emitter>> emitters;
 	static std::vector<std::weak_ptr<Light>> lights;
+	static std::vector<std::weak_ptr<Mesh>> meshes;
 	static std::vector<std::weak_ptr<Rigidbody>> rigidbodies;
 };
 

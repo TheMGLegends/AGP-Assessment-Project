@@ -1,6 +1,7 @@
 #include "ComponentHandler.h"
 
 //#include "../../Components/Lighting/Light.h"
+#include "../../Components/Mesh/Mesh.h"
 //#include "../../Components/Particles/Emitter.h"
 //#include "../../Components/Physics/Collider.h"
 //#include "../../Components/Physics/Rigidbody.h"
@@ -8,6 +9,7 @@
 std::vector<std::weak_ptr<Collider>> ComponentHandler::colliders;
 std::vector<std::weak_ptr<Emitter>> ComponentHandler::emitters;
 std::vector<std::weak_ptr<Light>> ComponentHandler::lights;
+std::vector<std::weak_ptr<Mesh>> ComponentHandler::meshes;
 std::vector<std::weak_ptr<Rigidbody>> ComponentHandler::rigidbodies;
 
 void ComponentHandler::Update(float deltaTime)
@@ -44,6 +46,12 @@ void ComponentHandler::ClearExpired()
 		std::remove_if(lights.begin(), lights.end(),
 		[](const std::weak_ptr<Light>& light) { return light.expired(); }),
 	lights.end());
+
+	// INFO: Clear all expired meshes
+	meshes.erase(
+		std::remove_if(meshes.begin(), meshes.end(),
+		[](const std::weak_ptr<Mesh>& mesh) { return mesh.expired(); }),
+	meshes.end());
 
 	// INFO: Clear all expired rigidbodies
 	rigidbodies.erase(

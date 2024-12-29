@@ -5,6 +5,7 @@
 #include "../../Assets/AssetHandler.h"
 #include "../../Assets/Material/Material.h"
 #include "../../Assets/Model/Model.h"
+#include "../../Components/Core/ComponentHandler.h"
 
 Mesh::Mesh(GameObject* _gameObject, const std::string& modelName, const std::string& materialName) : Component(_gameObject)
 {
@@ -23,6 +24,11 @@ Mesh::~Mesh()
 {
 }
 
+Material* Mesh::GetMaterial() const
+{
+	return material;
+}
+
 void Mesh::Draw(ID3D11DeviceContext* deviceContext)
 {
 	if (!deviceContext)
@@ -38,4 +44,10 @@ void Mesh::Draw(ID3D11DeviceContext* deviceContext)
 	// INFO: Draw the model
 	if (model)
 		model->Draw();
+}
+
+void Mesh::RegisterComponent()
+{
+	// INFO: Register the mesh component to the mesh vector in the ComponentHandler
+	ComponentHandler::meshes.push_back(shared_from_this());
 }

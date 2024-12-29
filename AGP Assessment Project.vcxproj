@@ -153,6 +153,7 @@
     <ClCompile Include="Source\Core\Application\Window.cpp" />
     <ClCompile Include="Source\Components\Transform\Transform.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Default\Sphere.cpp" />
+    <ClCompile Include="Source\UI\Core\UserInterfaceElement.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Source\Components\Transform\Transform.h" />
     <ClInclude Include="Source\Assets\ReadData.h" />
     <ClInclude Include="Source\Game\GameObjects\Default\Sphere.h" />
+    <ClInclude Include="Source\UI\Core\UserInterfaceElement.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

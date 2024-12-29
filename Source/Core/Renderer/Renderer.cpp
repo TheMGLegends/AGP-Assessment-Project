@@ -1,11 +1,17 @@
 #include "Renderer.h"
 
 #include <iostream>
+#include <memory>
 
 #include "../../Assets/AssetHandler.h"
+#include "../../Assets/Config/DirectXConfig.h"
+#include "../../Assets/ConstantBuffers/ConstantBuffers.h"
+#include "../../Components/Mesh/Mesh.h"
 #include "../../Scene/Core/Scene.h"
 
+using namespace ConstantBuffers;
 using namespace DirectX;
+using namespace DirectXConfig;
 using namespace Microsoft::WRL;
 
 Renderer::Renderer() : device(nullptr), deviceContext(nullptr), swapChain(nullptr), 
@@ -180,14 +186,100 @@ void Renderer::RenderFrame(Scene* scene)
 	// INFO: Set the primitive topology
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	/* TODO: Render Order Here:
-	*  1. Skybox
-	*  2. Game Objects
-	*  3. UI Elements
-	*/
+	// INFO: Get all the properties we need
+	Camera* camera = scene->camera.get();
+	Skybox* skybox = scene->skybox.get();
 
+	XMMATRIX viewMatrix = camera->GetViewMatrix();
+	XMMATRIX projectionMatrix = camera->GetProjectionMatrix();
+
+	// INFO: Render the skybox
+	if (skybox)
+		skybox->Draw(deviceContext.Get(), camera);
+
+	// TODO: MIGHT BE BETTER TO STORE ALL MESH IN COMPONENT HANDLER AND ACCESS THIS INSTEAD OF GET COMPONENT
+
+	// INFO: Render all game objects
+	for (auto& gameObject : scene->gameObjects)
+	{
+		std::shared_ptr<Mesh> mesh = gameObject->GetComponent<Mesh>().lock();
+
+		// INFO: Continue if the game object doesn't have a mesh component or the game object is inactive
+		if (!mesh || !gameObject->GetIsActive())
+			continue;
+
+		// INFO: Get the game object's world matrix
+		XMMATRIX worldMatrix = gameObject->transform.lock()->GetWorldMatrix();
+
+		switch (mesh->GetMaterial()->GetConstantBufferType())
+		{
+		case ConstantBufferType::Lit:
+		{
+			LitBuffer litBuffer{};
+
+			litBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
+
+			// TODO: Set the light properties
+
+			deviceContext->UpdateSubresource(mesh->GetMaterial()->GetConstantBuffer(), 0, nullptr, &litBuffer, 0, 0);
+
+			break;
+		}
+		case ConstantBufferType::Unlit:
+		{
+			UnlitBuffer unlitBuffer{};
+
+			unlitBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
+
+			deviceContext->UpdateSubresource(mesh->GetMaterial()->GetConstantBuffer(), 0, nullptr, &unlitBuffer, 0, 0);
+
+			break;
+		}
+		case ConstantBufferType::Reflective:
+		{
+			ReflectiveBuffer reflectiveBuffer{};
+
+			reflectiveBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
+			reflectiveBuffer.wv = worldMatrix * viewMatrix;
+
+			// TODO: Set the light properties
+
+			deviceContext->UpdateSubresource(mesh->GetMaterial()->GetConstantBuffer(), 0, nullptr, &reflectiveBuffer, 0, 0);
+
+			break;
+		}
+		case ConstantBufferType::Particle:
+		{
+			ParticleBuffer particleBuffer{};
+
+			particleBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
+
+			// TODO: Set the colour property
+
+			deviceContext->UpdateSubresource(mesh->GetMaterial()->GetConstantBuffer(), 0, nullptr, &particleBuffer, 0, 0);
+
+			break;
+		}
+		case ConstantBufferType::None:
+		default:
+			break;
+		}
+
+		// INFO: Draw the mesh (Sets the material properties and then draws the mesh)
+		mesh->Draw(deviceContext.Get());
+	}
+
+	// INFO: Render all UI elements
 	spriteBatch->Begin();
-	// TODO: UI Elements Rendering Here
+	for (auto& uiElement : scene->uiElements)
+	{
+		// INFO: Continue if the UI element is inactive
+		if (!uiElement->GetIsActive())
+			continue;
+
+		// INFO: Draw the UI element
+		uiElement->Draw(spriteBatch.get());
+	}
 	spriteBatch->End();
 
 	// INFO: Present the back buffer

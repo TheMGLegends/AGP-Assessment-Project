@@ -23,6 +23,10 @@ Skybox::Skybox(const std::string& modelName, const std::string& materialName)
 		std::cout << "Skybox::Skybox(): Material constant buffer type is not Unlit (Skybox)!" << std::endl;
 }
 
+Skybox::~Skybox()
+{
+}
+
 void Skybox::Draw(ID3D11DeviceContext* deviceContext, Camera* camera)
 {
 	if (!deviceContext)

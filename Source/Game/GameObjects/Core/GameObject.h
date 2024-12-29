@@ -33,7 +33,6 @@ public:
 	virtual void Start() {}
 	virtual void Update(float deltaTime) {}
 	virtual void LateUpdate(float deltaTime) {}
-	virtual void Render() {}
 
 	virtual void OnCollision(std::shared_ptr<Collider> other) {}
 	virtual void OnDestroy() {}

@@ -5,8 +5,8 @@
 
 #include "../../Game/Camera/Camera.h"
 #include "../../Game/GameObjects/Core/GameObject.h"
-//#include "../../Core/Renderer/Skybox.h"
-//#include "../../UI/UserInterfaceElement.h"
+#include "../../Core/Renderer/Skybox.h"
+#include "../../UI/Core/UserInterfaceElement.h"
 
 class Scene
 {
@@ -24,13 +24,11 @@ public:
 	void LateUpdate(float deltaTime);
 	void ProcessDestroyedGameObjects();
 
-	inline Camera* GetCamera() const { return camera.get(); }
-
 protected:
 	std::vector<std::unique_ptr<GameObject>> gameObjects;
-	//std::vector<std::unique_ptr<UserInterfaceElement>> uiElements;
+	std::vector<std::unique_ptr<UserInterfaceElement>> uiElements;
 
 	std::unique_ptr<Camera> camera;
-	//std::unique_ptr<Skybox> skybox;
+	std::unique_ptr<Skybox> skybox;
 };
 

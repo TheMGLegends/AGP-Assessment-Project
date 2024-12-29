@@ -12,7 +12,7 @@ class Skybox
 {
 public:
 	Skybox(const std::string& modelName, const std::string& materialName);
-	~Skybox() = default;
+	~Skybox();
 
 	void Draw(ID3D11DeviceContext* deviceContext, Camera* camera);
 

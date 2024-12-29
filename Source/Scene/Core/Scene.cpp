@@ -21,7 +21,8 @@ bool Scene::Initialise()
 		return false;
 
 	// INFO: Create a skybox
-	// TODO: Create a skybox
+    // TODO: Pick proper material and model
+	skybox = std::make_unique<Skybox>("Cube", "TestMaterial");
 
 	// INFO: Reference the scene in the scene context
 	SceneContext::SetScene(this);
@@ -34,6 +35,10 @@ void Scene::Start()
 	// INFO: Start all game objects
 	for (auto& gameObject : gameObjects)
 	{
+		// INFO: Continue if the game object is inactive
+		if (!gameObject->GetIsActive())
+			continue;
+
 		gameObject->Start();
 	}
 }
@@ -43,7 +48,21 @@ void Scene::Update(float deltaTime)
 	// INFO: Update all game objects
 	for (auto& gameObject : gameObjects)
 	{
+		// INFO: Continue if the game object is inactive
+		if (!gameObject->GetIsActive())
+			continue;
+
 		gameObject->Update(deltaTime);
+	}
+
+	// INFO: Update all UI elements
+	for (auto& uiElement : uiElements)
+	{
+		// INFO: Continue if the UI element is inactive
+		if (!uiElement->GetIsActive())
+			continue;
+
+		uiElement->Update(deltaTime);
 	}
 
 	// INFO: Update the camera

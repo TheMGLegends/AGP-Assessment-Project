@@ -2,10 +2,12 @@
 
 #include <iostream>
 
+
 #include "Skybox.h"
 #include "../../Assets/AssetHandler.h"
 #include "../../Assets/ConstantBuffers/ConstantBuffers.h"
 #include "../../Assets/Material/Material.h"
+#include "../../Components/Core/ComponentHandler.h"
 #include "../../Components/Mesh/Mesh.h"
 #include "../../Game/Camera/Camera.h"
 #include "../../Game/GameObjects/Core/GameObject.h"
@@ -205,20 +207,20 @@ void Renderer::RenderFrame(Scene* scene)
 	if (skybox)
 		skybox->Draw(deviceContext.Get(), translationMatrix, viewMatrix, projectionMatrix);
 
-	// TODO: MIGHT BE BETTER TO STORE ALL MESH IN COMPONENT HANDLER AND ACCESS THIS INSTEAD OF GET COMPONENT
-
-	// INFO: Render all game objects
-	for (auto& gameObject : scene->gameObjects)
+	// INFO: Render all mesh components
+	for (auto& weakMesh : ComponentHandler::meshes)
 	{
-		std::shared_ptr<Mesh> mesh = gameObject->GetComponent<Mesh>().lock();
+		std::shared_ptr<Mesh> mesh = weakMesh.lock();
+		GameObject* owningGameObject = mesh->GetGameObject();
 
-		// INFO: Continue if the game object doesn't have a mesh component or the game object is inactive
-		if (!mesh || !gameObject->GetIsActive())
+		// INFO: Continue if the mesh is invalid or the mesh/owning game object is inactive
+		if (!mesh || !mesh->GetIsActive() || !owningGameObject->GetIsActive())
 			continue;
 
-		// INFO: Get the game object's world matrix
-		XMMATRIX worldMatrix = gameObject->transform.lock()->GetWorldMatrix();
+		// INFO: Get the owning game object's world matrix
+		XMMATRIX worldMatrix = owningGameObject->transform.lock()->GetWorldMatrix();
 
+		// INFO: Set the constant buffer properties based on the constant buffer type
 		switch (mesh->GetMaterial()->GetConstantBufferType())
 		{
 		case ConstantBufferType::Lit:

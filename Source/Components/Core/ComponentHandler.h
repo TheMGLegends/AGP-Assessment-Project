@@ -11,6 +11,8 @@ class Rigidbody;
 
 class ComponentHandler
 {
+	friend class Renderer;
+
 	friend class Collider;
 	friend class Emitter;
 	friend class Light;

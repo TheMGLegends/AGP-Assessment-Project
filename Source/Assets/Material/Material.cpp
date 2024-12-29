@@ -43,6 +43,10 @@ Material::Material(std::string vertexShaderName, std::string pixelShaderName,
 	sampler = AssetHandler::GetSamplerState();
 }
 
+Material::~Material()
+{
+}
+
 void Material::Set(ID3D11DeviceContext* deviceContext)
 {
 	if (!deviceContext)

@@ -1,6 +1,14 @@
 #include "Scene.h"
 
 #include "SceneContext.h"
+#include "../../Game/Camera/Camera.h"
+#include "../../Game/GameObjects/Core/GameObject.h"
+#include "../../Core/Renderer/Skybox.h"
+#include "../../UI/Core/UserInterfaceElement.h"
+
+Scene::Scene() : gameObjects(), uiElements(), camera(nullptr), skybox(nullptr)
+{
+}
 
 Scene::~Scene()
 {

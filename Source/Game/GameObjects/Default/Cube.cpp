@@ -9,3 +9,7 @@ Cube::Cube()
 	mesh = AddComponent<Mesh>(this, "Cube", "TestMaterial");
 	//boxCollider = AddComponent<BoxCollider>(this);
 }
+
+Cube::~Cube()
+{
+}

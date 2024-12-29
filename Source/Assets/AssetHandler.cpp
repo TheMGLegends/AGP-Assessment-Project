@@ -8,6 +8,8 @@
 #include <WICTextureLoader.h>
 
 #include "ConstantBuffers/ConstantBuffers.h"
+#include "Material/Material.h"
+#include "Model/Model.h"
 #include "ReadData.h"
 
 using namespace ConstantBuffers;
@@ -548,4 +550,14 @@ HRESULT AssetHandler::LoadModel(const std::string& name, char* filename)
 	modelLib[name] = std::move(model);
 
 	return S_OK;
+}
+
+Material* AssetHandler::GetMaterial(const std::string& name)
+{
+	return materialLib[name].get();
+}
+
+Model* AssetHandler::GetModel(const std::string& name)
+{
+	return modelLib[name].get();
 }

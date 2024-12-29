@@ -1,6 +1,7 @@
 #pragma once
 
 #include <d3d11.h>
+#include <memory>
 #include <SpriteBatch.h>
 #include <Windows.h>
 #include <wrl.h>
@@ -11,7 +12,7 @@ class Renderer
 {
 public:
 	Renderer();
-	~Renderer() = default;
+	~Renderer();
 
 	HRESULT Initialise(HWND hWnd);
 

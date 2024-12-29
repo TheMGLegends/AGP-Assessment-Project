@@ -17,6 +17,10 @@ Camera::Camera(const Vector3& _position, const Vector3& _offset, const Quaternio
 {
 }
 
+Camera::~Camera()
+{
+}
+
 DirectX::XMMATRIX Camera::GetViewMatrix() const
 {
 	DirectX::XMVECTOR eye = DirectX::XMLoadFloat3(&position);

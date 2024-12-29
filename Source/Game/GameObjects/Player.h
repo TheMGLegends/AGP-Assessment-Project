@@ -5,8 +5,8 @@
 class Player : public GameObject
 {
 public:
-	using GameObject::GameObject;
-	virtual ~Player() override {}
+	Player();
+	virtual ~Player() override;
 
 private:
 

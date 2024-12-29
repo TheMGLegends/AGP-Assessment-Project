@@ -1,7 +1,5 @@
 #include "GameObject.h"
 
-#include "../../../Components/Transform/Transform.h"
-
 GameObject::GameObject() : isActive(true), markedForDeletion(false)
 {
 	transform = AddComponent<Transform>(this);

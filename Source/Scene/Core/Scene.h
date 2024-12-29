@@ -3,10 +3,10 @@
 #include <memory>
 #include <vector>
 
-#include "../../Game/Camera/Camera.h"
-#include "../../Game/GameObjects/Core/GameObject.h"
-#include "../../Core/Renderer/Skybox.h"
-#include "../../UI/Core/UserInterfaceElement.h"
+class Camera;
+class GameObject;
+class Skybox;
+class UserInterfaceElement;
 
 class Scene
 {
@@ -14,7 +14,7 @@ class Scene
 	friend class SceneContext;
 
 public:
-	Scene() = default;
+	Scene();
 	virtual ~Scene() = 0;
 
 	virtual bool Initialise();

@@ -38,7 +38,7 @@ public:
 	Camera(const DirectX::SimpleMath::Vector3& _position, const DirectX::SimpleMath::Vector3& _offset, 
 		   const DirectX::SimpleMath::Quaternion& _rotation, const FreeCamInfo& _freeCamInfo = FreeCamInfo(), 
 		   const ProjectionInfo& _projectionInfo = ProjectionInfo(), Transform* _target = nullptr);
-	~Camera() = default;
+	~Camera();
 
 	DirectX::XMMATRIX GetViewMatrix() const;
 	DirectX::XMMATRIX GetProjectionMatrix() const;

@@ -2,8 +2,6 @@
 
 #include "../Core/GameObject.h"
 
-#include <memory>
-
 class BoxCollider;
 class Mesh;
 
@@ -11,7 +9,7 @@ class Cube : public GameObject
 {
 public:
 	Cube();
-	virtual ~Cube() override {}
+	virtual ~Cube() override;
 
 private:
 	std::weak_ptr<Mesh> mesh;

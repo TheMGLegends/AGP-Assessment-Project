@@ -4,7 +4,6 @@
 
 #include "../../Assets/Material/Material.h"
 #include "../../Assets/ConstantBuffers/ConstantBuffers.h"
-#include "../../Game/Camera/Camera.h"
 #include "../../Components/Mesh/Mesh.h"
 
 using namespace ConstantBuffers;
@@ -27,7 +26,7 @@ Skybox::~Skybox()
 {
 }
 
-void Skybox::Draw(ID3D11DeviceContext* deviceContext, Camera* camera)
+void Skybox::Draw(ID3D11DeviceContext* deviceContext, XMMATRIX translationMatrix, XMMATRIX viewMatrix, XMMATRIX projectionMatrix)
 {
 	if (!deviceContext)
 	{
@@ -35,18 +34,9 @@ void Skybox::Draw(ID3D11DeviceContext* deviceContext, Camera* camera)
 		return;
 	}
 
-	if (!camera)
-	{
-		std::cout << "Skybox::Draw(): Camera is nullptr!" << std::endl;
-		return;
-	}
-
-	// INFO: Calculate the translation matrix for the skybox
-	XMMATRIX translation = XMMatrixTranslationFromVector(camera->GetPosition());
-
 	// INFO: Populate the Unlit (Skybox) constant buffer
 	UnlitBuffer unlitBuffer{};
-	unlitBuffer.wvp = translation * camera->GetViewMatrix() * camera->GetProjectionMatrix();
+	unlitBuffer.wvp = translationMatrix * viewMatrix * projectionMatrix;
 
 	// INFO: Update the device context sub resource with the Unlit (Skybox) constant buffer
 	deviceContext->UpdateSubresource(mesh->GetMaterial()->GetConstantBuffer(), 0, nullptr, &unlitBuffer, 0, 0);

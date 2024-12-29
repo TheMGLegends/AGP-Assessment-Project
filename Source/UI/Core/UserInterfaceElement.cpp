@@ -3,7 +3,6 @@
 #include "../../Assets/AssetHandler.h"
 
 using namespace DirectX;
-using namespace DirectX::DX11;
 using namespace DirectX::SimpleMath;
 
 UserInterfaceElement::UserInterfaceElement(std::string fontName, Vector2 _position, XMVECTORF32 _colour) : position(_position), colour(_colour), 

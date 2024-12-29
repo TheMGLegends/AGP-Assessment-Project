@@ -1,12 +1,15 @@
 #include "Renderer.h"
 
 #include <iostream>
-#include <memory>
 
+#include "Skybox.h"
 #include "../../Assets/AssetHandler.h"
-#include "../../Assets/Config/DirectXConfig.h"
 #include "../../Assets/ConstantBuffers/ConstantBuffers.h"
+#include "../../Assets/Material/Material.h"
 #include "../../Components/Mesh/Mesh.h"
+#include "../../Game/Camera/Camera.h"
+#include "../../Game/GameObjects/Core/GameObject.h"
+#include "../../UI/Core/UserInterfaceElement.h"
 #include "../../Scene/Core/Scene.h"
 
 using namespace ConstantBuffers;
@@ -17,6 +20,10 @@ using namespace Microsoft::WRL;
 Renderer::Renderer() : device(nullptr), deviceContext(nullptr), swapChain(nullptr), 
 					   renderTargetView(nullptr), depthStencilView(nullptr), viewport({ 0 }), 
 					   spriteBatch(nullptr)
+{
+}
+
+Renderer::~Renderer()
 {
 }
 
@@ -190,12 +197,13 @@ void Renderer::RenderFrame(Scene* scene)
 	Camera* camera = scene->camera.get();
 	Skybox* skybox = scene->skybox.get();
 
+	XMMATRIX translationMatrix = XMMatrixTranslationFromVector(camera->GetPosition());
 	XMMATRIX viewMatrix = camera->GetViewMatrix();
 	XMMATRIX projectionMatrix = camera->GetProjectionMatrix();
 
 	// INFO: Render the skybox
 	if (skybox)
-		skybox->Draw(deviceContext.Get(), camera);
+		skybox->Draw(deviceContext.Get(), translationMatrix, viewMatrix, projectionMatrix);
 
 	// TODO: MIGHT BE BETTER TO STORE ALL MESH IN COMPONENT HANDLER AND ACCESS THIS INSTEAD OF GET COMPONENT
 

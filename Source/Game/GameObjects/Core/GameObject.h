@@ -6,7 +6,6 @@
 //#include "../../../Components/Physics/Collider.h"
 #include "../../../Components/Transform/Transform.h"
 
-class Collider;
 class Component;
 
 class GameObject
@@ -34,7 +33,7 @@ public:
 	virtual void Update(float deltaTime) {}
 	virtual void LateUpdate(float deltaTime) {}
 
-	virtual void OnCollision(std::shared_ptr<Collider> other) {}
+	//virtual void OnCollision(std::shared_ptr<Collider> other) {} // TODO: This uncommented once collider is done
 	virtual void OnDestroy() {}
 
 public:

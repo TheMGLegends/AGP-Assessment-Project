@@ -9,3 +9,7 @@ Sphere::Sphere()
 	mesh = AddComponent<Mesh>(this, "Sphere", "TestMaterial");
 	//sphereCollider = AddComponent<SphereCollider>(this);
 }
+
+Sphere::~Sphere()
+{
+}

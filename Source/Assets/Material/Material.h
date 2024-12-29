@@ -11,7 +11,7 @@ public:
 	Material(std::string vertexShaderName, std::string pixelShaderName, DirectXConfig::ConstantBufferType constantBufferType, 
 		     DirectXConfig::DepthWriteType depthWriteType, DirectXConfig::CullingModeType cullingModeType, 
 		     DirectXConfig::BlendStateType blendStateType, std::string textureName, std::string skyboxTextureName);
-	~Material() = default;
+	~Material();
 
 	inline ID3D11Buffer* GetConstantBuffer() const { return constantBuffer; }
 	inline DirectXConfig::ConstantBufferType GetConstantBufferType() const { return constantBufferType; }

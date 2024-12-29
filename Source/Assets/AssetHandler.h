@@ -2,14 +2,16 @@
 
 #include <d3d11.h>
 #include <memory>
-#include <SpriteFont.h>
 #include <string>
+#include <SpriteFont.h>
 #include <unordered_map>
 #include <wrl.h>
 
-#include "Material/Material.h"
-#include "Model/Model.h"
 #include "Config/DirectXConfig.h"
+
+class Material;
+class Model;
+class SpriteFont;
 
 struct VertexShaderData
 {
@@ -94,8 +96,8 @@ public:
 	static inline ID3D11RasterizerState* GetCullingMode(DirectXConfig::CullingModeType type) { return cullingModeLib[type].Get(); }
 	static inline ID3D11BlendState* GetBlendState(DirectXConfig::BlendStateType type) { return blendStateLib[type].Get(); }
 
-	static inline Material* GetMaterial(const std::string& name) { return materialLib[name].get(); }
-	static inline Model* GetModel(const std::string& name) { return modelLib[name].get(); }
+	static Material* GetMaterial(const std::string& name);
+	static Model* GetModel(const std::string& name);
 
 private:
 	static std::unordered_map<std::string, VertexShaderData> vertexShaderLib;

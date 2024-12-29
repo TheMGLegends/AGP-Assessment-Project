@@ -68,7 +68,13 @@ int Model::LoadFile(char* fname)
 	}
 
 	// copy file into memory
+	#pragma warning(push)
+	#pragma warning(disable: 6386)
+
 	actualSize = fread(fbuffer,1,fbufferSize,pFile); // actualSize may be less than fbufferSize in text mode as \r are stripped
+
+	#pragma warning(pop)
+
 	if (actualSize == 0) 
 	{
 		fclose(pFile); 

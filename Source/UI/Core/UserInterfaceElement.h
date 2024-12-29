@@ -14,7 +14,7 @@ public:
 	virtual ~UserInterfaceElement() = 0;
 
 	virtual void Update(float deltaTime) {}
-	void Draw(DirectX::DX11::SpriteBatch* spriteBatch);
+	void Draw(DirectX::SpriteBatch* spriteBatch);
 
 	inline void SetPosition(DirectX::SimpleMath::Vector2 _position) { position = _position; }
 	inline const DirectX::SimpleMath::Vector2& GetPosition() const { return position; }
@@ -29,7 +29,7 @@ public:
 	inline bool GetIsActive() const { return isActive; }
 
 private:
-	DirectX::DX11::SpriteFont* font;
+	DirectX::SpriteFont* font;
 	DirectX::SimpleMath::Vector2 position;
 	DirectX::XMVECTORF32 colour;
 	std::string text;

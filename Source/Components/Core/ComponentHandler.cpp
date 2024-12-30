@@ -15,6 +15,13 @@ std::vector<std::weak_ptr<Rigidbody>> ComponentHandler::rigidbodies;
 void ComponentHandler::Update(float deltaTime)
 {
 	// TODO: Order of component updates here
+
+	// INFO: Update all emitters
+	for (const auto& emitter : emitters)
+	{
+		if (auto e = emitter.lock())
+			e->Update(deltaTime);
+	}
 }
 
 void ComponentHandler::CheckCollisions()

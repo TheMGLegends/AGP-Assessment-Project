@@ -21,7 +21,7 @@ enum class EffectType
 class Emitter : public Component, public std::enable_shared_from_this<Emitter>
 {
 public:
-	Emitter(GameObject* _gameObject, unsigned int particleCount, const std::string& modelName, 
+	Emitter(GameObject* _gameObject, unsigned int _particleCount, const std::string& modelName, 
 			const std::string& materialName, EffectType _effectType = EffectType::Fountain,
 			bool _isLooping = true, bool _playOnAwake = true);
 	virtual ~Emitter() override;
@@ -35,13 +35,25 @@ public:
 	void Play(EffectType _effectType = EffectType::None);
 	inline bool GetIsTriggered() const { return isTriggered; }
 
+	inline void SetSpawnInterval(float _spawnInterval) { spawnInterval = _spawnInterval; }
+
 private:
 	virtual void RegisterComponent() override;
 
+	void FountainEffect(float deltaTime);
+	void ExplosionEffect(float deltaTime);
+	void FireEffect(float deltaTime);
+
 private:
+	unsigned int particleCount;
+	unsigned int particlesSpawned;
+
 	EffectType effectType;
 	bool isLooping;
 	bool isTriggered;
+
+	float spawnInterval;
+	float spawnTimer;
 
 	std::list<Particle*> activeParticles;
 	std::list<Particle*> inactiveParticles;

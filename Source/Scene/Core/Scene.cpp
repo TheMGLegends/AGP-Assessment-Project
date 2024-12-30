@@ -83,3 +83,13 @@ Camera* Scene::GetCamera() const
 {
 	return camera.get();
 }
+
+Skybox* Scene::GetSkybox() const
+{
+	return skybox.get();
+}
+
+const std::vector<std::unique_ptr<UserInterfaceElement>>& Scene::GetUserInterfaceElements() const
+{
+	return uiElements;
+}

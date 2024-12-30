@@ -196,8 +196,8 @@ void Renderer::RenderFrame(Scene* scene)
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// INFO: Get all the properties we need
-	Camera* camera = scene->camera.get();
-	Skybox* skybox = scene->skybox.get();
+	Camera* camera = scene->GetCamera();
+	Skybox* skybox = scene->GetSkybox();
 	Vector3 cameraPosition = camera->GetPosition();
 
 	// INFO: Get all the matrices we need
@@ -210,7 +210,7 @@ void Renderer::RenderFrame(Scene* scene)
 		skybox->Draw(deviceContext.Get(), translationMatrix, viewMatrix, projectionMatrix);
 
 	// INFO: Render all mesh components
-	for (auto& weakMesh : ComponentHandler::meshes)
+	for (auto& weakMesh : ComponentHandler::GetMeshes())
 	{
 		std::shared_ptr<Mesh> mesh = weakMesh.lock();
 		GameObject* owningGameObject = mesh->GetGameObject();
@@ -289,7 +289,7 @@ void Renderer::RenderFrame(Scene* scene)
 
 	// INFO: Render all UI elements
 	spriteBatch->Begin();
-	for (auto& uiElement : scene->uiElements)
+	for (auto& uiElement : scene->GetUserInterfaceElements())
 	{
 		if (!uiElement->GetIsActive())
 			continue;

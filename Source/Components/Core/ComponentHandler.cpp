@@ -61,3 +61,8 @@ void ComponentHandler::ClearExpired()
 		[](const std::weak_ptr<Rigidbody>& rigidbody) { return rigidbody.expired(); }),
 	rigidbodies.end());
 }
+
+const std::vector<std::weak_ptr<Mesh>>& ComponentHandler::GetMeshes()
+{
+	return meshes;
+}

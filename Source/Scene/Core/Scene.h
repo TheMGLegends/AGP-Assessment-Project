@@ -10,7 +10,6 @@ class UserInterfaceElement;
 
 class Scene
 {
-	friend class Renderer;
 	friend class SceneContext;
 
 public:
@@ -25,6 +24,9 @@ public:
 	void ProcessDestroyedGameObjects();
 
 	Camera* GetCamera() const;
+	Skybox* GetSkybox() const;
+
+	const std::vector<std::unique_ptr<UserInterfaceElement>>& GetUserInterfaceElements() const;
 
 protected:
 	std::vector<std::unique_ptr<GameObject>> gameObjects;

@@ -11,8 +11,7 @@ class Rigidbody;
 
 class ComponentHandler
 {
-	friend class Renderer;
-
+	// TODO: Once all components are implemented, might not even need these friend classes
 	friend class Collider;
 	friend class Emitter;
 	friend class Light;
@@ -29,6 +28,8 @@ public:
 	static void CheckCollisions();
 
 	static void ClearExpired();
+
+	static const std::vector<std::weak_ptr<Mesh>>& GetMeshes();
 
 private:
 	static std::vector<std::weak_ptr<Collider>> colliders;

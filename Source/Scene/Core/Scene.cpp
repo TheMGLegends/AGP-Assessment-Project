@@ -94,3 +94,8 @@ void Scene::ProcessDestroyedGameObjects()
 		[](const std::unique_ptr<GameObject>& gameObject) { return gameObject->GetIsMarkedForDeletion(); }),
 	gameObjects.end());
 }
+
+Camera* Scene::GetCamera() const
+{
+	return camera.get();
+}

@@ -24,6 +24,8 @@ public:
 	void LateUpdate(float deltaTime);
 	void ProcessDestroyedGameObjects();
 
+	Camera* GetCamera() const;
+
 protected:
 	std::vector<std::unique_ptr<GameObject>> gameObjects;
 	std::vector<std::unique_ptr<UserInterfaceElement>> uiElements;

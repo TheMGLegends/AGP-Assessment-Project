@@ -11,12 +11,14 @@
 #include "../../Components/Mesh/Mesh.h"
 #include "../../Game/Camera/Camera.h"
 #include "../../Game/GameObjects/Core/GameObject.h"
+#include "../../Game/GameObjects/Default/Particle.h"
 #include "../../UI/Core/UserInterfaceElement.h"
 #include "../../Scene/Core/Scene.h"
 
 using namespace ConstantBuffers;
 using namespace DirectX;
 using namespace DirectXConfig;
+using namespace DirectX::SimpleMath;
 using namespace Microsoft::WRL;
 
 Renderer::Renderer() : device(nullptr), deviceContext(nullptr), swapChain(nullptr), 
@@ -199,6 +201,10 @@ void Renderer::RenderFrame(Scene* scene)
 	Camera* camera = scene->camera.get();
 	Skybox* skybox = scene->skybox.get();
 
+	// INFO: Get camera position
+	Vector3 cameraPosition = camera->GetPosition();
+
+	// INFO: Get all the matrices we need
 	XMMATRIX translationMatrix = XMMatrixTranslationFromVector(camera->GetPosition());
 	XMMATRIX viewMatrix = camera->GetViewMatrix();
 	XMMATRIX projectionMatrix = camera->GetProjectionMatrix();
@@ -262,9 +268,17 @@ void Renderer::RenderFrame(Scene* scene)
 		{
 			ParticleBuffer particleBuffer{};
 
+			// INFO: Update the world matrix to have the particle face the camera
+			worldMatrix = owningGameObject->LookAtXZ(cameraPosition.x, cameraPosition.z) * worldMatrix;
+
 			particleBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
 
-			// TODO: Set the colour property
+			// INFO: Attempt to convert the owning game object to a particle
+			Particle* particle = dynamic_cast<Particle*>(owningGameObject);
+
+			// INFO: Set the constant buffer colour based on the particle colour
+			if (particle)
+				particleBuffer.colour = particle->GetColour();
 
 			deviceContext->UpdateSubresource(mesh->GetMaterial()->GetConstantBuffer(), 0, nullptr, &particleBuffer, 0, 0);
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <DirectXMath.h>
 #include <memory>
 #include <vector>
 
@@ -28,6 +29,8 @@ public:
 
 	void Destroy();
 	inline bool GetIsMarkedForDeletion() const { return markedForDeletion; }
+
+	DirectX::XMMATRIX LookAtXZ(float xTarget, float zTarget) const;
 
 	virtual void Start() {}
 	virtual void Update(float deltaTime) {}

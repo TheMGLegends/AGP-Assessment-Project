@@ -26,8 +26,6 @@ public:
 	ComponentHandler& operator=(const ComponentHandler&) = delete;
 
 	static void Update(float deltaTime);
-	static void Draw();
-
 	static void CheckCollisions();
 
 	static void ClearExpired();

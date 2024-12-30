@@ -2,7 +2,7 @@
 
 //#include "../../Components/Lighting/Light.h"
 #include "../../Components/Mesh/Mesh.h"
-//#include "../../Components/Particles/Emitter.h"
+#include "../../Components/Emitter/Emitter.h"
 //#include "../../Components/Physics/Collider.h"
 //#include "../../Components/Physics/Rigidbody.h"
 
@@ -15,11 +15,6 @@ std::vector<std::weak_ptr<Rigidbody>> ComponentHandler::rigidbodies;
 void ComponentHandler::Update(float deltaTime)
 {
 	// TODO: Order of component updates here
-}
-
-void ComponentHandler::Draw()
-{
-	// TODO: Drawing of specific components here
 }
 
 void ComponentHandler::CheckCollisions()

@@ -81,8 +81,6 @@ HRESULT AssetHandler::Initialise(ID3D11Device* device, ID3D11DeviceContext* devi
 
 HRESULT AssetHandler::LoadAssets()
 {
-	// INFO: Load all assets here
-
 	// INFO: Load Vertex Shaders
 	if (FAILED(LoadVertexShader("Lit", L"Compiled Shaders/LitVertexShader.cso"))) return E_FAIL;
 	if (FAILED(LoadVertexShader("Unlit", L"Compiled Shaders/UnlitVertexShader.cso"))) return E_FAIL;
@@ -127,7 +125,7 @@ HRESULT AssetHandler::LoadAssets()
 	if (FAILED(LoadBlendState(BlendStateType::Disabled))) return E_FAIL;
 
 	// INFO: Load Materials
-	// TEST MATERIAL
+	// TODO: TEST MATERIAL
 	Material* testMaterial = new Material("Lit", "Lit", ConstantBufferType::Lit, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::Disabled, "Box", "DebugSkybox");
 	if (FAILED(LoadMaterial("TestMaterial", testMaterial))) return E_FAIL;
 
@@ -225,7 +223,6 @@ HRESULT AssetHandler::LoadVertexShader(const std::string& name, LPCWSTR filename
 	// INFO: Add the vertex shader data object to the library
 	vertexShaderLib[name] = vertexShaderData;
 
-	// INFO: Free the memory
 	delete[] signatureParameterDescriptions;
 	delete[] inputLayoutDescription;
 
@@ -249,7 +246,6 @@ HRESULT AssetHandler::LoadPixelShader(const std::string& name, LPCWSTR filename)
 		return hResult;
 	}
 
-	// INFO: Add the pixel shader to the library
 	pixelShaderLib[name] = std::move(pixelShader);
 
 	return S_OK;
@@ -280,7 +276,6 @@ HRESULT AssetHandler::LoadTexture(const std::string& name, LPCWSTR filename, boo
 		return hResult;
 	}
 
-	// INFO: Add the texture to the library
 	textureLib[name] = std::move(texture);
 
 	return S_OK;
@@ -296,7 +291,6 @@ HRESULT AssetHandler::LoadFont(const std::string& name, LPCWSTR filename)
 		return E_FAIL;
 	}
 
-	// INFO: Add the font to the library
 	fontLib[name] = std::move(font);
 
 	return S_OK;
@@ -345,10 +339,8 @@ HRESULT AssetHandler::LoadConstantBuffer(DirectXConfig::ConstantBufferType type)
 		return hResult;
 	}
 
-	// INFO: Create a new constant buffer data object
 	ConstantBufferData constantBufferData(constantBuffer, type);
 
-	// INFO: Add the constant buffer data object to the library
 	constantBufferLib[type] = constantBufferData;
 
 	return S_OK;
@@ -401,7 +393,6 @@ HRESULT AssetHandler::LoadDepthWrite(DirectXConfig::DepthWriteType type)
 		return hResult;
 	}
 
-	// INFO: Add the depth stencil state to the library
 	depthWriteLib[type] = std::move(depthStencilState);
 
 	return S_OK;
@@ -465,7 +456,6 @@ HRESULT AssetHandler::LoadCullingMode(DirectXConfig::CullingModeType type)
 		return hResult;
 	}
 
-	// INFO: Add the rasterizer state to the library
 	cullingModeLib[type] = std::move(rasterizerState);
 
 	return S_OK;
@@ -512,7 +502,6 @@ HRESULT AssetHandler::LoadBlendState(DirectXConfig::BlendStateType type)
 		return hResult;
 	}
 
-	// INFO: Add the blend state to the library
 	blendStateLib[type] = std::move(blendState);
 
 	return S_OK;
@@ -529,7 +518,6 @@ HRESULT AssetHandler::LoadMaterial(const std::string& name, Material* _material)
 		return E_FAIL;
 	}
 
-	// INFO: Add the material to the library
 	materialLib[name] = std::move(material);
 
 	return S_OK;
@@ -546,7 +534,6 @@ HRESULT AssetHandler::LoadModel(const std::string& name, char* filename)
 		return E_FAIL;
 	}
 
-	// INFO: Add the model to the library
 	modelLib[name] = std::move(model);
 
 	return S_OK;

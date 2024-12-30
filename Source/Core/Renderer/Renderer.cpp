@@ -190,18 +190,14 @@ HRESULT Renderer::Initialise(HWND hWnd)
 
 void Renderer::RenderFrame(Scene* scene)
 {
-	// INFO: Clear the render target view and depth stencil view
 	deviceContext->ClearRenderTargetView(renderTargetView.Get(), Colors::DarkSeaGreen);
 	deviceContext->ClearDepthStencilView(depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-	// INFO: Set the primitive topology
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// INFO: Get all the properties we need
 	Camera* camera = scene->camera.get();
 	Skybox* skybox = scene->skybox.get();
-
-	// INFO: Get camera position
 	Vector3 cameraPosition = camera->GetPosition();
 
 	// INFO: Get all the matrices we need
@@ -223,7 +219,6 @@ void Renderer::RenderFrame(Scene* scene)
 		if (!mesh || !mesh->GetIsActive() || !owningGameObject->GetIsActive())
 			continue;
 
-		// INFO: Get the owning game object's world matrix
 		XMMATRIX worldMatrix = owningGameObject->transform.lock()->GetWorldMatrix();
 
 		// INFO: Set the constant buffer properties based on the constant buffer type
@@ -289,7 +284,6 @@ void Renderer::RenderFrame(Scene* scene)
 			break;
 		}
 
-		// INFO: Draw the mesh (Sets the material properties and then draws the mesh)
 		mesh->Draw(deviceContext.Get());
 	}
 
@@ -297,15 +291,12 @@ void Renderer::RenderFrame(Scene* scene)
 	spriteBatch->Begin();
 	for (auto& uiElement : scene->uiElements)
 	{
-		// INFO: Continue if the UI element is inactive
 		if (!uiElement->GetIsActive())
 			continue;
 
-		// INFO: Draw the UI element
 		uiElement->Draw(spriteBatch.get());
 	}
 	spriteBatch->End();
 
-	// INFO: Present the back buffer
 	swapChain->Present(1, 0);
 }

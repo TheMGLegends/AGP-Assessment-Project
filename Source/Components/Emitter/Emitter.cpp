@@ -16,7 +16,6 @@ Emitter::Emitter(GameObject* _gameObject, unsigned int _particleCount,
 																			   effectType(_effectType), isLooping(_isLooping), isTriggered(_playOnAwake),
 																			   spawnInterval(0.05f), spawnTimer(0.0f)
 {
-	// INFO: Create the particles (Particle starts off as isActive = false)
 	for (unsigned int i = 0; i < particleCount; ++i)
 	{
 		// INFO: Register the particles with the scene and add them to the inactive list
@@ -26,17 +25,15 @@ Emitter::Emitter(GameObject* _gameObject, unsigned int _particleCount,
 
 Emitter::~Emitter()
 {
-	// INFO: Clear the active and inactive particle lists
 	activeParticles.clear();
 	inactiveParticles.clear();
 }
 
 void Emitter::Update(float deltaTime)
 {
-	// INFO: Increment the spawn timer
 	spawnTimer += deltaTime;
 
-	// INFO: Based on the effect type, update the particles
+	// INFO: Unique logic for each effect type
 	switch (effectType)
 	{
 	case EffectType::Fountain:
@@ -52,17 +49,14 @@ void Emitter::Update(float deltaTime)
 	default:
 		break;
 	}
-
-	// TODO: Update logic here for both inactive and active particles
 }
 
 void Emitter::Play(EffectType _effectType)
 {
-	// INFO: Set the effect type if it is not none
+	// INFO: Set the effect type if the parameter is not none
 	if (_effectType != EffectType::None)
 		effectType = _effectType;
 
-	// INFO: Reset values and set the emitter to be triggered
 	isTriggered = true;
 	spawnTimer = 0.0f;
 	particlesSpawned = 0;
@@ -70,13 +64,11 @@ void Emitter::Play(EffectType _effectType)
 
 void Emitter::RegisterComponent()
 {
-	// INFO: Register the mesh component to the mesh vector in the ComponentHandler
 	ComponentHandler::emitters.push_back(shared_from_this());
 }
 
 void Emitter::FountainEffect(float deltaTime)
 {
-	// INFO: Create an iterator for the particles
 	std::list<Particle*>::iterator it;
 
 	// INFO: Go through the inactive particles and activate them if it's time and the emitter is triggered
@@ -117,7 +109,6 @@ void Emitter::FountainEffect(float deltaTime)
 
 			// TODO: Call rigidbody update here
 
-			// INFO: If the particle is dead, move it to the inactive list
 			if ((*it)->age <= 0.0f)
 			{
 				(*it)->SetIsActive(false);

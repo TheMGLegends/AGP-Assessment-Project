@@ -16,11 +16,11 @@ void ComponentHandler::Update(float deltaTime)
 {
 	// TODO: Order of component updates here
 
-	// INFO: Update all emitters
-	for (const auto& emitter : emitters)
+	// INFO: Update Emitters
+	for (const auto& e : emitters)
 	{
-		if (auto e = emitter.lock())
-			e->Update(deltaTime);
+		if (auto emitter = e.lock())
+			emitter->Update(deltaTime);
 	}
 }
 

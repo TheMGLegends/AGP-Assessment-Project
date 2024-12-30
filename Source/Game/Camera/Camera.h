@@ -24,9 +24,9 @@ struct ProjectionInfo
 	ProjectionInfo() : fovAngleY(60), aspectRatio(16.0f / 9.0f), 
 					   nearZ(0.1f), farZ(100.0f) {};
 
-	/// @param _fovAngleY : The field of view angle in the y-direction, in degrees
-	/// @param width : The width of the viewport
-	/// @param height : The height of the viewport
+	/// @param _fovAngleY : In degrees
+	/// @param width : Viewport width
+	/// @param height : Viewport height
 	ProjectionInfo(float _fovAngleY, float width, float height, float _nearZ, float _farZ) 
 		: fovAngleY(_fovAngleY), aspectRatio(width / height), nearZ(_nearZ), farZ(_farZ) {};
 };
@@ -49,7 +49,7 @@ public:
 
 	void Update(float deltaTime);
 
-	/// @brief Resets the camera to its default position and rotation, doesn't reset the other settings
+	/// @brief Only resets cameras position and rotation
 	void Reset();
 
 	inline const DirectX::SimpleMath::Vector3& GetPosition() const { return position; }
@@ -58,10 +58,10 @@ public:
 	/// @brief Setting target automatically sets camera to not be free
 	inline void SetTarget(Transform* _target) { target = _target; freeCamInfo.isFreeCam = false; }
 
-	/// @return The free cam info of the camera, use this to modify the free cam settings
+	/// @return Used to modify cameras FreeCamInfo
 	FreeCamInfo& GetFreeCamInfo() { return freeCamInfo; }
 
-	/// @return The projection info of the camera, use this to modify the projection settings
+	/// @return Used to modify cameras ProjectionInfo
 	ProjectionInfo& GetProjectionInfo() { return projectionInfo; }
 
 private:

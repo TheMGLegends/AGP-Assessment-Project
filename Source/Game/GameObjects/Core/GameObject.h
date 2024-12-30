@@ -79,13 +79,11 @@ inline std::weak_ptr<T> GameObject::AddComponent(Args && ...args)
 	if (!existingComponent.expired() && !existingComponent.lock()->GetCanHaveMultiple())
 		return existingComponent;
 
-	// INFO: Create the component
 	components.emplace_back(std::make_shared<T>(std::forward<Args>(args)...));
 
 	// INFO: Register the component with the ComponentHandler
 	components.back()->RegisterComponent();
 
-	// INFO: Return the newly created component
 	return std::dynamic_pointer_cast<T>(components.back());
 }
 

@@ -19,16 +19,8 @@ bool Scene::Initialise()
 	// INFO: Default implementation creates a directional light game object
 	//       a camera and a skybox
 	
-	// INFO: Create a directional light game object
 	// TODO: Create a directional light game object
-
-	// INFO: Create a camera
 	camera = std::make_unique<Camera>();
-
-	if (!camera)
-		return false;
-
-	// INFO: Create a skybox
     // TODO: Pick proper material and model
 	skybox = std::make_unique<Skybox>("Cube", "TestMaterial");
 
@@ -40,10 +32,8 @@ bool Scene::Initialise()
 
 void Scene::Start()
 {
-	// INFO: Start all game objects
 	for (auto& gameObject : gameObjects)
 	{
-		// INFO: Continue if the game object is inactive
 		if (!gameObject->GetIsActive())
 			continue;
 
@@ -53,33 +43,27 @@ void Scene::Start()
 
 void Scene::Update(float deltaTime)
 {
-	// INFO: Update all game objects
 	for (auto& gameObject : gameObjects)
 	{
-		// INFO: Continue if the game object is inactive
 		if (!gameObject->GetIsActive())
 			continue;
 
 		gameObject->Update(deltaTime);
 	}
 
-	// INFO: Update all UI elements
 	for (auto& uiElement : uiElements)
 	{
-		// INFO: Continue if the UI element is inactive
 		if (!uiElement->GetIsActive())
 			continue;
 
 		uiElement->Update(deltaTime);
 	}
 
-	// INFO: Update the camera
 	camera->Update(deltaTime);
 }
 
 void Scene::LateUpdate(float deltaTime)
 {
-	// INFO: Late update all game objects
 	for (auto& gameObject : gameObjects)
 	{
 		gameObject->LateUpdate(deltaTime);

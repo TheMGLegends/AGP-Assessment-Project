@@ -37,17 +37,14 @@ void Mesh::Draw(ID3D11DeviceContext* deviceContext)
 		return;
 	}
 
-	// INFO: Set the material properties
 	if (material)
 		material->Set(deviceContext);
 
-	// INFO: Draw the model
 	if (model)
 		model->Draw();
 }
 
 void Mesh::RegisterComponent()
 {
-	// INFO: Register the mesh component to the mesh vector in the ComponentHandler
 	ComponentHandler::meshes.push_back(shared_from_this());
 }

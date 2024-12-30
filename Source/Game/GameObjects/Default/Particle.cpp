@@ -7,13 +7,10 @@ using namespace DirectX::SimpleMath;
 
 Particle::Particle(const std::string& modelName, const std::string& materialName) : age(0.0f), colour(Vector4::One)
 {
-	// INFO: Add a mesh component to the particle
 	mesh = AddComponent<Mesh>(this, modelName, materialName);
-
 	// TODO: Add a rigidbody component to the particle
 	//rigidbody = AddComponent<Rigidbody>();
 
-	// INFO: Set the particle to be inactive upon creation
 	SetIsActive(false);
 }
 

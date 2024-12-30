@@ -190,6 +190,7 @@
     <ClInclude Include="Source\Assets\ReadData.h" />
     <ClInclude Include="Source\Game\GameObjects\Default\Sphere.h" />
     <ClInclude Include="Source\UI\Core\UserInterfaceElement.h" />
+    <ClInclude Include="Source\Utilities\MathUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

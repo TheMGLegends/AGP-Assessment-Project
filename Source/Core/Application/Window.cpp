@@ -9,7 +9,6 @@ using namespace DirectX;
 
 Window::Window() : hInstance(nullptr), hWnd(nullptr), windowInfo(), OnQuit(nullptr)
 {
-	// INFO: Allocate console on creation
 	AllocateConsole();
 }
 
@@ -131,7 +130,6 @@ int Window::ProcessMessages()
 	// INFO: Process messages until there are no more
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 	{
-		// INFO: Check for quit message
 		if (msg.message == WM_QUIT)
 			return -1;
 
@@ -198,7 +196,6 @@ LRESULT Window::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 	}
 	default:
 	{
-		// INFO: Default Message Handling for the Window
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
 	}

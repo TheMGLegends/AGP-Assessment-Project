@@ -15,7 +15,6 @@ public:
 
 	void Run();
 
-	void HandleInput();
 	void Update(float deltaTime);
 	void RenderFrame();
 

@@ -16,7 +16,7 @@ public:
 	inline ID3D11Buffer* GetConstantBuffer() const { return constantBuffer; }
 	inline DirectXConfig::ConstantBufferType GetConstantBufferType() const { return constantBufferType; }
 
-	/// @brief Set all material properties on the device context
+	/// @brief Set all material properties ready for rendering
 	void Set(ID3D11DeviceContext* deviceContext);
 
 private:

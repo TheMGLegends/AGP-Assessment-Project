@@ -55,8 +55,6 @@ void Material::Set(ID3D11DeviceContext* deviceContext)
 		return;
 	}
 
-	// INFO: Set all material properties on the device context ready for rendering
-
 	if (inputLayout)
 		deviceContext->IASetInputLayout(inputLayout);
 
@@ -72,7 +70,6 @@ void Material::Set(ID3D11DeviceContext* deviceContext)
 	if (texture)
 		deviceContext->PSSetShaderResources(0, 1, &texture);
 
-	// INFO: Only set if the material is reflective
 	if (skyboxTexture && constantBufferType == ConstantBufferType::Reflective)
 		deviceContext->PSSetShaderResources(1, 1, &skyboxTexture);
 

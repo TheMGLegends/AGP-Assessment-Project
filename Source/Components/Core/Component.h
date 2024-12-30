@@ -20,7 +20,7 @@ public:
 	inline void SetPosition(const DirectX::SimpleMath::Vector3& _position) { position = _position; }
 	inline const DirectX::SimpleMath::Vector3& GetPosition() const { return position; }
 
-	/// @brief Set the previous position to the current position
+	/// @brief Sets the previous position to the current position
 	inline void SetPreviousPosition() { previousPosition = position; }
 	inline const DirectX::SimpleMath::Vector3& GetPreviousPosition() const { return previousPosition; }
 

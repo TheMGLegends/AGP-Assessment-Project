@@ -38,19 +38,16 @@ DirectX::XMMATRIX Camera::GetProjectionMatrix() const
 
 Vector3 Camera::GetForwardVector() const
 {
-	// INFO: Get the Forward Vector based on the Rotation
 	return Vector3::Transform(Vector3::Forward, rotation);
 }
 
 Vector3 Camera::GetRightVector() const
 {
-	// INFO: Get the Right Vector based on the Rotation
 	return Vector3::Transform(Vector3::Right, rotation);
 }
 
 Vector3 Camera::GetUpVector() const
 {
-	// INFO: Get the Up Vector based on the Rotation
 	return Vector3::Transform(Vector3::Up, rotation);
 }
 
@@ -63,14 +60,12 @@ void Camera::Update(float deltaTime)
 	}
 	else if (target != nullptr)
 	{
-		// INFO: Camera follows the target with an offset
 		position += target->GetPosition() + offset;
 	}
 }
 
 void Camera::Reset()
 {
-	// INFO: Only Resets if camera is free
 	if (!freeCamInfo.isFreeCam)
 		return;
 

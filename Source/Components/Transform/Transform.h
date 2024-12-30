@@ -21,7 +21,7 @@ public:
 	inline const DirectX::SimpleMath::Vector3& GetScale() const { return scale; }
 
 	void Rotate(const DirectX::SimpleMath::Vector3& eulerRotation);
-	void Translate(const DirectX::SimpleMath::Vector3& translation);
+	inline void Translate(const DirectX::SimpleMath::Vector3& translation) { position += translation; }
 
 private:
 	DirectX::SimpleMath::Quaternion rotation;

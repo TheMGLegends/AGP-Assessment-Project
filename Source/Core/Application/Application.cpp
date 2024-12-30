@@ -10,7 +10,6 @@
 
 Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& windowInfo) : window(), isRunning(false)
 {
-	// INFO: Seed the random number generator
 	srand(static_cast<unsigned int>(time(nullptr)));
 
 	// INFO: Initialise the window
@@ -39,7 +38,6 @@ Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& wi
 	// INFO: Set the window's quit callback
 	window.SetOnQuit([this]() { isRunning = false; });
 
-	// INFO: Set the application to running
 	isRunning = true;
 }
 
@@ -49,7 +47,6 @@ Application::~Application()
 
 void Application::Run()
 {
-	// INFO: Start the current scene
 	currentScene->Start();
 
 	// INFO: Run the application loop
@@ -61,34 +58,22 @@ void Application::Run()
 		if (Window::ProcessMessages() == -1)
 			break;
 
-		HandleInput();
+		InputHandler::HandleInput();
 		Update(Time::GetDeltaTime());
 
-		// INFO: Handle collision detection via ComponentHandler (CollisionHandler)
 		ComponentHandler::CheckCollisions();
 
 		RenderFrame();
 
-		// INFO: Process Destruction of Game Objects
 		currentScene->ProcessDestroyedGameObjects();
 
-		// INFO: Clear all expired components
 		ComponentHandler::ClearExpired();
 	}
 }
 
-void Application::HandleInput()
-{
-	// INFO: Handle input for application
-	InputHandler::HandleInput();
-}
-
 void Application::Update(float deltaTime)
 {
-	// INFO: Update the current scene
 	currentScene->Update(deltaTime);
-
-	// INFO: Late update the current scene
 	currentScene->LateUpdate(deltaTime);
 }
 

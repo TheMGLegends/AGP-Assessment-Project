@@ -31,7 +31,7 @@ public:
 	inline void SetIsLooping(bool _isLooping) { isLooping = _isLooping; }
 	inline bool GetIsLooping() const { return isLooping; }
 
-	/// @brief Effect type none plays the effect type that was set in the constructor
+	/// @brief EffectType::None plays the effect type that was set during construction
 	void Play(EffectType _effectType = EffectType::None);
 	inline bool GetIsTriggered() const { return isTriggered; }
 

@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "../Core/ComponentHandler.h"
+#include "../Physics/Rigidbody.h"
 #include "../../Game/GameObjects/Default/Particle.h"
 #include "../../Scene/Core/SceneContext.h"
 #include "../../Utilities/MathUtils.h"
@@ -79,8 +80,7 @@ void Emitter::FountainEffect(float deltaTime)
 			(*it)->age = RandomRange(3.0f, 7.5f);
 			(*it)->colour = Vector4(RandomRange(0.0f, 1.0f), RandomRange(0.0f, 1.0f), RandomRange(0.0f, 1.0f), 1.0f);
 
-			// TODO: Set rigidbody properties here
-
+			(*it)->rigidbody.lock()->SetVelocity(Vector3(RandomRange(-1.0f, 1.0f), RandomRange(1.5f, 2.5f), RandomRange(-1.0f, 1.0f)));
 			(*it)->transform.lock()->SetPosition(GetGameObject()->transform.lock()->GetPosition());
 
 			float scale = RandomRange(0.1f, 0.5f);
@@ -101,8 +101,6 @@ void Emitter::FountainEffect(float deltaTime)
 		for (it = activeParticles.begin(); it != activeParticles.end(); ++it)
 		{
 			(*it)->age -= deltaTime;
-
-			// TODO: Call rigidbody update here
 
 			if ((*it)->age <= 0.0f)
 			{

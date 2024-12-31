@@ -60,13 +60,10 @@ void Application::Run()
 
 		InputHandler::HandleInput();
 		Update(Time::GetDeltaTime());
-
 		ComponentHandler::CheckCollisions();
-
 		RenderFrame();
 
 		currentScene->ProcessDestroyedGameObjects();
-
 		ComponentHandler::ClearExpired();
 	}
 }

@@ -16,9 +16,9 @@ Skybox::Skybox(const std::string& modelName, const std::string& materialName)
 
 	if (!mesh)
 		std::cout << "Skybox::Skybox(): Mesh is nullptr!" << std::endl;
-
-	if (mesh->GetMaterial()->GetConstantBufferType() != ConstantBufferType::Unlit)
-		std::cout << "Skybox::Skybox(): Material constant buffer type is not Unlit (Skybox)!" << std::endl;
+	else 
+		if (mesh->GetMaterial()->GetConstantBufferType() != ConstantBufferType::Unlit)
+			std::cout << "Skybox::Skybox(): Material constant buffer type is not Unlit (Skybox)!" << std::endl;
 }
 
 Skybox::~Skybox()

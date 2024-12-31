@@ -79,12 +79,16 @@ void Emitter::FountainEffect(float deltaTime)
 		{
 			(*it)->age = RandomRange(3.0f, 7.5f);
 			(*it)->colour = Vector4(RandomRange(0.0f, 1.0f), RandomRange(0.0f, 1.0f), RandomRange(0.0f, 1.0f), 1.0f);
-
-			(*it)->rigidbody.lock()->SetVelocity(Vector3(RandomRange(-1.0f, 1.0f), RandomRange(1.5f, 2.5f), RandomRange(-1.0f, 1.0f)));
-			(*it)->transform.lock()->SetPosition(GetGameObject()->transform.lock()->GetPosition());
-
 			float scale = RandomRange(0.1f, 0.5f);
-			(*it)->transform.lock()->SetScale(Vector3(scale, scale, scale));
+
+			if (auto rb = (*it)->rigidbody.lock())
+				rb->SetVelocity(Vector3(RandomRange(-1.0f, 1.0f), RandomRange(1.5f, 2.5f), RandomRange(-1.0f, 1.0f)));
+
+			if (auto transform = GetGameObject()->transform.lock())
+			{
+				(*it)->transform.lock()->SetPosition(GetGameObject()->transform.lock()->GetPosition());
+				(*it)->transform.lock()->SetScale(Vector3(scale, scale, scale));
+			}
 
 			(*it)->SetIsActive(true);
 

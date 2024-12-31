@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include <iostream>
+
 #include "SceneContext.h"
 #include "../../Game/Camera/Camera.h"
 #include "../../Game/GameObjects/Core/GameObject.h"
@@ -34,6 +36,12 @@ void Scene::Start()
 {
 	for (auto& gameObject : gameObjects)
 	{
+		if (!gameObject)
+		{
+			std::cout << "Scene::Start(): GameObject is nullptr!" << std::endl;
+			continue;
+		}
+
 		if (!gameObject->GetIsActive())
 			continue;
 
@@ -45,6 +53,12 @@ void Scene::Update(float deltaTime)
 {
 	for (auto& gameObject : gameObjects)
 	{
+		if (!gameObject)
+		{
+			std::cout << "Scene::Update(): GameObject is nullptr!" << std::endl;
+			continue;
+		}
+
 		if (!gameObject->GetIsActive())
 			continue;
 
@@ -53,6 +67,12 @@ void Scene::Update(float deltaTime)
 
 	for (auto& uiElement : uiElements)
 	{
+		if (!uiElement)
+		{
+			std::cout << "Scene::Update(): UIElement is nullptr!" << std::endl;
+			continue;
+		}
+
 		if (!uiElement->GetIsActive())
 			continue;
 
@@ -66,6 +86,15 @@ void Scene::LateUpdate(float deltaTime)
 {
 	for (auto& gameObject : gameObjects)
 	{
+		if (!gameObject)
+		{
+			std::cout << "Scene::LateUpdate(): GameObject is nullptr!" << std::endl;
+			continue;
+		}
+
+		if (!gameObject->GetIsActive())
+			continue;
+
 		gameObject->LateUpdate(deltaTime);
 	}
 }

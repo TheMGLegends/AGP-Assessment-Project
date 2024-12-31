@@ -1,5 +1,7 @@
 #include "UserInterfaceElement.h"
 
+#include <iostream>
+
 #include "../../Assets/AssetHandler.h"
 
 using namespace DirectX;
@@ -9,6 +11,9 @@ UserInterfaceElement::UserInterfaceElement(std::string fontName, Vector2 _positi
 																										   text(""), isActive(true)
 {
 	font = AssetHandler::GetFont(fontName);
+
+	if (!font)
+		std::cout << "UserInterfaceElement::UserInterfaceElement(): Font is nullptr!" << std::endl;
 }
 
 UserInterfaceElement::~UserInterfaceElement()

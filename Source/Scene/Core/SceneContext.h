@@ -37,11 +37,10 @@ inline T* SceneContext::SpawnGameObject(const DirectX::SimpleMath::Vector3& spaw
 	T* newGameObject = dynamic_cast<T*>(sceneRef->gameObjects.back().get());
 
 	// INFO: Set the GameObject's transform properties
-	if (!newGameObject->transform.expired())
+	if (auto newGameObjectTransform = newGameObject->transform.lock())
 	{
-		std::shared_ptr<Transform> transform = newGameObject->transform.lock();
-		transform->SetPosition(spawnLocation);
-		transform->SetRotation(spawnRotation);
+		newGameObjectTransform->SetPosition(spawnLocation);
+		newGameObjectTransform->SetRotation(spawnRotation);
 	}
 
 	return newGameObject;

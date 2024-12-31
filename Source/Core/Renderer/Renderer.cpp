@@ -200,29 +200,43 @@ void Renderer::RenderFrame(Scene* scene)
 	Skybox* skybox = scene->GetSkybox();
 	Vector3 cameraPosition = camera->GetPosition();
 
+	if (!camera || !skybox)
+	{
+		std::cout << "Renderer::RenderFrame(): Camera/Skybox is nullptr!" << std::endl;
+		return;
+	}
+
 	// INFO: Get all the matrices we need
 	XMMATRIX translationMatrix = XMMatrixTranslationFromVector(camera->GetPosition());
 	XMMATRIX viewMatrix = camera->GetViewMatrix();
 	XMMATRIX projectionMatrix = camera->GetProjectionMatrix();
 
 	// INFO: Render the skybox
-	if (skybox)
-		skybox->Draw(deviceContext.Get(), translationMatrix, viewMatrix, projectionMatrix);
+	skybox->Draw(deviceContext.Get(), translationMatrix, viewMatrix, projectionMatrix);
 
 	// INFO: Render all mesh components
 	for (auto& weakMesh : ComponentHandler::GetMeshes())
 	{
 		std::shared_ptr<Mesh> mesh = weakMesh.lock();
-		GameObject* owningGameObject = mesh->GetGameObject();
+		Material* material = mesh->GetMaterial();
 
-		// INFO: Continue if the mesh is invalid or the mesh/owning game object is inactive
-		if (!mesh || !mesh->GetIsActive() || !owningGameObject->GetIsActive())
+		GameObject* owningGameObject = mesh->GetGameObject();
+		auto owningGameObjectTransform = owningGameObject->transform.lock();
+
+		if (!mesh || !material || !owningGameObject || !owningGameObjectTransform)
+		{
+			std::cout << "Renderer::RenderFrame(): Mesh/Material/OwningGameObject/OwningGameObjectTransform is nullptr!" << std::endl;
+			continue;
+		}
+
+		// INFO: Continue if the mesh/go is inactive
+		if (!mesh->GetIsActive() || !owningGameObject->GetIsActive())
 			continue;
 
-		XMMATRIX worldMatrix = owningGameObject->transform.lock()->GetWorldMatrix();
+		XMMATRIX worldMatrix = owningGameObjectTransform->GetWorldMatrix();
 
 		// INFO: Set the constant buffer properties based on the constant buffer type
-		switch (mesh->GetMaterial()->GetConstantBufferType())
+		switch (material->GetConstantBufferType())
 		{
 		case ConstantBufferType::Lit:
 		{
@@ -268,11 +282,8 @@ void Renderer::RenderFrame(Scene* scene)
 
 			particleBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
 
-			// INFO: Attempt to convert the owning game object to a particle
-			Particle* particle = dynamic_cast<Particle*>(owningGameObject);
-
-			// INFO: Set the constant buffer colour based on the particle colour
-			if (particle)
+			// INFO: Set the constant buffer colour based on the particle colour if it is a particle
+			if (Particle* particle = dynamic_cast<Particle*>(owningGameObject))
 				particleBuffer.colour = particle->GetColour();
 
 			deviceContext->UpdateSubresource(mesh->GetMaterial()->GetConstantBuffer(), 0, nullptr, &particleBuffer, 0, 0);
@@ -291,6 +302,12 @@ void Renderer::RenderFrame(Scene* scene)
 	spriteBatch->Begin();
 	for (auto& uiElement : scene->GetUserInterfaceElements())
 	{
+		if (!uiElement)
+		{
+			std::cout << "Renderer::RenderFrame(): UI element is nullptr!" << std::endl;
+			continue;
+		}
+
 		if (!uiElement->GetIsActive())
 			continue;
 

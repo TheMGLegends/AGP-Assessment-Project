@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "../../../Components/Core/ComponentHandler.h"
 //#include "../../../Components/Physics/Collider.h"
 #include "../../../Components/Transform/Transform.h"
 
@@ -81,8 +82,7 @@ inline std::weak_ptr<T> GameObject::AddComponent(Args && ...args)
 
 	components.emplace_back(std::make_shared<T>(std::forward<Args>(args)...));
 
-	// INFO: Register the component with the ComponentHandler
-	components.back()->RegisterComponent();
+	ComponentHandler::RegisterComponent(components.back());
 
 	return std::dynamic_pointer_cast<T>(components.back());
 }

@@ -3,6 +3,8 @@
 #include <memory>
 #include <vector>
 
+#include "Component.h"
+
 class Collider;
 class Emitter;
 class Light;
@@ -11,13 +13,6 @@ class Rigidbody;
 
 class ComponentHandler
 {
-	// TODO: Once all components are implemented, might not even need these friend classes
-	friend class Collider;
-	friend class Emitter;
-	friend class Light;
-	friend class Mesh;
-	friend class Rigidbody;
-
 public:
 	ComponentHandler() = delete;
 	~ComponentHandler() = delete;
@@ -28,6 +23,8 @@ public:
 	static void CheckCollisions();
 
 	static void ClearExpired();
+
+	static void RegisterComponent(const std::shared_ptr<Component>& component);
 
 	static const std::vector<std::weak_ptr<Mesh>>& GetMeshes();
 

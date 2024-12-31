@@ -32,10 +32,6 @@ public:
 
 	inline bool GetCanHaveMultiple() const { return canHaveMultiple; }
 
-private:
-	/// @brief Register the component with the ComponentHandler
-	virtual void RegisterComponent() {}
-
 protected:
 	DirectX::SimpleMath::Vector3 position;
 	DirectX::SimpleMath::Vector3 previousPosition;

@@ -62,11 +62,6 @@ void Emitter::Play(EffectType _effectType)
 	particlesSpawned = 0;
 }
 
-void Emitter::RegisterComponent()
-{
-	ComponentHandler::emitters.push_back(shared_from_this());
-}
-
 void Emitter::FountainEffect(float deltaTime)
 {
 	std::list<Particle*>::iterator it;

@@ -43,8 +43,3 @@ void Mesh::Draw(ID3D11DeviceContext* deviceContext)
 	if (model)
 		model->Draw();
 }
-
-void Mesh::RegisterComponent()
-{
-	ComponentHandler::meshes.push_back(shared_from_this());
-}

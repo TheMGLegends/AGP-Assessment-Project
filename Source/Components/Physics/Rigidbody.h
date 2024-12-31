@@ -2,9 +2,7 @@
 
 #include "../Core/Component.h"
 
-#include <memory>
-
-class Rigidbody : public Component, public std::enable_shared_from_this<Rigidbody>
+class Rigidbody : public Component
 {
 public:
 	Rigidbody(GameObject* _gameObject);
@@ -20,9 +18,6 @@ public:
 
 	inline void SetUseGravity(bool _useGravity) { useGravity = _useGravity; }
 	inline bool GetUseGravity() const { return useGravity; }
-
-private:
-	virtual void RegisterComponent() override;
 
 private:
 	static const DirectX::SimpleMath::Vector3 GLOBAL_GRAVITY;

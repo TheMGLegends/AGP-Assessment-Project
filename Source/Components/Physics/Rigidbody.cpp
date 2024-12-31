@@ -33,9 +33,3 @@ void Rigidbody::Update(float deltaTime)
 	if (transform)
 		transform->Translate(displacement);
 }
-
-void Rigidbody::RegisterComponent()
-{
-	// TODO: This is why the component handler needs friend classes which is lazy so change it
-	ComponentHandler::rigidbodies.push_back(shared_from_this());
-}

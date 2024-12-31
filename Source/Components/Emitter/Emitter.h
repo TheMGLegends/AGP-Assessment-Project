@@ -4,7 +4,6 @@
 
 #include <DirectXMath.h>
 #include <list>
-#include <memory>
 #include <string>
 
 class Particle;
@@ -18,7 +17,7 @@ enum class EffectType
 	Fire
 };
 
-class Emitter : public Component, public std::enable_shared_from_this<Emitter>
+class Emitter : public Component
 {
 public:
 	Emitter(GameObject* _gameObject, unsigned int _particleCount, const std::string& modelName, 
@@ -38,8 +37,6 @@ public:
 	inline void SetSpawnInterval(float _spawnInterval) { spawnInterval = _spawnInterval; }
 
 private:
-	virtual void RegisterComponent() override;
-
 	void FountainEffect(float deltaTime);
 	void ExplosionEffect(float deltaTime);
 	void FireEffect(float deltaTime);

@@ -1,9 +1,9 @@
 #include "Material.h"
 
-#include <iostream>
-
 #include "../AssetHandler.h"
+#include "../../Utilities/Debugging/DebugUtils.h"
 
+using namespace DebugUtils;
 using namespace DirectXConfig;
 
 Material::Material(std::string vertexShaderName, std::string pixelShaderName, 
@@ -51,7 +51,7 @@ void Material::Set(ID3D11DeviceContext* deviceContext)
 {
 	if (!deviceContext)
 	{
-		std::cout << "Material::Set(): DeviceContext is nullptr!" << std::endl;
+		LogError("Material::Set(): DeviceContext is nullptr!");
 		return;
 	}
 

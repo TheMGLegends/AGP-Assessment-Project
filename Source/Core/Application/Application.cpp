@@ -1,12 +1,14 @@
 #include "Application.h"
 
-#include <iostream>
 
 #include "../Input/InputHandler.h"
 #include "../Renderer/Renderer.h"
 #include "../Time/Time.h"
 #include "../../Components/Core/ComponentHandler.h"
 #include "../../Scene/GameScene.h"
+#include "../../Utilities/Debugging/DebugUtils.h"
+
+using namespace DebugUtils;
 
 Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& windowInfo) : window(), isRunning(false)
 {
@@ -15,7 +17,7 @@ Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& wi
 	// INFO: Initialise the window
 	if (FAILED(window.Initialise(hInstance, nCmdShow, windowInfo)))
 	{
-		std::cout << "Application::Application(): Failed to initialise the window!" << std::endl;
+		LogError("Application::Application(): Failed to initialise the window!");
 		return;
 	}
 
@@ -23,7 +25,7 @@ Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& wi
 	renderer = std::make_unique<Renderer>();
 	if (FAILED(renderer->Initialise(window.GetWindowHandle())))
 	{
-		std::cout << "Application::Application(): Failed to initialise the renderer!" << std::endl;
+		LogError("Application::Application(): Failed to initialise the renderer!");
 		return;
 	}
 
@@ -31,7 +33,7 @@ Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& wi
 	currentScene = std::make_unique<GameScene>();
 	if (!currentScene->Initialise())
 	{
-		std::cout << "Application::Application(): Failed to initialise the scene!" << std::endl;
+		LogError("Application::Application(): Failed to initialise the scene!");
 		return;
 	}
 

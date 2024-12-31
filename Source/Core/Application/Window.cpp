@@ -3,8 +3,10 @@
 #include <iostream>
 
 #include "../Input/InputHandler.h"
+#include "../../Utilities/Debugging/DebugUtils.h"
 #include "../../../resource.h"
 
+using namespace DebugUtils;
 using namespace DirectX;
 
 Window::Window() : hInstance(nullptr), hWnd(nullptr), windowInfo(), OnQuit(nullptr)
@@ -40,7 +42,7 @@ HRESULT Window::Initialise(HINSTANCE _hInstance, int nCmdShow, const WindowInfo&
 	// INFO: Register the window class
 	if (!RegisterClassEx(&wc))
 	{
-		std::cout << "Window::Initialise(): Failed to register window class!" << std::endl;
+		LogError("Window::Initialise(): Failed to register window class!");
 		return E_FAIL;
 	}
 
@@ -72,16 +74,16 @@ HRESULT Window::Initialise(HINSTANCE _hInstance, int nCmdShow, const WindowInfo&
 		this
 	);
 
-	if (hWnd == nullptr)
+	if (!hWnd)
 	{
-		std::cout << "Window::Initialise(): Failed to create window!" << std::endl;
+		LogError("Window::Initialise(): Failed to create window!");
 		return E_FAIL;
 	}
 
 	// INFO: Initialise input handler
 	if (!InputHandler::Initialise(hWnd))
 	{
-		std::cout << "Window::Initialise(): Failed to initialise input handler!" << std::endl;
+		LogError("Window::Initialise(): Failed to initialise input handler!");
 		return E_FAIL;
 	}
 
@@ -215,7 +217,7 @@ void Window::AllocateConsole()
 		freopen_s(&fp, "CONOUT$", "w", stderr);
 		std::ios::sync_with_stdio(true);
 
-		std::cout << "Window::AllocateConsole(): Console Opened!" << std::endl;
+		Log("Window::AllocateConsole(): Console Opened!");
 	}
 #endif
 }

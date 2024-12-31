@@ -1,7 +1,8 @@
 #include "InputHandler.h"
 
-#include <iostream>
+#include "../../Utilities/Debugging/DebugUtils.h"
 
+using namespace DebugUtils;
 using namespace DirectX;
 
 std::unique_ptr<Keyboard> InputHandler::keyboard;
@@ -24,7 +25,7 @@ bool InputHandler::Initialise(HWND hWnd)
 
 	if (!keyboard || !mouse)
 	{
-		std::cout << "InputHandler::Initialise(): Failed to create the keyboard and mouse!" << std::endl;
+		LogError("InputHandler::Initialise(): Failed to create the keyboard/mouse!");
 		return false;
 	}
 

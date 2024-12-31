@@ -1,23 +1,24 @@
 #include "Mesh.h"
 
-#include <iostream>
-
 #include "../../Assets/AssetHandler.h"
 #include "../../Assets/Material/Material.h"
 #include "../../Assets/Model/Model.h"
 #include "../../Components/Core/ComponentHandler.h"
+#include "../../Utilities/Debugging/DebugUtils.h"
+
+using namespace DebugUtils;
 
 Mesh::Mesh(GameObject* _gameObject, const std::string& modelName, const std::string& materialName) : Component(_gameObject)
 {
 	model = AssetHandler::GetModel(modelName);
 
 	if (!model)
-		std::cout << "Mesh::Mesh(): Model is nullptr! Model name: " << modelName << std::endl;
+		LogWarning("Mesh::Mesh(): Model is nullptr! Model name: " + modelName);
 
 	material = AssetHandler::GetMaterial(materialName);
 
 	if (!material)
-		std::cout << "Mesh::Mesh(): Material is nullptr! Material name: " << materialName << std::endl;
+		LogWarning("Mesh::Mesh(): Material is nullptr! Material name: " + materialName);
 }
 
 Mesh::~Mesh()
@@ -33,7 +34,7 @@ void Mesh::Draw(ID3D11DeviceContext* deviceContext)
 {
 	if (!deviceContext)
 	{
-		std::cout << "Mesh::Draw(): DeviceContext is nullptr!" << std::endl;
+		LogError("Mesh::Draw(): DeviceContext is nullptr!");
 		return;
 	}
 

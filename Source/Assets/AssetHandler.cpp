@@ -1,7 +1,5 @@
 #include "AssetHandler.h"
 
-#include <iostream>
-
 #include <d3dcompiler.h>
 #include <d3d11shader.h>
 #include <DDSTextureLoader.h>
@@ -11,8 +9,10 @@
 #include "Material/Material.h"
 #include "Model/Model.h"
 #include "ReadData.h"
+#include "../Utilities/Debugging/DebugUtils.h"
 
 using namespace ConstantBuffers;
+using namespace DebugUtils;
 using namespace DirectXConfig;
 using namespace Microsoft::WRL;
 
@@ -38,15 +38,17 @@ HRESULT AssetHandler::Initialise(ID3D11Device* device, ID3D11DeviceContext* devi
 {
 	deviceRef = device;
 
-	if (deviceRef == nullptr)
+	if (!deviceRef)
 	{
+		LogError("AssetHandler::Initialise(): Device is nullptr!");
 		return E_FAIL;
 	}
 
 	deviceContextRef = deviceContext;
 
-	if (deviceContextRef == nullptr)
+	if (!deviceContextRef)
 	{
+		LogError("AssetHandler::Initialise(): DeviceContext is nullptr!");
 		return E_FAIL;
 	}
 
@@ -72,7 +74,7 @@ HRESULT AssetHandler::Initialise(ID3D11Device* device, ID3D11DeviceContext* devi
 	// INFO: Create the sampler state
 	if (FAILED(deviceRef->CreateSamplerState(&samplerDescription, &samplerState)))
 	{
-		std::cout << "AssetHandler::Initialise(): Failed to create sampler state!" << std::endl;
+		LogError("AssetHandler::Initialise(): Failed to create sampler state!");
 		return E_FAIL;
 	}
 
@@ -149,7 +151,7 @@ HRESULT AssetHandler::LoadVertexShader(const std::string& name, LPCWSTR filename
 
 	if (FAILED(hResult))
 	{
-		std::cout << "AssetHandler::LoadVertexShader(): Failed to create vertex shader! Filename: " << filename << std::endl;
+		LogError("AssetHandler::LoadVertexShader(): Failed to create vertex shader! Filename: " + WStringToString(filename));
 		return hResult;
 	}
 
@@ -159,7 +161,7 @@ HRESULT AssetHandler::LoadVertexShader(const std::string& name, LPCWSTR filename
 
 	if (FAILED(hResult))
 	{
-		std::cout << "AssetHandler::LoadVertexShader(): Failed to create vertex shader reflection!" << std::endl;
+		LogError("AssetHandler::LoadVertexShader(): Failed to create vertex shader reflection!");
 		return hResult;
 	}
 
@@ -169,7 +171,7 @@ HRESULT AssetHandler::LoadVertexShader(const std::string& name, LPCWSTR filename
 
 	if (FAILED(hResult))
 	{
-		std::cout << "AssetHandler::LoadVertexShader(): Failed to get vertex shader description!" << std::endl;
+		LogError("AssetHandler::LoadVertexShader(): Failed to get vertex shader description!");
 		return hResult;
 	}
 
@@ -213,7 +215,7 @@ HRESULT AssetHandler::LoadVertexShader(const std::string& name, LPCWSTR filename
 
 	if (FAILED(hResult))
 	{
-		std::cout << "AssetHandler::LoadVertexShader(): Failed to create input layout!" << std::endl;
+		LogError("AssetHandler::LoadVertexShader(): Failed to create input layout!");
 		return hResult;
 	}
 
@@ -242,7 +244,7 @@ HRESULT AssetHandler::LoadPixelShader(const std::string& name, LPCWSTR filename)
 
 	if (FAILED(hResult))
 	{
-		std::cout << "AssetHandler::LoadPixelShader(): Failed to create pixel shader! Filename: " << filename << std::endl;
+		LogError("AssetHandler::LoadPixelShader(): Failed to create pixel shader! Filename: " + WStringToString(filename));
 		return hResult;
 	}
 
@@ -272,7 +274,8 @@ HRESULT AssetHandler::LoadTexture(const std::string& name, LPCWSTR filename, boo
 
 	if (FAILED(hResult))
 	{
-		std::cout << "AssetHandler::LoadTexture(): Failed to create " << (isSkybox ? "DDS" : "WIC") << " texture! Filename: " << filename << std::endl;
+		std::string fileType = isSkybox ? "DDS" : "WIC";
+		LogError("AssetHandler::LoadTexture(): Failed to create " + fileType + " texture! Filename: " + WStringToString(filename));
 		return hResult;
 	}
 
@@ -285,9 +288,9 @@ HRESULT AssetHandler::LoadFont(const std::string& name, LPCWSTR filename)
 {
 	std::unique_ptr<DirectX::SpriteFont> font = std::make_unique<DirectX::SpriteFont>(deviceRef, filename);
 
-	if (font == nullptr)
+	if (!font)
 	{
-		std::cout << "AssetHandler::LoadFont(): Failed to create sprite font! Filename: " << filename << std::endl;
+		LogError("AssetHandler::LoadFont(): Failed to create sprite font! Filename: " + WStringToString(filename));
 		return E_FAIL;
 	}
 
@@ -335,7 +338,7 @@ HRESULT AssetHandler::LoadConstantBuffer(DirectXConfig::ConstantBufferType type)
 
 	if (FAILED(hResult))
 	{
-		std::cout << "AssetHandler::LoadConstantBuffer(): Failed to create constant buffer!" << std::endl;
+		LogError("AssetHandler::LoadConstantBuffer(): Failed to create constant buffer!");
 		return hResult;
 	}
 
@@ -389,7 +392,7 @@ HRESULT AssetHandler::LoadDepthWrite(DirectXConfig::DepthWriteType type)
 
 	if (FAILED(hResult))
 	{
-		std::cout << "AssetHandler::LoadDepthWrite(): Failed to create depth stencil state!" << std::endl;
+		LogError("AssetHandler::LoadDepthWrite(): Failed to create depth stencil state!");
 		return hResult;
 	}
 
@@ -452,7 +455,7 @@ HRESULT AssetHandler::LoadCullingMode(DirectXConfig::CullingModeType type)
 
 	if (FAILED(hResult))
 	{
-		std::cout << "AssetHandler::LoadCullingMode(): Failed to create rasterizer state!" << std::endl;
+		LogError("AssetHandler::LoadCullingMode(): Failed to create rasterizer state!");
 		return hResult;
 	}
 
@@ -498,7 +501,7 @@ HRESULT AssetHandler::LoadBlendState(DirectXConfig::BlendStateType type)
 
 	if (FAILED(hResult))
 	{
-		std::cout << "AssetHandler::LoadBlendState(): Failed to create blend state!" << std::endl;
+		LogError("AssetHandler::LoadBlendState(): Failed to create blend state!");
 		return hResult;
 	}
 
@@ -512,9 +515,9 @@ HRESULT AssetHandler::LoadMaterial(const std::string& name, Material* _material)
 	// INFO: Create a new material object
 	std::unique_ptr<Material> material(_material);
 
-	if (material == nullptr)
+	if (!material)
 	{
-		std::cout << "AssetHandler::LoadMaterial(): Failed to create material!" << std::endl;
+		LogError("AssetHandler::LoadMaterial(): Failed to create material!");
 		return E_FAIL;
 	}
 
@@ -528,9 +531,9 @@ HRESULT AssetHandler::LoadModel(const std::string& name, char* filename)
 	// INFO: Create a new model object
 	std::unique_ptr<Model> model = std::make_unique<Model>(filename, deviceRef, deviceContextRef);
 
-	if (model == nullptr)
+	if (!model)
 	{
-		std::cout << "AssetHandler::LoadModel(): Failed to create model! Filename: " << filename << std::endl;
+		LogError("AssetHandler::LoadModel(): Failed to create model! Filename: " + std::string(filename));
 		return E_FAIL;
 	}
 

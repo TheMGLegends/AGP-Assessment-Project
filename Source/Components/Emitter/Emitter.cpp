@@ -1,7 +1,5 @@
 #include "Emitter.h"
 
-#include <iostream>
-
 #include "../Core/ComponentHandler.h"
 #include "../Physics/Rigidbody.h"
 #include "../../Game/GameObjects/Default/Particle.h"

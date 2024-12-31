@@ -157,6 +157,7 @@
     <ClCompile Include="Source\Components\Transform\Transform.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Default\Sphere.cpp" />
     <ClCompile Include="Source\UI\Core\UserInterfaceElement.cpp" />
+    <ClCompile Include="Source\Utilities\Debugging\DebugUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -187,7 +188,8 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Source\Core\Time\Time.h" />
     <ClInclude Include="Source\Core\Application\Window.h" />
-    <ClInclude Include="Source\Debug\MemoryLeakDetector.h" />
+    <ClInclude Include="Source\Utilities\Debugging\DebugUtils.h" />
+    <ClInclude Include="Source\Utilities\Debugging\MemoryLeakDetector.h" />
     <ClInclude Include="Source\Components\Transform\Transform.h" />
     <ClInclude Include="Source\Assets\ReadData.h" />
     <ClInclude Include="Source\Game\GameObjects\Default\Sphere.h" />

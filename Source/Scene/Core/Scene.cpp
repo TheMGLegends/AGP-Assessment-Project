@@ -1,12 +1,13 @@
 #include "Scene.h"
 
-#include <iostream>
-
 #include "SceneContext.h"
 #include "../../Game/Camera/Camera.h"
 #include "../../Game/GameObjects/Core/GameObject.h"
 #include "../../Core/Renderer/Skybox.h"
 #include "../../UI/Core/UserInterfaceElement.h"
+#include "../../Utilities/Debugging/DebugUtils.h"
+
+using namespace DebugUtils;
 
 Scene::Scene() : gameObjects(), uiElements(), camera(nullptr), skybox(nullptr)
 {
@@ -38,7 +39,7 @@ void Scene::Start()
 	{
 		if (!gameObject)
 		{
-			std::cout << "Scene::Start(): GameObject is nullptr!" << std::endl;
+			LogWarning("Scene::Start(): GameObject is nullptr!");
 			continue;
 		}
 
@@ -55,7 +56,7 @@ void Scene::Update(float deltaTime)
 	{
 		if (!gameObject)
 		{
-			std::cout << "Scene::Update(): GameObject is nullptr!" << std::endl;
+			LogWarning("Scene::Update(): GameObject is nullptr!");
 			continue;
 		}
 
@@ -69,7 +70,7 @@ void Scene::Update(float deltaTime)
 	{
 		if (!uiElement)
 		{
-			std::cout << "Scene::Update(): UIElement is nullptr!" << std::endl;
+			LogWarning("Scene::Update(): UIElement is nullptr!");
 			continue;
 		}
 
@@ -88,7 +89,7 @@ void Scene::LateUpdate(float deltaTime)
 	{
 		if (!gameObject)
 		{
-			std::cout << "Scene::LateUpdate(): GameObject is nullptr!" << std::endl;
+			LogWarning("Scene::LateUpdate(): GameObject is nullptr!");
 			continue;
 		}
 

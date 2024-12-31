@@ -1,7 +1,5 @@
 #include "Renderer.h"
 
-#include <iostream>
-
 
 #include "Skybox.h"
 #include "../../Assets/AssetHandler.h"
@@ -12,10 +10,12 @@
 #include "../../Game/Camera/Camera.h"
 #include "../../Game/GameObjects/Core/GameObject.h"
 #include "../../Game/GameObjects/Default/Particle.h"
-#include "../../UI/Core/UserInterfaceElement.h"
 #include "../../Scene/Core/Scene.h"
+#include "../../UI/Core/UserInterfaceElement.h"
+#include "../../Utilities/Debugging/DebugUtils.h"
 
 using namespace ConstantBuffers;
+using namespace DebugUtils;
 using namespace DirectX;
 using namespace DirectXConfig;
 using namespace DirectX::SimpleMath;
@@ -73,7 +73,7 @@ HRESULT Renderer::Initialise(HWND hWnd)
 
 	if (FAILED(hResult))
 	{
-		std::cout << "Renderer::Initialise(): Failed to create device and swapchain!" << std::endl;
+		LogError("Renderer::Initialise(): Failed to create device and swapchain!");
 		return hResult;
 	}
 
@@ -84,7 +84,7 @@ HRESULT Renderer::Initialise(HWND hWnd)
 
 	if (FAILED(hResult))
 	{
-		std::cout << "Renderer::Initialise(): Failed to get back buffer!" << std::endl;
+		LogError("Renderer::Initialise(): Failed to get back buffer!");
 		return hResult;
 	}
 
@@ -93,7 +93,7 @@ HRESULT Renderer::Initialise(HWND hWnd)
 
 	if (FAILED(hResult))
 	{
-		std::cout << "Renderer::Initialise(): Failed to create render target view!" << std::endl;
+		LogError("Renderer::Initialise(): Failed to create render target view!");
 		return hResult;
 	}
 
@@ -125,7 +125,7 @@ HRESULT Renderer::Initialise(HWND hWnd)
 
 	if (FAILED(hResult))
 	{
-		std::cout << "Renderer::Initialise(): Failed to create depth stencil buffer!" << std::endl;
+		LogError("Renderer::Initialise(): Failed to create depth stencil buffer!");
 		return hResult;
 	}
 
@@ -141,7 +141,7 @@ HRESULT Renderer::Initialise(HWND hWnd)
 
 	if (FAILED(hResult))
 	{
-		std::cout << "Renderer::Initialise(): Failed to create depth stencil view!" << std::endl;
+		LogError("Renderer::Initialise(): Failed to create depth stencil view!");
 		return hResult;
 	}
 
@@ -161,9 +161,9 @@ HRESULT Renderer::Initialise(HWND hWnd)
 	// INFO: Create the sprite batch
 	spriteBatch = std::make_unique<SpriteBatch>(deviceContext.Get());
 
-	if (spriteBatch == nullptr)
+	if (!spriteBatch)
 	{
-		std::cout << "Renderer::Initialise(): Failed to create sprite batch!" << std::endl;
+		LogError("Renderer::Initialise(): Failed to create sprite batch!");
 		return E_FAIL;
 	}
 
@@ -172,7 +172,7 @@ HRESULT Renderer::Initialise(HWND hWnd)
 
 	if (FAILED(hResult))
 	{
-		std::cout << "Renderer::Initialise(): Failed to initialise the AssetHandler!" << std::endl;
+		LogError("Renderer::Initialise(): Failed to initialise the AssetHandler!");
 		return hResult;
 	}
 
@@ -181,7 +181,7 @@ HRESULT Renderer::Initialise(HWND hWnd)
 
 	if (FAILED(hResult))
 	{
-		std::cout << "Renderer::Initialise(): Failed to load assets!" << std::endl;
+		LogError("Renderer::Initialise(): Failed to load assets!");
 		return hResult;
 	}
 
@@ -202,7 +202,7 @@ void Renderer::RenderFrame(Scene* scene)
 
 	if (!camera || !skybox)
 	{
-		std::cout << "Renderer::RenderFrame(): Camera/Skybox is nullptr!" << std::endl;
+		LogWarning("Renderer::RenderFrame(): Camera/Skybox is nullptr!");
 		return;
 	}
 
@@ -225,7 +225,7 @@ void Renderer::RenderFrame(Scene* scene)
 
 		if (!mesh || !material || !owningGameObject || !owningGameObjectTransform)
 		{
-			std::cout << "Renderer::RenderFrame(): Mesh/Material/OwningGameObject/OwningGameObjectTransform is nullptr!" << std::endl;
+			LogWarning("Renderer::RenderFrame(): Mesh/Material/OwningGameObject/OwningGameObjectTransform is nullptr!");
 			continue;
 		}
 
@@ -304,7 +304,7 @@ void Renderer::RenderFrame(Scene* scene)
 	{
 		if (!uiElement)
 		{
-			std::cout << "Renderer::RenderFrame(): UI element is nullptr!" << std::endl;
+			LogWarning("Renderer::RenderFrame(): UI element is nullptr!");
 			continue;
 		}
 

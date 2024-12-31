@@ -1,9 +1,9 @@
 #include "UserInterfaceElement.h"
 
-#include <iostream>
-
 #include "../../Assets/AssetHandler.h"
+#include "../../Utilities/Debugging/DebugUtils.h"
 
+using namespace DebugUtils;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
@@ -13,7 +13,7 @@ UserInterfaceElement::UserInterfaceElement(std::string fontName, Vector2 _positi
 	font = AssetHandler::GetFont(fontName);
 
 	if (!font)
-		std::cout << "UserInterfaceElement::UserInterfaceElement(): Font is nullptr!" << std::endl;
+		LogWarning("UserInterfaceElement::UserInterfaceElement(): Font is nullptr!");
 }
 
 UserInterfaceElement::~UserInterfaceElement()

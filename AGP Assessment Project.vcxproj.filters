@@ -93,6 +93,9 @@
     <ClCompile Include="Source\Components\Physics\Rigidbody.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Utilities\Debugging\DebugUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -110,7 +113,7 @@
     <ClInclude Include="Source\Core\Application\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Debug\MemoryLeakDetector.h">
+    <ClInclude Include="Source\Utilities\Debugging\MemoryLeakDetector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Game\GameObjects\Core\GameObject.h">
@@ -189,6 +192,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Components\Physics\Rigidbody.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utilities\Debugging\DebugUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

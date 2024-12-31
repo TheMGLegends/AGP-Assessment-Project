@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Components\Physics\Rigidbody.cpp" />
     <ClCompile Include="Source\Components\Emitter\Emitter.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Default\Particle.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Default\Cube.cpp" />
@@ -161,6 +162,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Components\Physics\Rigidbody.h" />
     <ClInclude Include="Source\Components\Emitter\Emitter.h" />
     <ClInclude Include="Source\Game\GameObjects\Default\Particle.h" />
     <ClInclude Include="Source\Game\GameObjects\Default\Cube.h" />

@@ -131,6 +131,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Components\Physics\BoxCollider.cpp" />
+    <ClCompile Include="Source\Components\Physics\Collider.cpp" />
     <ClCompile Include="Source\Components\Physics\Rigidbody.cpp" />
     <ClCompile Include="Source\Components\Emitter\Emitter.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Default\Particle.cpp" />
@@ -159,11 +161,14 @@
     <ClCompile Include="Source\UI\Core\UserInterfaceElement.cpp" />
     <ClCompile Include="Source\Utilities\Debugging\DebugUtils.cpp" />
     <ClCompile Include="Source\Utilities\MathUtils.cpp" />
+    <ClCompile Include="Source\Components\Physics\SphereCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Components\Physics\BoxCollider.h" />
+    <ClInclude Include="Source\Components\Physics\Collider.h" />
     <ClInclude Include="Source\Components\Physics\Rigidbody.h" />
     <ClInclude Include="Source\Components\Emitter\Emitter.h" />
     <ClInclude Include="Source\Game\GameObjects\Default\Particle.h" />
@@ -196,6 +201,7 @@
     <ClInclude Include="Source\Game\GameObjects\Default\Sphere.h" />
     <ClInclude Include="Source\UI\Core\UserInterfaceElement.h" />
     <ClInclude Include="Source\Utilities\MathUtils.h" />
+    <ClInclude Include="Source\Components\Physics\SphereCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

@@ -62,6 +62,7 @@ void Application::Run()
 
 		InputHandler::HandleInput();
 		Update(Time::GetDeltaTime());
+		ComponentHandler::Update(Time::GetDeltaTime());
 		ComponentHandler::CheckCollisions();
 		RenderFrame();
 

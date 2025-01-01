@@ -12,3 +12,7 @@ Player::Player()
 Player::~Player()
 {
 }
+
+void Player::OnCollision(std::shared_ptr<Collider> other)
+{
+}

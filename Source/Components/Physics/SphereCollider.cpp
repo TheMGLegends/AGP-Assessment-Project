@@ -6,7 +6,7 @@ using namespace DirectX;
 
 SphereCollider::SphereCollider(GameObject* _gameObject, float radius) : Collider(_gameObject)
 {
-	colliderType = Type::Circle;
+	colliderType = Type::Sphere;
 
 	// INFO: Initialise the sphere
 	if (auto transform = GetGameObject()->transform.lock())
@@ -18,6 +18,15 @@ SphereCollider::SphereCollider(GameObject* _gameObject, float radius) : Collider
 
 SphereCollider::~SphereCollider()
 {
+}
+
+void SphereCollider::Update(float deltaTime)
+{
+	// INFO: Match the sphere with the transform of the game object
+	if (auto transform = GetGameObject()->transform.lock())
+	{
+		sphere.Center = transform->GetPosition();
+	}
 }
 
 void SphereCollider::DrawWireframe()

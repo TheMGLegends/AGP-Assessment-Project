@@ -44,3 +44,9 @@ void Transform::Rotate(const Vector3& eulerRotation)
 	rotation *= rotationQuaternion;
 }
 
+void Transform::Translate(const DirectX::SimpleMath::Vector3& translation)
+{
+	SetPreviousPosition();
+	position += translation;
+}
+

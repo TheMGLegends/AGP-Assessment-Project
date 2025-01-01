@@ -1,15 +1,16 @@
 #pragma once
 
-#include <DirectXCollision.h>
 #include <memory>
 #include <vector>
 
 #include "Component.h"
 
+class BoxCollider;
 class Collider;
 class Emitter;
 class Light;
 class Mesh;
+class SphereCollider;
 class Rigidbody;
 
 class ComponentHandler
@@ -36,9 +37,9 @@ private:
 
 	// INFO: These functions handle the reverting of positions when two non-trigger colliders collide
 
-	static void HandleBoxBox(DirectX::BoundingOrientedBox& box1, DirectX::BoundingOrientedBox box2);
-	static void HandleSphereSphere(DirectX::BoundingSphere& sphere1, DirectX::BoundingSphere sphere2);
-	static void HandleBoxSphere(DirectX::BoundingOrientedBox& box, DirectX::BoundingSphere& sphere);
+	static void ResolveBoxBox(std::shared_ptr<BoxCollider>& box1, std::shared_ptr<BoxCollider>& box2);
+	static void ResolveSphereSphere(std::shared_ptr<SphereCollider>& sphere1, std::shared_ptr<SphereCollider>& sphere2);
+	static void ResolveBoxSphere(std::shared_ptr<BoxCollider>& box, std::shared_ptr<SphereCollider>& sphere);
 
 private:
 	static std::vector<std::weak_ptr<Collider>> colliders;

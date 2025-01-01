@@ -1,12 +1,12 @@
 #include "ComponentHandler.h"
 
-
 //#include "../../Components/Lighting/Light.h"
 #include "../../Components/Mesh/Mesh.h"
 #include "../../Components/Emitter/Emitter.h"
 #include "../../Components/Physics/BoxCollider.h"
 #include "../../Components/Physics/SphereCollider.h"
 #include "../../Components/Physics/Rigidbody.h"
+#include "../../Game/GameObjects/Core/GameObject.h"
 #include "../../Utilities/Debugging/DebugUtils.h"
 
 std::vector<std::weak_ptr<Collider>> ComponentHandler::colliders;
@@ -80,7 +80,12 @@ void ComponentHandler::CheckCollisions()
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
 						HandleTriggerCollision(collider1, collider2);
 					else
-						HandleBoxBox(box1->GetOrientedBox(), box2->GetOrientedBox());
+					{
+						collider1->ExecuteOnCollision(collider2);
+						collider2->ExecuteOnCollision(collider1);
+
+						ResolveBoxBox(box1, box2);
+					}
 				}
 			}
 			else if (collider1->GetColliderType() == Collider::Type::Sphere && collider2->GetColliderType() == Collider::Type::Sphere)
@@ -101,7 +106,12 @@ void ComponentHandler::CheckCollisions()
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
 						HandleTriggerCollision(collider1, collider2);
 					else
-						HandleSphereSphere(sphere1->GetSphere(), sphere2->GetSphere());
+					{
+						collider1->ExecuteOnCollision(collider2);
+						collider2->ExecuteOnCollision(collider1);
+
+						ResolveSphereSphere(sphere1, sphere2);
+					}
 				}
 			}
 			else if (collider1->GetColliderType() == Collider::Type::Box && collider2->GetColliderType() == Collider::Type::Sphere)
@@ -122,7 +132,12 @@ void ComponentHandler::CheckCollisions()
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
 						HandleTriggerCollision(collider1, collider2);
 					else
-						HandleBoxSphere(box->GetOrientedBox(), sphere->GetSphere());
+					{
+						collider1->ExecuteOnCollision(collider2);
+						collider2->ExecuteOnCollision(collider1);
+
+						ResolveBoxSphere(box, sphere);
+					}
 				}
 			}
 			else if (collider1->GetColliderType() == Collider::Type::Sphere && collider2->GetColliderType() == Collider::Type::Box)
@@ -143,7 +158,12 @@ void ComponentHandler::CheckCollisions()
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
 						HandleTriggerCollision(collider1, collider2);
 					else
-						HandleBoxSphere(box->GetOrientedBox(), sphere->GetSphere());
+					{
+						collider1->ExecuteOnCollision(collider2);
+						collider2->ExecuteOnCollision(collider1);
+
+						ResolveBoxSphere(box, sphere);
+					}
 				}
 			}
 		}
@@ -224,23 +244,57 @@ void ComponentHandler::HandleTriggerCollision(std::shared_ptr<Collider> collider
 	}
 }
 
-void ComponentHandler::HandleBoxBox(DirectX::BoundingOrientedBox& box1, DirectX::BoundingOrientedBox box2)
+void ComponentHandler::ResolveBoxBox(std::shared_ptr<BoxCollider>& box1, std::shared_ptr<BoxCollider>& box2)
 {
-	// TODO: Here is where we need to handle the collision checking each axis
-	//       one at a time x, y, z and only reverting the ones that are no longer colliding (When we revert their position)
-	//       so we can walk on the ground and collide with walls etc.
+	/*
+	* 1. If both are static (No rigidbodies) then we just return
+	* 2. If one is static and the other is dynamic then we:
+	*		a). Figure out which previous axis are no longer colliding by individually checking each previous axis position
+	*		b). Revert the dynamic object's position on those axis only
+	* 3. If both are dynamic then we:
+	* 		a). Figure out which previous axis are no longer colliding by individually checking each previous axis position
+	* 		b). Revert both dynamic object's position on those axis only
+	*/
+
+	auto rb1 = box1->GetGameObject()->GetComponent<Rigidbody>().lock();
+	auto rb2 = box2->GetGameObject()->GetComponent<Rigidbody>().lock();
+
+	// INFO: Both objects are static
+	if (!rb1 && !rb2)
+		return;
+
+	BoundingOrientedBox& orientedBox1 = box1->GetOrientedBox();
+	BoundingOrientedBox& orientedBox2 = box2->GetOrientedBox();
+
+	auto transform1 = box1->GetGameObject()->transform.lock();
+	auto transform2 = box2->GetGameObject()->transform.lock();
+
+	// INFO: One axis at a time checks
+
 }
 
-void ComponentHandler::HandleSphereSphere(DirectX::BoundingSphere& sphere1, DirectX::BoundingSphere sphere2)
+void ComponentHandler::ResolveSphereSphere(std::shared_ptr<SphereCollider>& sphere1, std::shared_ptr<SphereCollider>& sphere2)
 {
-	// TODO: Here is where we need to handle the collision checking each axis
-	//       one at a time x, y, z and only reverting the ones that are no longer colliding (When we revert their position)
-	//       so we can walk on the ground and collide with walls etc.
+	/*
+	* 1. If both are static (No rigidbodies) then we just return
+	* 2. If one is static and the other is dynamic then we:
+	*		a). Figure out which previous axis are no longer colliding by individually checking each previous axis position
+	*		b). Revert the dynamic object's position on those axis only
+	* 3. If both are dynamic then we:
+	* 		a). Figure out which previous axis are no longer colliding by individually checking each previous axis position
+	* 		b). Revert both dynamic object's position on those axis only
+	*/
 }
 
-void ComponentHandler::HandleBoxSphere(DirectX::BoundingOrientedBox& box, DirectX::BoundingSphere& sphere)
+void ComponentHandler::ResolveBoxSphere(std::shared_ptr<BoxCollider>& box, std::shared_ptr<SphereCollider>& sphere)
 {
-	// TODO: Here is where we need to handle the collision checking each axis
-	//       one at a time x, y, z and only reverting the ones that are no longer colliding (When we revert their position)
-	//       so we can walk on the ground and collide with walls etc.
+	/*
+	* 1. If both are static (No rigidbodies) then we just return
+	* 2. If one is static and the other is dynamic then we:
+	*		a). Figure out which previous axis are no longer colliding by individually checking each previous axis position
+	*		b). Revert the dynamic object's position on those axis only
+	* 3. If both are dynamic then we:
+	* 		a). Figure out which previous axis are no longer colliding by individually checking each previous axis position
+	* 		b). Revert both dynamic object's position on those axis only
+	*/
 }

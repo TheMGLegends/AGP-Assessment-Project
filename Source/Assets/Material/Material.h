@@ -11,13 +11,15 @@ struct ConstantBufferInfo
 public:
 	enum class ShaderType
 	{
+		None = 0,
+
 		Vertex,
 		Pixel
 	};
 		
 public:
-	ConstantBufferInfo() : buffer(nullptr), shaderType(ShaderType::Vertex) {}
-	ConstantBufferInfo(ID3D11Buffer* _buffer, ShaderType _shaderType) : buffer(_buffer), shaderType(_shaderType) {}
+	ConstantBufferInfo() : buffer(nullptr), shaderType(ShaderType::None) {}
+	ConstantBufferInfo(ID3D11Buffer* _buffer, ShaderType _shaderType = ShaderType::Vertex) : buffer(_buffer), shaderType(_shaderType) {}
 
 public:
 	ID3D11Buffer* buffer;

@@ -1,56 +1,15 @@
 #pragma once
 
-#include <d3d11.h>
-#include <memory>
 #include <string>
 #include <SpriteFont.h>
 #include <unordered_map>
-#include <wrl.h>
 
-#include "Config/DirectXConfig.h"
+#include "Collections/ConstantBufferData.h"
+#include "Collections/VertexShaderData.h"
 
 class Material;
 class Model;
 class SpriteFont;
-
-struct VertexShaderData
-{
-public:
-	VertexShaderData() : vertexShader(nullptr), inputLayout(nullptr) {}
-	VertexShaderData(Microsoft::WRL::ComPtr<ID3D11VertexShader> _vertexShader, Microsoft::WRL::ComPtr<ID3D11InputLayout> _inputLayout) 
-	{
-		vertexShader = std::move(_vertexShader);
-		inputLayout = std::move(_inputLayout);
-	}
-	~VertexShaderData() = default;
-
-	inline ID3D11VertexShader* GetVertexShader() const { return vertexShader.Get(); }
-	inline ID3D11InputLayout* GetInputLayout() const { return inputLayout.Get(); }
-
-private:
-	Microsoft::WRL::ComPtr<ID3D11VertexShader> vertexShader;
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> inputLayout;
-};
-
-struct ConstantBufferData
-{
-public:
-	ConstantBufferData() : constantBuffer(nullptr), constantBufferType(DirectXConfig::ConstantBufferType::None) {}
-	ConstantBufferData(Microsoft::WRL::ComPtr<ID3D11Buffer> _constantBuffer, DirectXConfig::ConstantBufferType _constantBufferType)
-	{
-		constantBuffer = std::move(_constantBuffer);
-		constantBufferType = _constantBufferType;
-	}
-	~ConstantBufferData() = default;
-
-	inline ID3D11Buffer* GetConstantBuffer() const { return constantBuffer.Get(); }
-	inline DirectXConfig::ConstantBufferType GetConstantBufferType() const { return constantBufferType; }
-
-private:
-	Microsoft::WRL::ComPtr<ID3D11Buffer> constantBuffer;
-	DirectXConfig::ConstantBufferType constantBufferType;
-};
-
 
 class AssetHandler
 {

@@ -1,4 +1,4 @@
-cbuffer UnlitBuffer
+cbuffer UnlitVSBuffer
 {
     matrix wvp;
 };

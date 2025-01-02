@@ -6,20 +6,17 @@
 using namespace DebugUtils;
 using namespace DirectXConfig;
 
-Material::Material(std::string vertexShaderName, std::string pixelShaderName, 
-				   ConstantBufferType constantBufferType, DepthWriteType depthWriteType, 
-				   CullingModeType cullingModeType, BlendStateType blendStateType, 
-	               std::string textureName, std::string skyboxTextureName) : vertexShader(nullptr),
-																			 pixelShader(nullptr),
-																			 inputLayout(nullptr),
-																			 constantBuffer(nullptr),
-																			 constantBufferType(constantBufferType),
-																			 depthWrite(nullptr),
-																			 cullingMode(nullptr),
-																			 blendState(nullptr),
-																			 texture(nullptr),
-																			 skyboxTexture(nullptr),
-																			 sampler(nullptr)
+Material::Material(std::string vertexShaderName, std::string pixelShaderName, ConstantBufferType constantBufferType, 
+				   ConstantBufferInfo::ShaderType shaderType, DepthWriteType depthWriteType, CullingModeType cullingModeType, 
+				   BlendStateType blendStateType, std::string textureName, std::string skyboxTextureName) : vertexShader(nullptr),
+																											pixelShader(nullptr),
+																											inputLayout(nullptr),
+																											depthWrite(nullptr),
+																											cullingMode(nullptr),
+																											blendState(nullptr),
+																											texture(nullptr),
+																											skyboxTexture(nullptr),
+																											sampler(nullptr)
 {
 	// INFO: Use asset handler to populate the material properties from the asset files
 
@@ -29,9 +26,7 @@ Material::Material(std::string vertexShaderName, std::string pixelShaderName,
 
 	pixelShader = AssetHandler::GetPixelShader(pixelShaderName);
 
-	const ConstantBufferData& constantBufferData = AssetHandler::GetConstantBufferData(constantBufferType);
-	constantBuffer = constantBufferData.GetConstantBuffer();
-	constantBufferType = constantBufferData.GetConstantBufferType();
+	AddConstantBuffer(constantBufferType, shaderType);
 
 	depthWrite = AssetHandler::GetDepthWrite(depthWriteType);
 	cullingMode = AssetHandler::GetCullingMode(cullingModeType);
@@ -45,6 +40,21 @@ Material::Material(std::string vertexShaderName, std::string pixelShaderName,
 
 Material::~Material()
 {
+}
+
+ID3D11Buffer* Material::GetConstantBuffer(DirectXConfig::ConstantBufferType type)
+{
+	if (HasConstantBuffer(type))
+		return constantBuffers[type].buffer;
+
+	return nullptr;
+}
+
+void Material::AddConstantBuffer(DirectXConfig::ConstantBufferType constantBufferType, ConstantBufferInfo::ShaderType shaderType)
+{
+	const ConstantBufferData& constantBufferData = AssetHandler::GetConstantBufferData(constantBufferType);
+	ConstantBufferInfo constantBufferInfo = { constantBufferData.GetConstantBuffer(), shaderType };
+	constantBuffers[constantBufferData.GetConstantBufferType()] = constantBufferInfo;
 }
 
 void Material::Set(ID3D11DeviceContext* deviceContext)
@@ -64,13 +74,21 @@ void Material::Set(ID3D11DeviceContext* deviceContext)
 	if (pixelShader)
 		deviceContext->PSSetShader(pixelShader, nullptr, 0);
 
-	if (constantBuffer)
-		deviceContext->VSSetConstantBuffers(0, 1, &constantBuffer);
+	// INFO: Set the constant buffer for each constant buffer found in the material
+	for (auto& cb : constantBuffers)
+	{
+		ConstantBufferInfo constantBufferInfo = cb.second;
+
+		if (constantBufferInfo.shaderType == ConstantBufferInfo::ShaderType::Vertex)
+			deviceContext->VSSetConstantBuffers(0, 1, &constantBufferInfo.buffer);
+		else if (constantBufferInfo.shaderType == ConstantBufferInfo::ShaderType::Pixel)
+			deviceContext->PSSetConstantBuffers(0, 1, &constantBufferInfo.buffer);
+	}
 
 	if (texture)
 		deviceContext->PSSetShaderResources(0, 1, &texture);
 
-	if (skyboxTexture && constantBufferType == ConstantBufferType::Reflective)
+	if (skyboxTexture && HasConstantBuffer(ConstantBufferType::ReflectiveVS))
 		deviceContext->PSSetShaderResources(1, 1, &skyboxTexture);
 
 	if (sampler)

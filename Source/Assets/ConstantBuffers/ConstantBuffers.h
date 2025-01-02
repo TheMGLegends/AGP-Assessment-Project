@@ -3,21 +3,22 @@
 #include <DirectXMath.h>
 
 //#include "../../Components/Lighting/Light.h"
+#include "../../Utilities/MathUtils.h"
 
 namespace ConstantBuffers
 {
-	struct ParticleBuffer
+	struct ParticleVSBuffer
 	{
 		DirectX::XMMATRIX wvp;
 		DirectX::XMFLOAT4 colour;
 	};
 
-	struct UnlitBuffer
+	struct UnlitVSBuffer
 	{
 		DirectX::XMMATRIX wvp;
 	};
 
-	struct LitBuffer
+	struct LitVSBuffer
 	{
 		DirectX::XMMATRIX wvp;
 		DirectX::XMVECTOR ambientLightColour;
@@ -27,7 +28,7 @@ namespace ConstantBuffers
 		// PointLight pointLights[LightConfig::MAX_LIGHTS];
 	};
 
-	struct ReflectiveBuffer
+	struct ReflectiveVSBuffer
 	{
 		DirectX::XMMATRIX wvp;
 		DirectX::XMMATRIX wv;
@@ -36,5 +37,17 @@ namespace ConstantBuffers
 		DirectX::XMVECTOR directionalLightDirection;
 		// TODO: Point Lights
 		// PointLight pointLights[LightConfig::MAX_LIGHTS];
+	};
+
+	struct ReflectivePSBuffer
+	{
+		float reflectionAmount;
+		float padding[3];
+
+		ReflectivePSBuffer& operator=(float _reflectionAmount)
+		{
+			this->reflectionAmount = MathUtils::Clamp(_reflectionAmount, 0.0f, 1.0f);
+			return *this;
+		}
 	};
 }

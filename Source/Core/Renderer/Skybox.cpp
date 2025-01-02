@@ -16,9 +16,8 @@ Skybox::Skybox(const std::string& modelName, const std::string& materialName)
 
 	if (!mesh)
 		LogWarning("Skybox::Skybox(): Mesh is nullptr!");
-	else 
-		if (mesh->GetMaterial()->GetConstantBufferType() != ConstantBufferType::Unlit)
-			LogWarning("Skybox::Skybox(): Material constant buffer type is not Unlit (Skybox)!");
+	else if (!mesh->GetMaterial()->HasConstantBuffer(ConstantBufferType::UnlitVS))
+		LogWarning("Skybox::Skybox(): Material constant buffer type is not Unlit (Skybox)!");
 }
 
 Skybox::~Skybox()
@@ -33,10 +32,11 @@ void Skybox::Draw(ID3D11DeviceContext* deviceContext, XMMATRIX translationMatrix
 		return;
 	}
 
-	UnlitBuffer unlitBuffer{};
+	UnlitVSBuffer unlitBuffer{};
 	unlitBuffer.wvp = translationMatrix * viewMatrix * projectionMatrix;
 
-	deviceContext->UpdateSubresource(mesh->GetMaterial()->GetConstantBuffer(), 0, nullptr, &unlitBuffer, 0, 0);
+	if (ID3D11Buffer* constantBuffer = mesh->GetMaterial()->GetConstantBuffer(ConstantBufferType::UnlitVS))
+		deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &unlitBuffer, 0, 0);
 
 	mesh->Draw(deviceContext);
 }

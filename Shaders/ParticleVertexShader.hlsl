@@ -1,4 +1,4 @@
-cbuffer ParticleBuffer
+cbuffer ParticleVSBuffer
 {
     matrix wvp;
     float4 colour;

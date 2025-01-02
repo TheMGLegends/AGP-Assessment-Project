@@ -1,6 +1,6 @@
 #define MAX_LIGHTS 8
 
-cbuffer LitBuffer
+cbuffer LitVSBuffer
 {
     matrix wvp;
     float4 ambientLightColour;

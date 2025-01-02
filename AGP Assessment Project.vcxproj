@@ -167,6 +167,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Assets\Collections\ConstantBufferData.h" />
+    <ClInclude Include="Source\Assets\Collections\VertexShaderData.h" />
     <ClInclude Include="Source\Components\Physics\BoxCollider.h" />
     <ClInclude Include="Source\Components\Physics\Collider.h" />
     <ClInclude Include="Source\Components\Physics\Rigidbody.h" />

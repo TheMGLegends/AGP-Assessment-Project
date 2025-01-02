@@ -13,3 +13,13 @@ int MathUtils::RandomRange(int min, int max)
 	int range = max - min;
 	return min + rand() % range;
 }
+
+float MathUtils::Clamp(float value, float min, float max)
+{
+	if (value < min)
+		return min;
+	else if (value > max)
+		return max;
+	else
+		return value;
+}

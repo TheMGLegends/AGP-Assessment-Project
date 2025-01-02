@@ -1,4 +1,4 @@
-cbuffer SkyboxBuffer // UnlitBuffer
+cbuffer SkyboxVSBuffer // UnlitBuffer
 {
 	matrix wvp;
 };

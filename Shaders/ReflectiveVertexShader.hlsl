@@ -1,6 +1,6 @@
 #define MAX_LIGHTS 8
 
-cbuffer ReflectiveBuffer
+cbuffer ReflectiveVSBuffer
 {
     matrix wvp;
     matrix wv;

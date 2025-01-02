@@ -235,64 +235,75 @@ void Renderer::RenderFrame(Scene* scene)
 
 		XMMATRIX worldMatrix = owningGameObjectTransform->GetWorldMatrix();
 
-		// INFO: Set the constant buffer properties based on the constant buffer type
-		switch (material->GetConstantBufferType())
+		// INFO: Set the constant buffer properties based on the constant buffer type for each constant buffer found in the material
+		for (auto& cb : material->GetConstantBuffers())
 		{
-		case ConstantBufferType::Lit:
-		{
-			LitBuffer litBuffer{};
+			ConstantBufferType constantBufferType = cb.first;
+			ID3D11Buffer* constantBuffer = cb.second.buffer;
 
-			litBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
+			switch (constantBufferType)
+			{
+			case DirectXConfig::ConstantBufferType::LitVS:
+			{
+				LitVSBuffer litVSBuffer{};
 
-			// TODO: Set the light properties
+				litVSBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
 
-			deviceContext->UpdateSubresource(mesh->GetMaterial()->GetConstantBuffer(), 0, nullptr, &litBuffer, 0, 0);
+				// TODO: Set the light properties
 
-			break;
-		}
-		case ConstantBufferType::Unlit:
-		{
-			UnlitBuffer unlitBuffer{};
+				deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &litVSBuffer, 0, 0);
+				break;
+			}
+			case DirectXConfig::ConstantBufferType::UnlitVS:
+			{
+				UnlitVSBuffer unlitVSBuffer{};
 
-			unlitBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
+				unlitVSBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
 
-			deviceContext->UpdateSubresource(mesh->GetMaterial()->GetConstantBuffer(), 0, nullptr, &unlitBuffer, 0, 0);
+				deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &unlitVSBuffer, 0, 0);
+				break;
+			}
+			case DirectXConfig::ConstantBufferType::ReflectiveVS:
+			{
+				ReflectiveVSBuffer reflectiveVSBuffer{};
 
-			break;
-		}
-		case ConstantBufferType::Reflective:
-		{
-			ReflectiveBuffer reflectiveBuffer{};
+				reflectiveVSBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
+				reflectiveVSBuffer.wv = worldMatrix * viewMatrix;
 
-			reflectiveBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
-			reflectiveBuffer.wv = worldMatrix * viewMatrix;
+				// TODO: Set the light properties
 
-			// TODO: Set the light properties
+				deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &reflectiveVSBuffer, 0, 0);
+				break;
+			}
+			case DirectXConfig::ConstantBufferType::ReflectivePS:
+			{
+				ReflectivePSBuffer reflectivePSBuffer{};
 
-			deviceContext->UpdateSubresource(mesh->GetMaterial()->GetConstantBuffer(), 0, nullptr, &reflectiveBuffer, 0, 0);
+				reflectivePSBuffer.reflectionAmount = material->GetReflectionAmount();
 
-			break;
-		}
-		case ConstantBufferType::Particle:
-		{
-			ParticleBuffer particleBuffer{};
+				deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &reflectivePSBuffer, 0, 0);
+				break;
+			}
+			case DirectXConfig::ConstantBufferType::ParticleVS:
+			{
+				ParticleVSBuffer particleBuffer{};
 
-			// INFO: Update the world matrix to have the particle face the camera
-			worldMatrix = owningGameObject->LookAtXZ(cameraPosition.x, cameraPosition.z) * worldMatrix;
+				// INFO: Update the world matrix to have the particle face the camera
+				worldMatrix = owningGameObject->LookAtXZ(cameraPosition.x, cameraPosition.z) * worldMatrix;
 
-			particleBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
+				particleBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
 
-			// INFO: Set the constant buffer colour based on the particle colour if it is a particle
-			if (Particle* particle = dynamic_cast<Particle*>(owningGameObject))
-				particleBuffer.colour = particle->GetColour();
+				// INFO: Set the constant buffer colour based on the particle colour if it is a particle
+				if (Particle* particle = dynamic_cast<Particle*>(owningGameObject))
+					particleBuffer.colour = particle->GetColour();
 
-			deviceContext->UpdateSubresource(mesh->GetMaterial()->GetConstantBuffer(), 0, nullptr, &particleBuffer, 0, 0);
-
-			break;
-		}
-		case ConstantBufferType::None:
-		default:
-			break;
+				deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &particleBuffer, 0, 0);
+				break;
+			}
+			case DirectXConfig::ConstantBufferType::None:
+			default:
+				break;
+			}
 		}
 
 		mesh->Draw(deviceContext.Get());

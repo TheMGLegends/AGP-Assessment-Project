@@ -105,10 +105,11 @@ HRESULT AssetHandler::LoadAssets()
 	if (FAILED(LoadFont("SimpleFont", L"Resources/Fonts/SimpleFont.spriteFont"))) return E_FAIL;
 
 	// INFO: Load Constant Buffers
-	if (FAILED(LoadConstantBuffer(ConstantBufferType::Lit))) return E_FAIL;
-	if (FAILED(LoadConstantBuffer(ConstantBufferType::Unlit))) return E_FAIL;
-	if (FAILED(LoadConstantBuffer(ConstantBufferType::Reflective))) return E_FAIL;
-	if (FAILED(LoadConstantBuffer(ConstantBufferType::Particle))) return E_FAIL;
+	if (FAILED(LoadConstantBuffer(ConstantBufferType::LitVS))) return E_FAIL;
+	if (FAILED(LoadConstantBuffer(ConstantBufferType::UnlitVS))) return E_FAIL;
+	if (FAILED(LoadConstantBuffer(ConstantBufferType::ReflectiveVS))) return E_FAIL;
+	if (FAILED(LoadConstantBuffer(ConstantBufferType::ReflectivePS))) return E_FAIL;
+	if (FAILED(LoadConstantBuffer(ConstantBufferType::ParticleVS))) return E_FAIL;
 
 	// INFO: Load Depth Writes
 	if (FAILED(LoadDepthWrite(DepthWriteType::Enabled))) return E_FAIL;
@@ -128,7 +129,8 @@ HRESULT AssetHandler::LoadAssets()
 
 	// INFO: Load Materials
 	// TODO: TEST MATERIAL
-	Material* testMaterial = new Material("Lit", "Lit", ConstantBufferType::Lit, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::Disabled, "Box", "DebugSkybox");
+	Material* testMaterial = new Material("Lit", "Lit", ConstantBufferType::LitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::Disabled, "Box", "DebugSkybox");
+	testMaterial->AddConstantBuffer(ConstantBufferType::ReflectivePS, ConstantBufferInfo::ShaderType::Pixel);
 	if (FAILED(LoadMaterial("TestMaterial", testMaterial))) return E_FAIL;
 
 	// INFO: Load Models
@@ -309,19 +311,22 @@ HRESULT AssetHandler::LoadConstantBuffer(DirectXConfig::ConstantBufferType type)
 	// INFO: Different ByteWidth based on the constant buffer type
 	switch (type)
 	{
-	case DirectXConfig::ConstantBufferType::Lit:
-		constantBufferDescription.ByteWidth = sizeof(LitBuffer);
+	case ConstantBufferType::LitVS:
+		constantBufferDescription.ByteWidth = sizeof(LitVSBuffer);
 		break;
-	case DirectXConfig::ConstantBufferType::Unlit:
-		constantBufferDescription.ByteWidth = sizeof(UnlitBuffer);
+	case ConstantBufferType::UnlitVS:
+		constantBufferDescription.ByteWidth = sizeof(UnlitVSBuffer);
 		break;
-	case DirectXConfig::ConstantBufferType::Reflective:
-		constantBufferDescription.ByteWidth = sizeof(ReflectiveBuffer);
+	case ConstantBufferType::ReflectiveVS:
+		constantBufferDescription.ByteWidth = sizeof(ReflectiveVSBuffer);
 		break;
-	case DirectXConfig::ConstantBufferType::Particle:
-		constantBufferDescription.ByteWidth = sizeof(ParticleBuffer);
+	case ConstantBufferType::ReflectivePS:
+		constantBufferDescription.ByteWidth = sizeof(ReflectivePSBuffer);
 		break;
-	case DirectXConfig::ConstantBufferType::None:
+	case ConstantBufferType::ParticleVS:
+		constantBufferDescription.ByteWidth = sizeof(ParticleVSBuffer);
+		break;
+	case ConstantBufferType::None:
 	default:
 		break;
 	}

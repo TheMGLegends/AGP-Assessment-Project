@@ -6,10 +6,11 @@ namespace DirectXConfig
 	{
 		None = 0,
 
-		Lit,
-		Unlit,
-		Reflective,
-		Particle
+		LitVS,
+		UnlitVS,
+		ReflectiveVS,
+		ReflectivePS,
+		ParticleVS
 	};
 
 	enum class DepthWriteType

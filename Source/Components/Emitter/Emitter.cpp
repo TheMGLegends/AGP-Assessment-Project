@@ -79,10 +79,10 @@ void Emitter::FountainEffect(float deltaTime)
 			(*it)->colour = Vector4(RandomRange(0.0f, 1.0f), RandomRange(0.0f, 1.0f), RandomRange(0.0f, 1.0f), 1.0f);
 			float scale = RandomRange(0.1f, 0.5f);
 
-			if (auto rb = (*it)->rigidbody.lock())
+			if (std::shared_ptr<Rigidbody> rb = (*it)->rigidbody.lock())
 				rb->SetVelocity(Vector3(RandomRange(-1.0f, 1.0f), RandomRange(1.5f, 2.5f), RandomRange(-1.0f, 1.0f)));
 
-			if (auto transform = GetGameObject()->transform.lock())
+			if (std::shared_ptr<Transform> transform = GetGameObject()->transform.lock())
 			{
 				(*it)->transform.lock()->SetPosition(GetGameObject()->transform.lock()->GetPosition());
 				(*it)->transform.lock()->SetScale(Vector3(scale, scale, scale));

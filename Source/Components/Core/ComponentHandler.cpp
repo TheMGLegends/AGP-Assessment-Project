@@ -17,6 +17,7 @@ std::vector<std::weak_ptr<Rigidbody>> ComponentHandler::rigidbodies;
 
 using namespace DebugUtils;
 using namespace DirectX;
+using namespace DirectX::SimpleMath;
 
 void ComponentHandler::Update(float deltaTime)
 {
@@ -25,21 +26,21 @@ void ComponentHandler::Update(float deltaTime)
 	// INFO: Update Rigidbodies
 	for (const auto& rb : rigidbodies)
 	{
-		if (auto rigidbody = rb.lock())
+		if (std::shared_ptr<Rigidbody> rigidbody = rb.lock())
 			rigidbody->Update(deltaTime);
 	}
 
 	// INFO: update Colliders
 	for (const auto& c : colliders)
 	{
-		if (auto collider = c.lock())
+		if (std::shared_ptr<Collider> collider = c.lock())
 			collider->Update(deltaTime);
 	}
 
 	// INFO: Update Emitters
 	for (const auto& e : emitters)
 	{
-		if (auto emitter = e.lock())
+		if (std::shared_ptr<Emitter> emitter = e.lock())
 			emitter->Update(deltaTime);
 	}
 }
@@ -49,14 +50,14 @@ void ComponentHandler::CheckCollisions()
 	// INFO: Check for collisions between colliders
 	for (size_t i = 0; i < colliders.size(); ++i)
 	{
-		auto collider1 = colliders[i].lock();
+		std::shared_ptr<Collider> collider1 = colliders[i].lock();
 
 		if (!collider1 || !collider1->GetIsActive())
 			continue;
 
 		for (size_t j = i + 1; j < colliders.size(); ++j)
 		{
-			auto collider2 = colliders[j].lock();
+			std::shared_ptr<Collider> collider2 = colliders[j].lock();
 
 			if (!collider2 || !collider2->GetIsActive())
 				continue;
@@ -64,8 +65,8 @@ void ComponentHandler::CheckCollisions()
 			// INFO: Check for collision between the two colliders
 			if (collider1->GetColliderType() == Collider::Type::Box && collider2->GetColliderType() == Collider::Type::Box)
 			{
-				auto box1 = std::dynamic_pointer_cast<BoxCollider>(collider1);
-				auto box2 = std::dynamic_pointer_cast<BoxCollider>(collider2);
+				std::shared_ptr<BoxCollider> box1 = std::dynamic_pointer_cast<BoxCollider>(collider1);
+				std::shared_ptr<BoxCollider> box2 = std::dynamic_pointer_cast<BoxCollider>(collider2);
 
 				if (!box1 || !box2)
 				{
@@ -90,8 +91,8 @@ void ComponentHandler::CheckCollisions()
 			}
 			else if (collider1->GetColliderType() == Collider::Type::Sphere && collider2->GetColliderType() == Collider::Type::Sphere)
 			{
-				auto sphere1 = std::dynamic_pointer_cast<SphereCollider>(collider1);
-				auto sphere2 = std::dynamic_pointer_cast<SphereCollider>(collider2);
+				std::shared_ptr<SphereCollider> sphere1 = std::dynamic_pointer_cast<SphereCollider>(collider1);
+				std::shared_ptr<SphereCollider> sphere2 = std::dynamic_pointer_cast<SphereCollider>(collider2);
 
 				if (!sphere1 || !sphere2)
 				{
@@ -116,8 +117,8 @@ void ComponentHandler::CheckCollisions()
 			}
 			else if (collider1->GetColliderType() == Collider::Type::Box && collider2->GetColliderType() == Collider::Type::Sphere)
 			{
-				auto box = std::dynamic_pointer_cast<BoxCollider>(collider1);
-				auto sphere = std::dynamic_pointer_cast<SphereCollider>(collider2);
+				std::shared_ptr<BoxCollider> box = std::dynamic_pointer_cast<BoxCollider>(collider1);
+				std::shared_ptr<SphereCollider> sphere = std::dynamic_pointer_cast<SphereCollider>(collider2);
 
 				if (!box || !sphere)
 				{
@@ -142,8 +143,8 @@ void ComponentHandler::CheckCollisions()
 			}
 			else if (collider1->GetColliderType() == Collider::Type::Sphere && collider2->GetColliderType() == Collider::Type::Box)
 			{
-				auto sphere = std::dynamic_pointer_cast<SphereCollider>(collider1);
-				auto box = std::dynamic_pointer_cast<BoxCollider>(collider2);
+				std::shared_ptr<SphereCollider> sphere = std::dynamic_pointer_cast<SphereCollider>(collider1);
+				std::shared_ptr<BoxCollider> box = std::dynamic_pointer_cast<BoxCollider>(collider2);
 
 				if (!sphere || !box)
 				{
@@ -152,7 +153,7 @@ void ComponentHandler::CheckCollisions()
 				}
 				
 				// INFO: If a collision did occur
-				if (sphere->GetSphere().Contains(box->GetOrientedBox()) == DirectX::DISJOINT)
+				if (sphere->GetSphere().Contains(box->GetOrientedBox()) != DirectX::DISJOINT)
 				{
 					// INFO: Handle via Trigger or Collision functions
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
@@ -246,55 +247,141 @@ void ComponentHandler::HandleTriggerCollision(std::shared_ptr<Collider> collider
 
 void ComponentHandler::ResolveBoxBox(std::shared_ptr<BoxCollider>& box1, std::shared_ptr<BoxCollider>& box2)
 {
-	/*
-	* 1. If both are static (No rigidbodies) then we just return
-	* 2. If one is static and the other is dynamic then we:
-	*		a). Figure out which previous axis are no longer colliding by individually checking each previous axis position
-	*		b). Revert the dynamic object's position on those axis only
-	* 3. If both are dynamic then we:
-	* 		a). Figure out which previous axis are no longer colliding by individually checking each previous axis position
-	* 		b). Revert both dynamic object's position on those axis only
-	*/
-
-	auto rb1 = box1->GetGameObject()->GetComponent<Rigidbody>().lock();
-	auto rb2 = box2->GetGameObject()->GetComponent<Rigidbody>().lock();
+	std::shared_ptr<Rigidbody> rb1 = box1->GetGameObject()->GetComponent<Rigidbody>().lock();
+	std::shared_ptr<Rigidbody> rb2 = box2->GetGameObject()->GetComponent<Rigidbody>().lock();
 
 	// INFO: Both objects are static
 	if (!rb1 && !rb2)
 		return;
 
-	BoundingOrientedBox& orientedBox1 = box1->GetOrientedBox();
-	BoundingOrientedBox& orientedBox2 = box2->GetOrientedBox();
+	// INFO: One object is static
+	if (!rb1 || !rb2)
+	{
+		std::shared_ptr<BoxCollider>& staticCollider = rb1 ? box2 : box1;
+		std::shared_ptr<BoxCollider>& dynamicCollider = rb1 ? box1 : box2;
 
-	auto transform1 = box1->GetGameObject()->transform.lock();
-	auto transform2 = box2->GetGameObject()->transform.lock();
+		std::shared_ptr<Transform> dynamicTransform = dynamicCollider->GetGameObject()->transform.lock();
+		Vector3 dynamicPreviousPosition = dynamicCollider->GetPreviousPosition();
+		Vector3 dynamicPosition = dynamicTransform->GetPosition();
 
-	// INFO: One axis at a time checks
+		BoundingOrientedBox& staticOrientedBox = staticCollider->GetOrientedBox();
+		BoundingOrientedBox& dynamicOrientedBox = dynamicCollider->GetOrientedBox();
 
+		// INFO: Check for collision on each axis individually
+		
+		// INFO: X-axis
+		dynamicOrientedBox.Center.x = dynamicPreviousPosition.x; // NOTE: Doesn't require changing back because it'll get updated in the next frame
+
+		// INFO: By reverting a singular axis, if they are no longer colliding we revert the dynamic object's position on that axis only
+		if (staticOrientedBox.Contains(dynamicOrientedBox) == DirectX::DISJOINT)
+			dynamicTransform->SetPosition(Vector3(dynamicPreviousPosition.x, dynamicPosition.y, dynamicPosition.z), false);
+
+		// INFO: Y-axis
+		dynamicOrientedBox.Center.y = dynamicPreviousPosition.y; 
+
+		if (staticOrientedBox.Contains(dynamicOrientedBox) == DirectX::DISJOINT)
+			dynamicTransform->SetPosition(Vector3(dynamicPosition.x, dynamicPreviousPosition.y, dynamicPosition.z), false);
+
+		// INFO: Z-axis
+		dynamicOrientedBox.Center.z = dynamicPreviousPosition.z;
+
+		if (staticOrientedBox.Contains(dynamicOrientedBox) == DirectX::DISJOINT)
+			dynamicTransform->SetPosition(Vector3(dynamicPosition.x, dynamicPosition.y, dynamicPreviousPosition.z), false);
+	}
 }
 
 void ComponentHandler::ResolveSphereSphere(std::shared_ptr<SphereCollider>& sphere1, std::shared_ptr<SphereCollider>& sphere2)
 {
-	/*
-	* 1. If both are static (No rigidbodies) then we just return
-	* 2. If one is static and the other is dynamic then we:
-	*		a). Figure out which previous axis are no longer colliding by individually checking each previous axis position
-	*		b). Revert the dynamic object's position on those axis only
-	* 3. If both are dynamic then we:
-	* 		a). Figure out which previous axis are no longer colliding by individually checking each previous axis position
-	* 		b). Revert both dynamic object's position on those axis only
-	*/
+	std::shared_ptr<Rigidbody> rb1 = sphere1->GetGameObject()->GetComponent<Rigidbody>().lock();
+	std::shared_ptr<Rigidbody> rb2 = sphere2->GetGameObject()->GetComponent<Rigidbody>().lock();
+
+	// INFO: Both objects are static
+	if (!rb1 && !rb2)
+		return;
+
+	// INFO: One object is static
+	if (!rb1 || !rb2)
+	{
+		std::shared_ptr<SphereCollider>& staticCollider = rb1 ? sphere2 : sphere1;
+		std::shared_ptr<SphereCollider>& dynamicCollider = rb1 ? sphere1 : sphere2;
+
+		std::shared_ptr<Transform> dynamicTransform = dynamicCollider->GetGameObject()->transform.lock();
+		Vector3 dynamicPreviousPosition = dynamicCollider->GetPreviousPosition();
+		Vector3 dynamicPosition = dynamicTransform->GetPosition();
+
+		BoundingSphere& staticSphere = staticCollider->GetSphere();
+		BoundingSphere& dynamicSphere = dynamicCollider->GetSphere();
+
+		// INFO: Check for collision on each axis individually
+
+		// INFO: X-axis
+		dynamicSphere.Center.x = dynamicPreviousPosition.x; // NOTE: Doesn't require changing back because it'll get updated in the next frame
+
+		// INFO: By reverting a singular axis, if they are no longer colliding we revert the dynamic object's position on that axis only
+		if (staticSphere.Contains(dynamicSphere) == DirectX::DISJOINT)
+			dynamicTransform->SetPosition(Vector3(dynamicPreviousPosition.x, dynamicPosition.y, dynamicPosition.z), false);
+
+		// INFO: Y-axis
+		dynamicSphere.Center.y = dynamicPreviousPosition.y;
+
+		if (staticSphere.Contains(dynamicSphere) == DirectX::DISJOINT)
+			dynamicTransform->SetPosition(Vector3(dynamicPosition.x, dynamicPreviousPosition.y, dynamicPosition.z), false);
+
+		// INFO: Z-axis
+		dynamicSphere.Center.z = dynamicPreviousPosition.z;
+
+		if (staticSphere.Contains(dynamicSphere) == DirectX::DISJOINT)
+			dynamicTransform->SetPosition(Vector3(dynamicPosition.x, dynamicPosition.y, dynamicPreviousPosition.z), false);
+	}
 }
 
 void ComponentHandler::ResolveBoxSphere(std::shared_ptr<BoxCollider>& box, std::shared_ptr<SphereCollider>& sphere)
 {
-	/*
-	* 1. If both are static (No rigidbodies) then we just return
-	* 2. If one is static and the other is dynamic then we:
-	*		a). Figure out which previous axis are no longer colliding by individually checking each previous axis position
-	*		b). Revert the dynamic object's position on those axis only
-	* 3. If both are dynamic then we:
-	* 		a). Figure out which previous axis are no longer colliding by individually checking each previous axis position
-	* 		b). Revert both dynamic object's position on those axis only
-	*/
+	std::shared_ptr<Rigidbody> rbBox = box->GetGameObject()->GetComponent<Rigidbody>().lock();
+	std::shared_ptr<Rigidbody> rbSphere = sphere->GetGameObject()->GetComponent<Rigidbody>().lock();
+
+	// INFO: Both objects are static
+	if (!rbBox && !rbSphere)
+		return;
+
+	// INFO: One object is static
+	if (!rbBox || !rbSphere)
+	{
+		BoundingOrientedBox& orientedBox = box->GetOrientedBox();
+		BoundingSphere& boundingSphere = sphere->GetSphere();
+
+		std::shared_ptr<Transform> dynamicTransform = rbBox ? box->GetGameObject()->transform.lock() : sphere->GetGameObject()->transform.lock();
+		Vector3 dynamicPreviousPosition = rbBox ? box->GetPreviousPosition() : sphere->GetPreviousPosition();
+		Vector3 dynamicPosition = dynamicTransform->GetPosition();
+
+		// INFO: Check for collision on each axis individually
+
+		// INFO: X-axis
+		if (rbBox)
+			orientedBox.Center.x = dynamicPreviousPosition.x; // NOTE: Doesn't require changing back because it'll get updated in the next frame
+		else
+			boundingSphere.Center.x = dynamicPreviousPosition.x; // NOTE: Doesn't require changing back because it'll get updated in the next frame
+
+		// INFO: By reverting a singular axis, if they are no longer colliding we revert the dynamic object's position on that axis only
+		if (orientedBox.Contains(boundingSphere) == DirectX::DISJOINT)
+			dynamicTransform->SetPosition(Vector3(dynamicPreviousPosition.x, dynamicPosition.y, dynamicPosition.z), false);
+
+		// INFO: Y-axis
+		if (rbBox)
+			orientedBox.Center.y = dynamicPreviousPosition.y;
+		else
+			boundingSphere.Center.y = dynamicPreviousPosition.y;
+
+		if (orientedBox.Contains(boundingSphere) == DirectX::DISJOINT)
+			dynamicTransform->SetPosition(Vector3(dynamicPosition.x, dynamicPreviousPosition.y, dynamicPosition.z), false);
+
+		// INFO: Z-axis
+		if (rbBox)
+			orientedBox.Center.z = dynamicPreviousPosition.z;
+		else
+			boundingSphere.Center.z = dynamicPreviousPosition.z;
+
+		if (orientedBox.Contains(boundingSphere) == DirectX::DISJOINT)
+			dynamicTransform->SetPosition(Vector3(dynamicPosition.x, dynamicPosition.y, dynamicPreviousPosition.z), false);
+	}
 }

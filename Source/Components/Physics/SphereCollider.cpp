@@ -9,7 +9,7 @@ SphereCollider::SphereCollider(GameObject* _gameObject, float radius) : Collider
 	colliderType = Type::Sphere;
 
 	// INFO: Initialise the sphere
-	if (auto transform = GetGameObject()->transform.lock())
+	if (std::shared_ptr<Transform> transform = GetGameObject()->transform.lock())
 	{
 		sphere.Center = transform->GetPosition();
 		sphere.Radius = radius;
@@ -23,7 +23,7 @@ SphereCollider::~SphereCollider()
 void SphereCollider::Update(float deltaTime)
 {
 	// INFO: Match the sphere with the transform of the game object
-	if (auto transform = GetGameObject()->transform.lock())
+	if (std::shared_ptr<Transform> transform = GetGameObject()->transform.lock())
 	{
 		sphere.Center = transform->GetPosition();
 	}

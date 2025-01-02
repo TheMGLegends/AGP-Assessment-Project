@@ -221,7 +221,7 @@ void Renderer::RenderFrame(Scene* scene)
 		Material* material = mesh->GetMaterial();
 
 		GameObject* owningGameObject = mesh->GetGameObject();
-		auto owningGameObjectTransform = owningGameObject->transform.lock();
+		std::shared_ptr<Transform> owningGameObjectTransform = owningGameObject->transform.lock();
 
 		if (!mesh || !material || !owningGameObject || !owningGameObjectTransform)
 		{

@@ -9,7 +9,7 @@ BoxCollider::BoxCollider(GameObject* _gameObject) : Collider(_gameObject)
 	colliderType = Type::Box;
 
 	// INFO: Initialise the orientedBox
-	if (auto transform = GetGameObject()->transform.lock())
+	if (std::shared_ptr<Transform> transform = GetGameObject()->transform.lock())
 	{
 		orientedBox.Center = transform->GetPosition();
 		orientedBox.Extents = transform->GetScale(); // TODO: Maybe / 2.0f?
@@ -24,7 +24,7 @@ BoxCollider::~BoxCollider()
 void BoxCollider::Update(float deltaTime)
 {
 	// INFO: Match the orientedBox with the transform of the game object
-	if (auto transform = GetGameObject()->transform.lock())
+	if (std::shared_ptr<Transform> transform = GetGameObject()->transform.lock())
 	{
 		orientedBox.Center = transform->GetPosition();
 		orientedBox.Extents = transform->GetScale(); // TODO: Maybe / 2.0f?

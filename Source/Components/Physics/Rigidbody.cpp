@@ -24,6 +24,6 @@ void Rigidbody::Update(float deltaTime)
 	Vector3 displacement = 0.5f * acceleration * (deltaTime * deltaTime) + velocity * deltaTime;
 
 	// INFO: Update the position of the game object
-	if (auto transform = GetGameObject()->transform.lock())
+	if (std::shared_ptr<Transform> transform = GetGameObject()->transform.lock())
 		transform->Translate(displacement);
 }

@@ -8,7 +8,6 @@
 class BoxCollider;
 class Collider;
 class Emitter;
-class Light;
 class Mesh;
 class SphereCollider;
 class Rigidbody;
@@ -44,7 +43,6 @@ private:
 private:
 	static std::vector<std::weak_ptr<Collider>> colliders;
 	static std::vector<std::weak_ptr<Emitter>> emitters;
-	static std::vector<std::weak_ptr<Light>> lights;
 	static std::vector<std::weak_ptr<Mesh>> meshes;
 	static std::vector<std::weak_ptr<Rigidbody>> rigidbodies;
 };

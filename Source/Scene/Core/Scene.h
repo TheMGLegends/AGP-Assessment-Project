@@ -1,7 +1,12 @@
 #pragma once
 
+#include <array>
 #include <memory>
 #include <vector>
+
+#include "../../Lighting/AmbientLight.h"
+#include "../../Lighting/DirectionalLight.h"
+#include "../../Lighting/PointLight.h"
 
 class Camera;
 class GameObject;
@@ -23,10 +28,16 @@ public:
 	void LateUpdate(float deltaTime);
 	void ProcessDestroyedGameObjects();
 
+	const std::vector<std::unique_ptr<UserInterfaceElement>>& GetUserInterfaceElements() const;
+
 	Camera* GetCamera() const;
 	Skybox* GetSkybox() const;
 
-	const std::vector<std::unique_ptr<UserInterfaceElement>>& GetUserInterfaceElements() const;
+	inline const AmbientLight& GetAmbientLight() const { return ambientLight; }
+	inline const DirectionalLight& GetDirectionalLight() const { return directionalLight; }
+
+	void AddPointLight(const PointLight& pointLight);
+	inline const std::array<PointLight, MAX_POINT_LIGHTS>& GetPointLights() const { return pointLights; }
 
 protected:
 	std::vector<std::unique_ptr<GameObject>> gameObjects;
@@ -34,5 +45,11 @@ protected:
 
 	std::unique_ptr<Camera> camera;
 	std::unique_ptr<Skybox> skybox;
+
+	AmbientLight ambientLight;
+	DirectionalLight directionalLight;
+
+private:
+	std::array<PointLight, MAX_POINT_LIGHTS> pointLights;
 };
 

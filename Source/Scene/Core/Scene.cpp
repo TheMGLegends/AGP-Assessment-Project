@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include <DirectXMath.h>
+
 #include "SceneContext.h"
 #include "../../Game/Camera/Camera.h"
 #include "../../Game/GameObjects/Core/GameObject.h"
@@ -8,8 +10,9 @@
 #include "../../Utilities/Debugging/DebugUtils.h"
 
 using namespace DebugUtils;
+using namespace DirectX;
 
-Scene::Scene() : gameObjects(), uiElements(), camera(nullptr), skybox(nullptr)
+Scene::Scene() : gameObjects(), uiElements(), camera(nullptr), skybox(nullptr), ambientLight(), directionalLight(), pointLights()
 {
 }
 
@@ -19,13 +22,16 @@ Scene::~Scene()
 
 bool Scene::Initialise()
 {
-	// INFO: Default implementation creates a directional light game object
-	//       a camera and a skybox
-	
-	// TODO: Create a directional light game object
 	camera = std::make_unique<Camera>();
     // TODO: Pick proper material and model
 	skybox = std::make_unique<Skybox>("Cube", "TestMaterial");
+
+	// INFO: Default ambient light
+	ambientLight.SetColour(XMVectorSet(0.1f, 0.1f, 0.1f, 1.0f));
+
+	// INFO: Default directional light
+	directionalLight.SetColour(XMVectorSet(0.2788f, 0.7063f, 0.6506f, 1.0f));
+	directionalLight.SetDirection(XMVectorSet(0.96f, 0.8f, 0.75f, 0.0f));
 
 	// INFO: Reference the scene in the scene context
 	SceneContext::SetScene(this);
@@ -109,6 +115,11 @@ void Scene::ProcessDestroyedGameObjects()
 	gameObjects.end());
 }
 
+const std::vector<std::unique_ptr<UserInterfaceElement>>& Scene::GetUserInterfaceElements() const
+{
+	return uiElements;
+}
+
 Camera* Scene::GetCamera() const
 {
 	return camera.get();
@@ -119,7 +130,24 @@ Skybox* Scene::GetSkybox() const
 	return skybox.get();
 }
 
-const std::vector<std::unique_ptr<UserInterfaceElement>>& Scene::GetUserInterfaceElements() const
+void Scene::AddPointLight(const PointLight& pointLight)
 {
-	return uiElements;
+	for (size_t i = 0; i < MAX_POINT_LIGHTS; ++i)
+	{
+		// INFO: Overrides the first disabled point light
+		if (!pointLights[i].GetIsEnabled())
+		{
+			pointLights[i] = pointLight;
+
+			// INFO: Extra security to ensure the point light is enabled
+			pointLights[i].SetIsEnabled(TRUE);
+			return;
+		}
+	}
+
+	// INFO: Given that no point light was disabled, the first point light is overridden
+	pointLights[0] = pointLight;
+	pointLights[0].SetIsEnabled(TRUE);
+
+	LogWarning("Scene::AddPointLight(): No disabled point light found, overriding the first point light!");
 }

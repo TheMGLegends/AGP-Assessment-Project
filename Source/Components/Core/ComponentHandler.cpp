@@ -1,6 +1,5 @@
 #include "ComponentHandler.h"
 
-//#include "../../Components/Lighting/Light.h"
 #include "../../Components/Mesh/Mesh.h"
 #include "../../Components/Emitter/Emitter.h"
 #include "../../Components/Physics/BoxCollider.h"
@@ -11,7 +10,6 @@
 
 std::vector<std::weak_ptr<Collider>> ComponentHandler::colliders;
 std::vector<std::weak_ptr<Emitter>> ComponentHandler::emitters;
-std::vector<std::weak_ptr<Light>> ComponentHandler::lights;
 std::vector<std::weak_ptr<Mesh>> ComponentHandler::meshes;
 std::vector<std::weak_ptr<Rigidbody>> ComponentHandler::rigidbodies;
 
@@ -21,8 +19,6 @@ using namespace DirectX::SimpleMath;
 
 void ComponentHandler::Update(float deltaTime)
 {
-	// TODO: Order of component updates here
-
 	// INFO: Update Rigidbodies
 	for (const auto& rb : rigidbodies)
 	{
@@ -185,12 +181,6 @@ void ComponentHandler::ClearExpired()
 		[](const std::weak_ptr<Emitter>& emitter) { return emitter.expired(); }),
 	emitters.end());
 
-	// INFO: Clear all expired lights
-	lights.erase(
-		std::remove_if(lights.begin(), lights.end(),
-		[](const std::weak_ptr<Light>& light) { return light.expired(); }),
-	lights.end());
-
 	// INFO: Clear all expired meshes
 	meshes.erase(
 		std::remove_if(meshes.begin(), meshes.end(),
@@ -206,15 +196,11 @@ void ComponentHandler::ClearExpired()
 
 void ComponentHandler::RegisterComponent(const std::shared_ptr<Component>& component)
 {
-	// TODO: This stuff right here
-
 	// INFO: Register the component
 	if (std::shared_ptr<Collider> collider = std::dynamic_pointer_cast<Collider>(component))
 		colliders.push_back(collider);
 	else if (std::shared_ptr<Emitter> emitter = std::dynamic_pointer_cast<Emitter>(component))
 		emitters.push_back(emitter);
-	//else if (std::shared_ptr<Light> light = std::dynamic_pointer_cast<Light>(component))
-	//	lights.push_back(light);
 	else if (std::shared_ptr<Mesh> mesh = std::dynamic_pointer_cast<Mesh>(component))
 		meshes.push_back(mesh);
 	else if (std::shared_ptr<Rigidbody> rigidbody = std::dynamic_pointer_cast<Rigidbody>(component))

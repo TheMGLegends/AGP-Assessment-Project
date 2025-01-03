@@ -2,7 +2,7 @@
 
 #include <DirectXMath.h>
 
-//#include "../../Components/Lighting/Light.h"
+#include "../../Lighting/PointLight.h"
 #include "../../Utilities/MathUtils.h"
 
 namespace ConstantBuffers
@@ -24,8 +24,7 @@ namespace ConstantBuffers
 		DirectX::XMVECTOR ambientLightColour;
 		DirectX::XMVECTOR directionalLightColour;
 		DirectX::XMVECTOR directionalLightDirection;
-		// TODO: Point Lights
-		// PointLight pointLights[LightConfig::MAX_LIGHTS];
+		PointLight pointLights[MAX_POINT_LIGHTS];
 	};
 
 	struct ReflectiveVSBuffer
@@ -35,8 +34,7 @@ namespace ConstantBuffers
 		DirectX::XMVECTOR ambientLightColour;
 		DirectX::XMVECTOR directionalLightColour;
 		DirectX::XMVECTOR directionalLightDirection;
-		// TODO: Point Lights
-		// PointLight pointLights[LightConfig::MAX_LIGHTS];
+		PointLight pointLights[MAX_POINT_LIGHTS];
 	};
 
 	struct ReflectivePSBuffer

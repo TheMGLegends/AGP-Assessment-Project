@@ -1,6 +1,5 @@
 #include "Renderer.h"
 
-
 #include "Skybox.h"
 #include "../../Assets/AssetHandler.h"
 #include "../../Assets/ConstantBuffers/ConstantBuffers.h"
@@ -10,6 +9,7 @@
 #include "../../Game/Camera/Camera.h"
 #include "../../Game/GameObjects/Core/GameObject.h"
 #include "../../Game/GameObjects/Default/Particle.h"
+#include "../../Lighting/PointLight.h"
 #include "../../Scene/Core/Scene.h"
 #include "../../UI/Core/UserInterfaceElement.h"
 #include "../../Utilities/Debugging/DebugUtils.h"
@@ -211,6 +211,11 @@ void Renderer::RenderFrame(Scene* scene)
 	XMMATRIX viewMatrix = camera->GetViewMatrix();
 	XMMATRIX projectionMatrix = camera->GetProjectionMatrix();
 
+	// INFO: Get the lights we need
+	const AmbientLight& ambientLight = scene->GetAmbientLight();
+	const DirectionalLight& directionalLight = scene->GetDirectionalLight();
+	const std::array<PointLight, MAX_POINT_LIGHTS>& pointLights = scene->GetPointLights();
+
 	// INFO: Render the skybox
 	skybox->Draw(deviceContext.Get(), translationMatrix, viewMatrix, projectionMatrix);
 
@@ -247,9 +252,27 @@ void Renderer::RenderFrame(Scene* scene)
 			{
 				LitVSBuffer litVSBuffer{};
 
+				XMMATRIX inverseWorldMatrix = XMMatrixInverse(nullptr, worldMatrix);
+				XMMATRIX transposeWorldMatrix = XMMatrixTranspose(worldMatrix);
+
 				litVSBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
 
-				// TODO: Set the light properties
+				litVSBuffer.ambientLightColour = ambientLight.GetColour();
+
+				litVSBuffer.directionalLightColour = directionalLight.GetColour();
+				litVSBuffer.directionalLightDirection = XMVector3Transform(directionalLight.GetDirection(), transposeWorldMatrix);
+
+				// INFO: Go through all point lights
+				for (size_t i = 0; i < MAX_POINT_LIGHTS; ++i)
+				{
+					if (!pointLights[i].GetIsEnabled())
+						continue;
+
+					litVSBuffer.pointLights[i].SetColour(pointLights[i].GetColour());
+					litVSBuffer.pointLights[i].SetPosition(XMVector3Transform(pointLights[i].GetPosition(), inverseWorldMatrix));
+					litVSBuffer.pointLights[i].SetStrength(pointLights[i].GetStrength());
+					litVSBuffer.pointLights[i].SetIsEnabled(pointLights[i].GetIsEnabled());
+				}
 
 				deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &litVSBuffer, 0, 0);
 				break;
@@ -267,10 +290,28 @@ void Renderer::RenderFrame(Scene* scene)
 			{
 				ReflectiveVSBuffer reflectiveVSBuffer{};
 
+				XMMATRIX inverseWorldMatrix = XMMatrixInverse(nullptr, worldMatrix);
+				XMMATRIX transposeWorldMatrix = XMMatrixTranspose(worldMatrix);
+
 				reflectiveVSBuffer.wvp = worldMatrix * viewMatrix * projectionMatrix;
 				reflectiveVSBuffer.wv = worldMatrix * viewMatrix;
 
-				// TODO: Set the light properties
+				reflectiveVSBuffer.ambientLightColour = ambientLight.GetColour();
+
+				reflectiveVSBuffer.directionalLightColour = directionalLight.GetColour();
+				reflectiveVSBuffer.directionalLightDirection = XMVector3Transform(directionalLight.GetDirection(), transposeWorldMatrix);
+
+				// INFO: Go through all point lights
+				for (size_t i = 0; i < MAX_POINT_LIGHTS; ++i)
+				{
+					if (!pointLights[i].GetIsEnabled())
+						continue;
+
+					reflectiveVSBuffer.pointLights[i].SetColour(pointLights[i].GetColour());
+					reflectiveVSBuffer.pointLights[i].SetPosition(XMVector3Transform(pointLights[i].GetPosition(), inverseWorldMatrix));
+					reflectiveVSBuffer.pointLights[i].SetStrength(pointLights[i].GetStrength());
+					reflectiveVSBuffer.pointLights[i].SetIsEnabled(pointLights[i].GetIsEnabled());
+				}
 
 				deviceContext->UpdateSubresource(constantBuffer, 0, nullptr, &reflectiveVSBuffer, 0, 0);
 				break;

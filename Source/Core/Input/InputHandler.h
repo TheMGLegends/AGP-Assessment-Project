@@ -69,6 +69,7 @@ public:
 	static bool GetMouseButtonDown(MouseButton mouseButton);
 	static bool GetMouseButtonUp(MouseButton mouseButton);
 	static inline DirectX::XMINT2 GetMousePosition() { return DirectX::XMINT2(mouseState.x, mouseState.y); }
+	static bool IsMouseInsideWindow(HWND hWnd);
 	static inline void ClearMouseButtonBindings() { mouseActions.clear(); }
 	static inline void ClearMouseButtonBinding(MouseButton mouseButton) { mouseActions.erase(mouseButton); }
 

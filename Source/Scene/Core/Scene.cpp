@@ -27,7 +27,7 @@ bool Scene::Initialise()
 	camera->GetFreeCamInfo().isFreeCam = true;
 
     // TODO: Pick proper material and model
-	skybox = std::make_unique<Skybox>("Cube", "SkyboxMaterial");
+	skybox = std::make_unique<Skybox>("Cube", "GalaxySkyboxMaterial");
 
 	// INFO: Default ambient light
 	ambientLight.SetColour(XMVectorSet(0.1f, 0.1f, 0.1f, 1.0f));

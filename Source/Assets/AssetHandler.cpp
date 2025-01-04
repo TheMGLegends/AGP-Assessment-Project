@@ -100,6 +100,7 @@ HRESULT AssetHandler::LoadAssets()
 	// INFO: Load Textures
 	if (FAILED(LoadTexture("Box", L"Resources/Textures/Box.bmp"))) return E_FAIL;
 	if (FAILED(LoadTexture("DebugSkybox", L"Resources/Textures/DebugSkybox.dds", true))) return E_FAIL;
+	if (FAILED(LoadTexture("GalaxySkybox", L"Resources/Textures/GalaxySkybox.dds", true))) return E_FAIL;
 	
 	// INFO: Load Fonts
 	if (FAILED(LoadFont("SimpleFont", L"Resources/Fonts/SimpleFont.spriteFont"))) return E_FAIL;
@@ -128,8 +129,12 @@ HRESULT AssetHandler::LoadAssets()
 	if (FAILED(LoadBlendState(BlendStateType::Disabled))) return E_FAIL;
 
 	// INFO: Load Materials
-	Material* skyboxMaterial = new Material("Skybox", "Skybox", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Disabled, CullingModeType::FrontSolid, BlendStateType::None, "DebugSkybox");
-	if (FAILED(LoadMaterial("SkyboxMaterial", skyboxMaterial))) return E_FAIL;
+	Material* debugSkyboxMaterial = new Material("Skybox", "Skybox", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Disabled, CullingModeType::FrontSolid, BlendStateType::None, "DebugSkybox");
+	if (FAILED(LoadMaterial("DebugSkyboxMaterial", debugSkyboxMaterial))) return E_FAIL;
+
+	Material* galaxySkyboxMaterial = new Material("Skybox", "Skybox", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Disabled, CullingModeType::FrontSolid, BlendStateType::None, "GalaxySkybox");
+	if (FAILED(LoadMaterial("GalaxySkyboxMaterial", galaxySkyboxMaterial))) return E_FAIL;
+
 	// TODO: TEST MATERIAL
 	Material* testMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Box", "DebugSkybox");
 	testMaterial->AddConstantBuffer(ConstantBufferType::ReflectivePS, ConstantBufferInfo::ShaderType::Pixel);

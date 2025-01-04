@@ -10,7 +10,7 @@ struct FreeCamInfo
 	float movementSpeed;
 	float rotationSpeed;
 
-	FreeCamInfo() : isFreeCam(false), movementSpeed(2.0f), rotationSpeed(0.001f) {};
+	FreeCamInfo() : isFreeCam(false), movementSpeed(5.0f), rotationSpeed(0.001f) {};
 	FreeCamInfo(bool _isFreeCam, float _movementSpeed, float _rotationSpeed) : isFreeCam(_isFreeCam), 
 																			   movementSpeed(_movementSpeed), 
 																			   rotationSpeed(_rotationSpeed) {};
@@ -23,7 +23,7 @@ struct ProjectionInfo
 	float nearZ;
 	float farZ;
 
-	ProjectionInfo() : fovAngleY(60), aspectRatio(16.0f / 9.0f), 
+	ProjectionInfo() : fovAngleY(90.0f), aspectRatio(16.0f / 9.0f), 
 					   nearZ(0.1f), farZ(100.0f) {};
 
 	/// @param _fovAngleY : In degrees
@@ -74,14 +74,11 @@ private:
 	DirectX::SimpleMath::Vector3 position;
 	DirectX::SimpleMath::Vector3 offset;
 	DirectX::SimpleMath::Quaternion rotation;
-	DirectX::SimpleMath::Vector2 pitchConstraints;
+	DirectX::SimpleMath::Vector2 pitchConstraints; // NOTE: x = min, y = max in radians
 
 	Transform* target;
 
 	FreeCamInfo freeCamInfo;
 	ProjectionInfo projectionInfo;
-
-	float yaw;
-	float pitch;
 };
 

@@ -91,6 +91,9 @@ void Application::RenderFrame()
 
 void Application::SwitchMouseMode()
 {
+	if (!InputHandler::IsMouseInsideWindow(window.GetWindowHandle()))
+		return;
+
 	if (InputHandler::GetMouseMode() == Mouse::Mode::MODE_ABSOLUTE)
 		InputHandler::SetMouseMode(Mouse::Mode::MODE_RELATIVE);
 	else

@@ -95,15 +95,22 @@ void InputHandler::SetMouseMode(DirectX::Mouse::Mode mouseMode)
 {
 	if (mouseMode == currentMouseMode)
 		return;
-
+	
 	currentMouseMode = mouseMode;
+
+	mouse->SetMode(currentMouseMode);
+
 
 	if (currentMouseMode == Mouse::Mode::MODE_ABSOLUTE)
 		ShowCursor(TRUE);
 	else if (currentMouseMode == Mouse::Mode::MODE_RELATIVE)
-		ShowCursor(FALSE);
+	{
+		// INFO: Prevents jumping of looking when switching to relative mode
+		mouseState.x = 0;
+		mouseState.y = 0;
 
-	mouse->SetMode(currentMouseMode);
+		ShowCursor(FALSE);
+	}
 }
 
 bool InputHandler::GetMouseButton(MouseButton mouseButton)
@@ -152,4 +159,17 @@ bool InputHandler::GetMouseButtonUp(MouseButton mouseButton)
 	default:
 		return false;
 	}
+}
+
+bool InputHandler::IsMouseInsideWindow(HWND hWnd)
+{
+	POINT mousePosition;
+	GetCursorPos(&mousePosition);
+
+	ScreenToClient(hWnd, &mousePosition);
+
+	RECT clientRect;
+	GetClientRect(hWnd, &clientRect);
+
+	return PtInRect(&clientRect, mousePosition);
 }

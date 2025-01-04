@@ -2,12 +2,14 @@
 
 #include "../../Components/Transform/Transform.h"
 #include "../../Core/Input/InputHandler.h"
+#include "../../Utilities/MathUtils.h"
 
 using namespace DirectX::SimpleMath;
+using namespace MathUtils;
 
 Camera::Camera() : position(Vector3::Zero), offset(Vector3::Zero),
 				   rotation(Quaternion::CreateFromYawPitchRoll(DirectX::XM_PI, 0.0f, 0.0f)),
-				   pitchConstraints(1.0f, 179.0f), target(nullptr), freeCamInfo(FreeCamInfo()), projectionInfo(ProjectionInfo())
+				   pitchConstraints(-1.49f, 1.49f), target(nullptr), freeCamInfo(FreeCamInfo()), projectionInfo(ProjectionInfo())
 {
 }
 
@@ -65,10 +67,15 @@ void Camera::Update(float deltaTime)
 		{
 			DirectX::XMINT2 mouseInput = InputHandler::GetMousePosition();
 
-			yaw += mouseInput.x * freeCamInfo.rotationSpeed;
-			pitch -= mouseInput.y * freeCamInfo.rotationSpeed;
+			// INFO: Euler rotation in radians
+			Vector3 eulerRotation = rotation.ToEuler(); 
 
-			rotation = Quaternion::CreateFromYawPitchRoll(yaw, pitch, 0.0f);
+			eulerRotation.y += mouseInput.x * freeCamInfo.rotationSpeed;
+			eulerRotation.x -= mouseInput.y * freeCamInfo.rotationSpeed;
+
+			eulerRotation.x = Clamp(eulerRotation.x, pitchConstraints.x, pitchConstraints.y);
+
+			rotation = Quaternion::CreateFromYawPitchRoll(eulerRotation.y, eulerRotation.x, 0.0f);
 		}
 
 		// INFO: Movement

@@ -99,6 +99,8 @@ HRESULT AssetHandler::LoadAssets()
 
 	// INFO: Load Textures
 	if (FAILED(LoadTexture("Box", L"Resources/Textures/Box.jpg"))) return E_FAIL;
+	if (FAILED(LoadTexture("Blue", L"Resources/Textures/Blue.png"))) return E_FAIL;
+
 	if (FAILED(LoadTexture("DebugSkybox", L"Resources/Textures/DebugSkybox.dds", true))) return E_FAIL;
 	if (FAILED(LoadTexture("GalaxySkybox", L"Resources/Textures/GalaxySkybox.dds", true))) return E_FAIL;
 	
@@ -136,12 +138,14 @@ HRESULT AssetHandler::LoadAssets()
 	if (FAILED(LoadMaterial("GalaxySkyboxMaterial", galaxySkyboxMaterial))) return E_FAIL;
 
 	// TODO: TEST MATERIAL
-	Material* testMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Box", "DebugSkybox");
+	Material* testMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Box", "");
 	testMaterial->AddConstantBuffer(ConstantBufferType::ReflectivePS, ConstantBufferInfo::ShaderType::Pixel);
 	if (FAILED(LoadMaterial("TestMaterial", testMaterial))) return E_FAIL;
 
 	// INFO: Load Models
+	if (FAILED(LoadModel("Capsule", (char*)"Resources/Models/Capsule.obj"))) return E_FAIL;
 	if (FAILED(LoadModel("Cube", (char*)"Resources/Models/Cube.obj"))) return E_FAIL;
+	if (FAILED(LoadModel("Quad", (char*)"Resources/Models/Quad.obj"))) return E_FAIL;
 	if (FAILED(LoadModel("Sphere", (char*)"Resources/Models/Sphere.obj"))) return E_FAIL;
 
 	return S_OK;

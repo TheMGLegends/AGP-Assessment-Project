@@ -290,7 +290,7 @@ bool Model::CreateVB()
 		if (tIndices.size() > 0)
 		{ 
 			// if there are any, set texture coord data
-			int tindex = tIndices[i]-1;
+			int tindex = tIndices.at(i % tIndices.size()) - 1;
 			vertices[i].texCoord.x = texcoordList[tindex].x;
 			vertices[i].texCoord.y = texcoordList[tindex].y;
 		}
@@ -298,7 +298,7 @@ bool Model::CreateVB()
 		if (nIndices.size() > 0)
 		{
 			// if there are any, set normal data
-			int nindex = nIndices[i]-1;
+			int nindex = nIndices.at(i % nIndices.size()) - 1;
 			vertices[i].normal.x = normalList[nindex].x;
 			vertices[i].normal.y = normalList[nindex].y;
 			vertices[i].normal.z = normalList[nindex].z;

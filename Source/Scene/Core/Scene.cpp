@@ -23,6 +23,9 @@ Scene::~Scene()
 bool Scene::Initialise()
 {
 	camera = std::make_unique<Camera>();
+	// TEST CODE
+	camera->GetFreeCamInfo().isFreeCam = true;
+
     // TODO: Pick proper material and model
 	skybox = std::make_unique<Skybox>("Cube", "SkyboxMaterial");
 

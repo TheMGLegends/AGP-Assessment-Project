@@ -131,7 +131,7 @@ HRESULT AssetHandler::LoadAssets()
 	Material* skyboxMaterial = new Material("Skybox", "Skybox", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Disabled, CullingModeType::FrontSolid, BlendStateType::None, "DebugSkybox");
 	if (FAILED(LoadMaterial("SkyboxMaterial", skyboxMaterial))) return E_FAIL;
 	// TODO: TEST MATERIAL
-	Material* testMaterial = new Material("Lit", "Lit", ConstantBufferType::LitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::Disabled, "Box", "DebugSkybox");
+	Material* testMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Box", "DebugSkybox");
 	testMaterial->AddConstantBuffer(ConstantBufferType::ReflectivePS, ConstantBufferInfo::ShaderType::Pixel);
 	if (FAILED(LoadMaterial("TestMaterial", testMaterial))) return E_FAIL;
 

@@ -7,11 +7,13 @@ class Transform;
 struct FreeCamInfo
 {
 	bool isFreeCam;
-	float speed;
+	float movementSpeed;
+	float rotationSpeed;
 
-	FreeCamInfo() : isFreeCam(false), speed(1.0f) {};
-	FreeCamInfo(bool _isFreeCam, float _speed) : isFreeCam(_isFreeCam), 
-												 speed(_speed) {};
+	FreeCamInfo() : isFreeCam(false), movementSpeed(2.0f), rotationSpeed(0.001f) {};
+	FreeCamInfo(bool _isFreeCam, float _movementSpeed, float _rotationSpeed) : isFreeCam(_isFreeCam), 
+																			   movementSpeed(_movementSpeed), 
+																			   rotationSpeed(_rotationSpeed) {};
 };
 
 struct ProjectionInfo
@@ -36,8 +38,9 @@ class Camera
 public:
 	Camera();
 	Camera(const DirectX::SimpleMath::Vector3& _position, const DirectX::SimpleMath::Vector3& _offset, 
-		   const DirectX::SimpleMath::Quaternion& _rotation, const FreeCamInfo& _freeCamInfo = FreeCamInfo(), 
-		   const ProjectionInfo& _projectionInfo = ProjectionInfo(), Transform* _target = nullptr);
+		   const DirectX::SimpleMath::Quaternion& _rotation, const DirectX::SimpleMath::Vector2& _pitchConstraints, 
+		   const FreeCamInfo& _freeCamInfo = FreeCamInfo(), const ProjectionInfo& _projectionInfo = ProjectionInfo(), 
+		   Transform* _target = nullptr);
 	~Camera();
 
 	DirectX::XMMATRIX GetViewMatrix() const;
@@ -55,6 +58,9 @@ public:
 	inline const DirectX::SimpleMath::Vector3& GetPosition() const { return position; }
 	inline void SetOffset(const DirectX::SimpleMath::Vector3& _offset) { offset = _offset; }
 
+	inline void SetPitchConstraints(float minPitch, float maxPitch) { pitchConstraints = DirectX::SimpleMath::Vector2(minPitch, maxPitch); }
+	inline const DirectX::SimpleMath::Vector2& GetPitchConstraints() const { return pitchConstraints; }
+
 	/// @brief Setting target automatically sets camera to not be free
 	inline void SetTarget(Transform* _target) { target = _target; freeCamInfo.isFreeCam = false; }
 
@@ -68,10 +74,14 @@ private:
 	DirectX::SimpleMath::Vector3 position;
 	DirectX::SimpleMath::Vector3 offset;
 	DirectX::SimpleMath::Quaternion rotation;
+	DirectX::SimpleMath::Vector2 pitchConstraints;
 
 	Transform* target;
 
 	FreeCamInfo freeCamInfo;
 	ProjectionInfo projectionInfo;
+
+	float yaw;
+	float pitch;
 };
 

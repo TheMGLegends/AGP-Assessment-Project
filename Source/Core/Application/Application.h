@@ -21,6 +21,9 @@ public:
 	void SetIsRunning(bool _isRunning) { isRunning = _isRunning; }
 
 private:
+	void SwitchMouseMode();
+
+private:
 	Window window;
 	std::unique_ptr<Renderer> renderer;
 	std::unique_ptr<Scene> currentScene;

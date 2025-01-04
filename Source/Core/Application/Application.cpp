@@ -9,6 +9,7 @@
 #include "../../Utilities/Debugging/DebugUtils.h"
 
 using namespace DebugUtils;
+using namespace DirectX;
 
 Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& windowInfo) : window(), isRunning(false)
 {
@@ -39,6 +40,9 @@ Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& wi
 
 	// INFO: Set the window's quit callback
 	window.SetOnQuit([this]() { isRunning = false; });
+
+	// INFO: Setup input handling application specific bindings
+	InputHandler::BindKeyToAction(Keyboard::Keys::M, BindData(std::bind(&Application::SwitchMouseMode, this), ButtonState::Pressed));
 
 	isRunning = true;
 }
@@ -83,4 +87,12 @@ void Application::Update(float deltaTime)
 void Application::RenderFrame()
 {
 	renderer->RenderFrame(currentScene.get());
+}
+
+void Application::SwitchMouseMode()
+{
+	if (InputHandler::GetMouseMode() == Mouse::Mode::MODE_ABSOLUTE)
+		InputHandler::SetMouseMode(Mouse::Mode::MODE_RELATIVE);
+	else
+		InputHandler::SetMouseMode(Mouse::Mode::MODE_ABSOLUTE);
 }

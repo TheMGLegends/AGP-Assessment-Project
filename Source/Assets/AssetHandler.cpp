@@ -143,7 +143,6 @@ HRESULT AssetHandler::LoadAssets()
 	if (FAILED(LoadMaterial("TestMaterial", testMaterial))) return E_FAIL;
 
 	// INFO: Load Models
-	if (FAILED(LoadModel("Capsule", (char*)"Resources/Models/Capsule.obj"))) return E_FAIL;
 	if (FAILED(LoadModel("Cube", (char*)"Resources/Models/Cube.obj"))) return E_FAIL;
 	if (FAILED(LoadModel("Quad", (char*)"Resources/Models/Quad.obj"))) return E_FAIL;
 	if (FAILED(LoadModel("Sphere", (char*)"Resources/Models/Sphere.obj"))) return E_FAIL;

@@ -98,7 +98,7 @@ HRESULT AssetHandler::LoadAssets()
 	if (FAILED(LoadPixelShader("Skybox", L"Compiled Shaders/SkyboxPixelShader.cso"))) return E_FAIL;
 
 	// INFO: Load Textures
-	if (FAILED(LoadTexture("Box", L"Resources/Textures/Box.bmp"))) return E_FAIL;
+	if (FAILED(LoadTexture("Box", L"Resources/Textures/Box.jpg"))) return E_FAIL;
 	if (FAILED(LoadTexture("DebugSkybox", L"Resources/Textures/DebugSkybox.dds", true))) return E_FAIL;
 	if (FAILED(LoadTexture("GalaxySkybox", L"Resources/Textures/GalaxySkybox.dds", true))) return E_FAIL;
 	

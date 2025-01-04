@@ -2,7 +2,7 @@
 
 using namespace DirectX;
 
-GameObject::GameObject() : isActive(true), markedForDeletion(false)
+GameObject::GameObject() : isActive(true), layer(Layer::Default), markedForDeletion(false)
 {
 	transform = AddComponent<Transform>(this);
 }

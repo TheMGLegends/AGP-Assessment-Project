@@ -10,6 +10,15 @@
 
 class Component;
 
+enum class Layer
+{
+	Default,
+
+	Ground,
+	Player,
+	Coin
+};
+
 class GameObject
 {
 public:
@@ -27,6 +36,9 @@ public:
 
 	inline void SetIsActive(bool _isActive) { isActive = _isActive; }
 	inline bool GetIsActive() const { return isActive; }
+
+	inline void SetLayer(Layer _layer) { layer = _layer; }
+	inline Layer GetLayer() const { return layer; }
 
 	void Destroy();
 	inline bool GetIsMarkedForDeletion() const { return markedForDeletion; }
@@ -46,6 +58,7 @@ public:
 
 protected:
 	bool isActive;
+	Layer layer;
 
 private:
 	std::vector<std::shared_ptr<Component>> components;

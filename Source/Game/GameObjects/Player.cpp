@@ -5,6 +5,8 @@
 
 Player::Player()
 {
+	SetLayer(Layer::Player);
+
 	// TEST CODE
 	AddComponent<Mesh>(this, "Cube", "TestMaterial");
 }

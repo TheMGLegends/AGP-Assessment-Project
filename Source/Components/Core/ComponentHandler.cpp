@@ -75,7 +75,10 @@ void ComponentHandler::CheckCollisions()
 				{
 					// INFO: Handle via Trigger or Collision functions
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
-						HandleTriggerCollision(collider1, collider2);
+					{
+						collider1->ExecuteOnTrigger(collider2);
+						collider2->ExecuteOnTrigger(collider1);
+					}
 					else
 					{
 						collider1->ExecuteOnCollision(collider2);
@@ -101,7 +104,10 @@ void ComponentHandler::CheckCollisions()
 				{
 					// INFO: Handle via Trigger or Collision functions
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
-						HandleTriggerCollision(collider1, collider2);
+					{
+						collider1->ExecuteOnTrigger(collider2);
+						collider2->ExecuteOnTrigger(collider1);
+					}
 					else
 					{
 						collider1->ExecuteOnCollision(collider2);
@@ -127,7 +133,10 @@ void ComponentHandler::CheckCollisions()
 				{
 					// INFO: Handle via Trigger or Collision functions
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
-						HandleTriggerCollision(collider1, collider2);
+					{
+						collider1->ExecuteOnTrigger(collider2);
+						collider2->ExecuteOnTrigger(collider1);
+					}
 					else
 					{
 						collider1->ExecuteOnCollision(collider2);
@@ -153,7 +162,10 @@ void ComponentHandler::CheckCollisions()
 				{
 					// INFO: Handle via Trigger or Collision functions
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
-						HandleTriggerCollision(collider1, collider2);
+					{
+						collider1->ExecuteOnTrigger(collider2);
+						collider2->ExecuteOnTrigger(collider1);
+					}
 					else
 					{
 						collider1->ExecuteOnCollision(collider2);
@@ -210,25 +222,6 @@ void ComponentHandler::RegisterComponent(const std::shared_ptr<Component>& compo
 const std::vector<std::weak_ptr<Mesh>>& ComponentHandler::GetMeshes()
 {
 	return meshes;
-}
-
-void ComponentHandler::HandleTriggerCollision(std::shared_ptr<Collider> collider1, std::shared_ptr<Collider> collider2)
-{
-	if (collider1->GetIsTrigger() && collider2->GetIsTrigger())
-	{
-		collider1->ExecuteOnTrigger(collider2);
-		collider2->ExecuteOnTrigger(collider1);
-	}
-	else if (collider1->GetIsTrigger())
-	{
-		collider1->ExecuteOnTrigger(collider2);
-		collider2->ExecuteOnCollision(collider1);
-	}
-	else if (collider2->GetIsTrigger())
-	{
-		collider1->ExecuteOnCollision(collider2);
-		collider2->ExecuteOnTrigger(collider1);
-	}
 }
 
 void ComponentHandler::ResolveBoxBox(std::shared_ptr<BoxCollider>& box1, std::shared_ptr<BoxCollider>& box2)

@@ -30,12 +30,6 @@ public:
 	static const std::vector<std::weak_ptr<Mesh>>& GetMeshes();
 
 private:
-	/// @brief Handles the collision between two colliders where at least one of them is a trigger
-	static void HandleTriggerCollision(std::shared_ptr<Collider> collider1, std::shared_ptr<Collider> collider2);
-
-
-	// INFO: These functions handle the reverting of positions when two non-trigger colliders collide
-
 	static void ResolveBoxBox(std::shared_ptr<BoxCollider>& box1, std::shared_ptr<BoxCollider>& box2);
 	static void ResolveSphereSphere(std::shared_ptr<SphereCollider>& sphere1, std::shared_ptr<SphereCollider>& sphere2);
 	static void ResolveBoxSphere(std::shared_ptr<BoxCollider>& box, std::shared_ptr<SphereCollider>& sphere);

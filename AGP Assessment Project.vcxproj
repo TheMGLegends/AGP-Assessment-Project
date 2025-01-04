@@ -131,6 +131,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Assets\Collections\ConstantBufferData.cpp" />
+    <ClCompile Include="Source\Assets\Collections\VertexShaderData.cpp" />
     <ClCompile Include="Source\Lighting\PointLight.cpp" />
     <ClCompile Include="Source\Lighting\DirectionalLight.cpp" />
     <ClCompile Include="Source\Lighting\AmbientLight.cpp" />

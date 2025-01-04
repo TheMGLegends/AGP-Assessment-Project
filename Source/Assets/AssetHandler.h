@@ -43,17 +43,17 @@ public:
 
 	// INFO: Getters
 
-	static inline const VertexShaderData& GetVertexShaderData(const std::string& name) { return vertexShaderLib[name]; }
-	static inline ID3D11PixelShader* GetPixelShader(const std::string& name) { return pixelShaderLib[name].Get(); }
-	static inline ID3D11ShaderResourceView* GetTexture(const std::string& name) { return textureLib[name].Get(); }
-	static inline DirectX::SpriteFont* GetFont(const std::string& name) { return fontLib[name].get(); }
+	static const VertexShaderData& GetVertexShaderData(const std::string& name);
+	static ID3D11PixelShader* GetPixelShader(const std::string& name);
+	static ID3D11ShaderResourceView* GetTexture(const std::string& name);
+	static DirectX::SpriteFont* GetFont(const std::string& name);
 
-	static inline ID3D11SamplerState* GetSamplerState() { return samplerState.Get(); }
+	static ID3D11SamplerState* GetSamplerState() { return samplerState.Get(); }
 
-	static inline const ConstantBufferData& GetConstantBufferData(DirectXConfig::ConstantBufferType type) { return constantBufferLib[type]; }
-	static inline ID3D11DepthStencilState* GetDepthWrite(DirectXConfig::DepthWriteType type) { return depthWriteLib[type].Get(); }
-	static inline ID3D11RasterizerState* GetCullingMode(DirectXConfig::CullingModeType type) { return cullingModeLib[type].Get(); }
-	static inline ID3D11BlendState* GetBlendState(DirectXConfig::BlendStateType type) { return blendStateLib[type].Get(); }
+	static const ConstantBufferData& GetConstantBufferData(DirectXConfig::ConstantBufferType type);
+	static ID3D11DepthStencilState* GetDepthWrite(DirectXConfig::DepthWriteType type);
+	static ID3D11RasterizerState* GetCullingMode(DirectXConfig::CullingModeType type);
+	static ID3D11BlendState* GetBlendState(DirectXConfig::BlendStateType type);
 
 	static Material* GetMaterial(const std::string& name);
 	static Model* GetModel(const std::string& name);

@@ -196,6 +196,12 @@ LRESULT Window::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 	{
 		return MA_ACTIVATEANDEAT;
 	}
+	case WM_SIZE:
+	{
+		windowInfo.width = LOWORD(lParam);
+		windowInfo.height = HIWORD(lParam);
+		break;
+	}
 	default:
 	{
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);

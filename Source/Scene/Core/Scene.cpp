@@ -24,7 +24,7 @@ bool Scene::Initialise()
 {
 	camera = std::make_unique<Camera>();
     // TODO: Pick proper material and model
-	skybox = std::make_unique<Skybox>("Cube", "TestMaterial");
+	skybox = std::make_unique<Skybox>("Cube", "SkyboxMaterial");
 
 	// INFO: Default ambient light
 	ambientLight.SetColour(XMVectorSet(0.1f, 0.1f, 0.1f, 1.0f));

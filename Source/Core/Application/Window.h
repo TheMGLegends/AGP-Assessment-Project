@@ -35,6 +35,8 @@ public:
 	LRESULT HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	inline HWND GetWindowHandle() const { return hWnd; }
+	inline float GetAspectRatio() const { return static_cast<float>(windowInfo.width) / static_cast<float>(windowInfo.height); }
+
 	inline void SetOnQuit(std::function<void()> _OnQuit) { OnQuit = _OnQuit; }
 
 private:

@@ -128,6 +128,8 @@ HRESULT AssetHandler::LoadAssets()
 	if (FAILED(LoadBlendState(BlendStateType::Disabled))) return E_FAIL;
 
 	// INFO: Load Materials
+	Material* skyboxMaterial = new Material("Skybox", "Skybox", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Disabled, CullingModeType::FrontSolid, BlendStateType::None, "DebugSkybox");
+	if (FAILED(LoadMaterial("SkyboxMaterial", skyboxMaterial))) return E_FAIL;
 	// TODO: TEST MATERIAL
 	Material* testMaterial = new Material("Lit", "Lit", ConstantBufferType::LitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::Disabled, "Box", "DebugSkybox");
 	testMaterial->AddConstantBuffer(ConstantBufferType::ReflectivePS, ConstantBufferInfo::ShaderType::Pixel);
@@ -301,7 +303,7 @@ HRESULT AssetHandler::LoadFont(const std::string& name, LPCWSTR filename)
 	return S_OK;
 }
 
-HRESULT AssetHandler::LoadConstantBuffer(DirectXConfig::ConstantBufferType type)
+HRESULT AssetHandler::LoadConstantBuffer(ConstantBufferType type)
 {
 	HRESULT hResult = { S_OK };
 
@@ -354,7 +356,7 @@ HRESULT AssetHandler::LoadConstantBuffer(DirectXConfig::ConstantBufferType type)
 	return S_OK;
 }
 
-HRESULT AssetHandler::LoadDepthWrite(DirectXConfig::DepthWriteType type)
+HRESULT AssetHandler::LoadDepthWrite(DepthWriteType type)
 {
 	HRESULT hResult = { S_OK };
 
@@ -365,13 +367,13 @@ HRESULT AssetHandler::LoadDepthWrite(DirectXConfig::DepthWriteType type)
 	// INFO: Different DepthWriteMask based on the depth write type
 	switch (type)
 	{
-	case DirectXConfig::DepthWriteType::Enabled:
+	case DepthWriteType::Enabled:
 		depthStencilDescription.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 		break;
-	case DirectXConfig::DepthWriteType::Disabled:
+	case DepthWriteType::Disabled:
 		depthStencilDescription.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
 		break;
-	case DirectXConfig::DepthWriteType::None:
+	case DepthWriteType::None:
 	default:
 		break;
 	}
@@ -406,7 +408,7 @@ HRESULT AssetHandler::LoadDepthWrite(DirectXConfig::DepthWriteType type)
 	return S_OK;
 }
 
-HRESULT AssetHandler::LoadCullingMode(DirectXConfig::CullingModeType type)
+HRESULT AssetHandler::LoadCullingMode(CullingModeType type)
 {
 	HRESULT hResult = { S_OK };
 
@@ -417,27 +419,27 @@ HRESULT AssetHandler::LoadCullingMode(DirectXConfig::CullingModeType type)
 	// INFO: Different FillMode and CullMode based on the culling mode type
 	switch (type)
 	{
-	case DirectXConfig::CullingModeType::NoneSolid:
+	case CullingModeType::NoneSolid:
 		rasterizerDescription.FillMode = D3D11_FILL_SOLID;
 		rasterizerDescription.CullMode = D3D11_CULL_NONE;
 		break;
-	case DirectXConfig::CullingModeType::NoneWireframe:
+	case CullingModeType::NoneWireframe:
 		rasterizerDescription.FillMode = D3D11_FILL_WIREFRAME;
 		rasterizerDescription.CullMode = D3D11_CULL_NONE;
 		break;
-	case DirectXConfig::CullingModeType::FrontSolid:
+	case CullingModeType::FrontSolid:
 		rasterizerDescription.FillMode = D3D11_FILL_SOLID;
 		rasterizerDescription.CullMode = D3D11_CULL_FRONT;
 		break;
-	case DirectXConfig::CullingModeType::FrontWireframe:
+	case CullingModeType::FrontWireframe:
 		rasterizerDescription.FillMode = D3D11_FILL_WIREFRAME;
 		rasterizerDescription.CullMode = D3D11_CULL_FRONT;
 		break;
-	case DirectXConfig::CullingModeType::BackSolid:
+	case CullingModeType::BackSolid:
 		rasterizerDescription.FillMode = D3D11_FILL_SOLID;
 		rasterizerDescription.CullMode = D3D11_CULL_BACK;
 		break;
-	case DirectXConfig::CullingModeType::BackWireframe:
+	case CullingModeType::BackWireframe:
 		rasterizerDescription.FillMode = D3D11_FILL_WIREFRAME;
 		rasterizerDescription.CullMode = D3D11_CULL_BACK;
 		break;
@@ -469,7 +471,7 @@ HRESULT AssetHandler::LoadCullingMode(DirectXConfig::CullingModeType type)
 	return S_OK;
 }
 
-HRESULT AssetHandler::LoadBlendState(DirectXConfig::BlendStateType type)
+HRESULT AssetHandler::LoadBlendState(BlendStateType type)
 {
 	HRESULT hResult = { S_OK };
 
@@ -481,13 +483,13 @@ HRESULT AssetHandler::LoadBlendState(DirectXConfig::BlendStateType type)
 	// INFO: Different RenderTarget[0] based on the blend state type
 	switch (type)
 	{
-	case DirectXConfig::BlendStateType::Enabled:
+	case BlendStateType::Enabled:
 		blendDescription.RenderTarget[0].BlendEnable = TRUE;
 		break;
-	case DirectXConfig::BlendStateType::Disabled:
+	case BlendStateType::Disabled:
 		blendDescription.RenderTarget[0].BlendEnable = FALSE;
 		break;
-	case DirectXConfig::BlendStateType::None:
+	case BlendStateType::None:
 	default:
 		break;
 	}
@@ -547,12 +549,101 @@ HRESULT AssetHandler::LoadModel(const std::string& name, char* filename)
 	return S_OK;
 }
 
+const VertexShaderData& AssetHandler::GetVertexShaderData(const std::string& name)
+{
+	if (vertexShaderLib.find(name) != vertexShaderLib.end())
+		return vertexShaderLib[name];
+
+	LogWarning("AssetHandler::GetVertexShaderData(): Vertex shader not found! Name: " + name);
+	return VertexShaderData::EMPTY;
+}
+
+ID3D11PixelShader* AssetHandler::GetPixelShader(const std::string& name)
+{
+	if (pixelShaderLib.find(name) != pixelShaderLib.end())
+		return pixelShaderLib[name].Get();
+
+	LogWarning("AssetHandler::GetPixelShader(): Pixel shader not found! Name: " + name);
+	return nullptr;
+}
+
+ID3D11ShaderResourceView* AssetHandler::GetTexture(const std::string& name)
+{
+	if (textureLib.find(name) != textureLib.end())
+		return textureLib[name].Get();
+
+	LogWarning("AssetHandler::GetTexture(): Texture not found! Name: " + name);
+	return nullptr;
+}
+
+DirectX::SpriteFont* AssetHandler::GetFont(const std::string& name)
+{
+	if (fontLib.find(name) != fontLib.end())
+		return fontLib[name].get();
+
+	LogWarning("AssetHandler::GetFont(): Font not found! Name: " + name);
+	return nullptr;
+}
+
+const ConstantBufferData& AssetHandler::GetConstantBufferData(ConstantBufferType type)
+{
+	if (type == ConstantBufferType::None)
+		return ConstantBufferData::EMPTY;
+
+	if (constantBufferLib.find(type) != constantBufferLib.end())
+		return constantBufferLib[type];
+
+	LogWarning("AssetHandler::GetConstantBufferData(): Constant buffer data not found! Type: " + std::to_string(static_cast<int>(type)));
+	return ConstantBufferData::EMPTY;
+}
+
+ID3D11DepthStencilState* AssetHandler::GetDepthWrite(DepthWriteType type)
+{
+	if (type == DepthWriteType::None)
+		return nullptr;
+
+	if (depthWriteLib.find(type) != depthWriteLib.end())
+		return depthWriteLib[type].Get();
+
+	LogWarning("AssetHandler::GetDepthWrite(): Depth write not found! Type: " + std::to_string(static_cast<int>(type)));
+	return nullptr;
+}
+
+ID3D11RasterizerState* AssetHandler::GetCullingMode(CullingModeType type)
+{
+	if (cullingModeLib.find(type) != cullingModeLib.end())
+		return cullingModeLib[type].Get();
+
+	LogWarning("AssetHandler::GetCullingMode(): Culling mode not found! Type: " + std::to_string(static_cast<int>(type)));
+	return nullptr;
+}
+
+ID3D11BlendState* AssetHandler::GetBlendState(BlendStateType type)
+{
+	if (type == BlendStateType::None)
+		return nullptr;
+
+	if (blendStateLib.find(type) != blendStateLib.end())
+		return blendStateLib[type].Get();
+
+	LogWarning("AssetHandler::GetBlendState(): Blend state not found! Type: " + std::to_string(static_cast<int>(type)));
+	return nullptr;
+}
+
 Material* AssetHandler::GetMaterial(const std::string& name)
 {
-	return materialLib[name].get();
+	if (materialLib.find(name) != materialLib.end())
+		return materialLib[name].get();
+
+	LogWarning("AssetHandler::GetMaterial(): Material not found! Name: " + name);
+	return nullptr;
 }
 
 Model* AssetHandler::GetModel(const std::string& name)
 {
-	return modelLib[name].get();
+	if (modelLib.find(name) != modelLib.end())
+		return modelLib[name].get();
+
+	LogWarning("AssetHandler::GetModel(): Model not found! Name: " + name);
+	return nullptr;
 }

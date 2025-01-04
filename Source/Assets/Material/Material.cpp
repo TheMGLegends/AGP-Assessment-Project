@@ -15,7 +15,7 @@ Material::Material(std::string vertexShaderName, std::string pixelShaderName, Co
 																											cullingMode(nullptr),
 																											blendState(nullptr),
 																											texture(nullptr),
-																											skyboxTexture(nullptr),
+																											reflectedTexture(nullptr),
 																											sampler(nullptr)
 {
 	// INFO: Use asset handler to populate the material properties from the asset files
@@ -33,7 +33,10 @@ Material::Material(std::string vertexShaderName, std::string pixelShaderName, Co
 	blendState = AssetHandler::GetBlendState(blendStateType);
 
 	texture = AssetHandler::GetTexture(textureName);
-	skyboxTexture = AssetHandler::GetTexture(skyboxTextureName);
+
+	// INFO: Only use the reflected texture if the material is reflective
+	if (HasConstantBuffer(ConstantBufferType::ReflectiveVS))
+		reflectedTexture = AssetHandler::GetTexture(skyboxTextureName);
 
 	sampler = AssetHandler::GetSamplerState();
 }
@@ -88,8 +91,8 @@ void Material::Set(ID3D11DeviceContext* deviceContext)
 	if (texture)
 		deviceContext->PSSetShaderResources(0, 1, &texture);
 
-	if (skyboxTexture && HasConstantBuffer(ConstantBufferType::ReflectiveVS))
-		deviceContext->PSSetShaderResources(1, 1, &skyboxTexture);
+	if (reflectedTexture && HasConstantBuffer(ConstantBufferType::ReflectiveVS))
+		deviceContext->PSSetShaderResources(1, 1, &reflectedTexture);
 
 	if (sampler)
 		deviceContext->PSSetSamplers(0, 1, &sampler);

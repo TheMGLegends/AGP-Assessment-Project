@@ -1,10 +1,10 @@
 #include "Application.h"
 
-
 #include "../Input/InputHandler.h"
 #include "../Renderer/Renderer.h"
 #include "../Time/Time.h"
 #include "../../Components/Core/ComponentHandler.h"
+#include "../../Game/Camera/Camera.h"
 #include "../../Scene/GameScene.h"
 #include "../../Utilities/Debugging/DebugUtils.h"
 
@@ -59,6 +59,9 @@ void Application::Run()
 		// INFO: Terminate if quit message received
 		if (Window::ProcessMessages() == -1)
 			break;
+
+		// INFO: Update camera aspect ratio to match window size
+		currentScene->GetCamera()->GetProjectionInfo().aspectRatio = window.GetAspectRatio();
 
 		InputHandler::HandleInput();
 		Update(Time::GetDeltaTime());

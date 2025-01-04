@@ -30,9 +30,10 @@ class Material
 {
 public:
 	/// @param constantBufferType The initial type of constant buffer to use (More can be added after creation)
+	/// @param reflectedTextureName The name of the texture to use for reflection (Typically the skybox texture), only use if the material is reflective
 	Material(std::string vertexShaderName, std::string pixelShaderName, DirectXConfig::ConstantBufferType constantBufferType, 
 			 ConstantBufferInfo::ShaderType shaderType, DirectXConfig::DepthWriteType depthWriteType, DirectXConfig::CullingModeType cullingModeType, 
-		     DirectXConfig::BlendStateType blendStateType, std::string textureName, std::string skyboxTextureName);
+		     DirectXConfig::BlendStateType blendStateType, std::string textureName, std::string reflectedTextureName = "");
 	~Material();
 
 	inline std::unordered_map<DirectXConfig::ConstantBufferType, ConstantBufferInfo>& GetConstantBuffers() { return constantBuffers; }
@@ -61,7 +62,7 @@ private:
 	ID3D11BlendState* blendState;
 
 	ID3D11ShaderResourceView* texture;
-	ID3D11ShaderResourceView* skyboxTexture;
+	ID3D11ShaderResourceView* reflectedTexture;
 	ID3D11SamplerState* sampler;
 
 	float reflectionAmount; // NOTE: Used by the reflection shaders

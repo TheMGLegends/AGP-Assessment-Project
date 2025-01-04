@@ -9,16 +9,15 @@
 struct ConstantBufferData
 {
 public:
-	ConstantBufferData() : constantBuffer(nullptr), constantBufferType(DirectXConfig::ConstantBufferType::None) {}
-	ConstantBufferData(Microsoft::WRL::ComPtr<ID3D11Buffer> _constantBuffer, DirectXConfig::ConstantBufferType _constantBufferType)
-	{
-		constantBuffer = std::move(_constantBuffer);
-		constantBufferType = _constantBufferType;
-	}
-	~ConstantBufferData() = default;
+	ConstantBufferData();
+	ConstantBufferData(Microsoft::WRL::ComPtr<ID3D11Buffer> _constantBuffer, DirectXConfig::ConstantBufferType _constantBufferType);
+	~ConstantBufferData();
 
 	inline ID3D11Buffer* GetConstantBuffer() const { return constantBuffer.Get(); }
 	inline DirectXConfig::ConstantBufferType GetConstantBufferType() const { return constantBufferType; }
+
+public:
+	static const ConstantBufferData EMPTY;
 
 private:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> constantBuffer;

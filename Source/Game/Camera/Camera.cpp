@@ -5,7 +5,7 @@
 using namespace DirectX::SimpleMath;
 
 Camera::Camera() : position(Vector3::Zero), offset(Vector3::Zero),
-				   rotation(Quaternion::CreateFromYawPitchRoll(0.0f, DirectX::XM_PIDIV2, 0.0f)),
+				   rotation(Quaternion::CreateFromYawPitchRoll(0.0f, DirectX::XM_PIDIV2, DirectX::XM_PI)),
 				   target(nullptr), freeCamInfo(FreeCamInfo()), projectionInfo(ProjectionInfo())
 {
 }

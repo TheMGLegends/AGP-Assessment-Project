@@ -3,6 +3,7 @@
 #include "../Core/Component.h"
 
 #include <d3d11.h>
+#include <DirectXColors.h>
 #include <Effects.h>
 #include <functional>
 #include <memory>
@@ -28,6 +29,8 @@ public:
 
 	inline Collider::Type GetColliderType() const { return colliderType; }
 
+	inline void SetColour(DirectX::XMVECTORF32 _colour) { colour = _colour; }
+
 	inline void SetIsTrigger(bool _isTrigger) { isTrigger = _isTrigger; }
 	inline bool GetIsTrigger() const { return isTrigger; }
 
@@ -44,6 +47,7 @@ protected:
 
 protected:
 	Collider::Type colliderType;
+	DirectX::XMVECTORF32 colour;
 
 private:
 	bool isTrigger;

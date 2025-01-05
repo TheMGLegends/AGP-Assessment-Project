@@ -11,7 +11,7 @@ std::unique_ptr<BasicEffect> Collider::batchEffect = nullptr;
 std::unique_ptr<PrimitiveBatch<VertexPositionColor>> Collider::primitiveBatch = nullptr;
 ComPtr<ID3D11InputLayout> Collider::batchInputLayout = nullptr;
 
-Collider::Collider(GameObject* _gameObject) : Component(_gameObject), colliderType(Type::None), isTrigger(false)
+Collider::Collider(GameObject* _gameObject) : Component(_gameObject), colliderType(Type::None), colour(Colors::LimeGreen), isTrigger(false)
 {
 	// INFO: Bind callbacks to the game object functions
 	if (GameObject* gameObject = GetGameObject())

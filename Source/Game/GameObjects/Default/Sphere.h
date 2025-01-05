@@ -11,6 +11,9 @@ public:
 	Sphere();
 	virtual ~Sphere() override;
 
+	// TEST CODE
+	virtual void Update(float deltaTime) override;
+
 private:
 	std::weak_ptr<Mesh> mesh;
 	std::weak_ptr<SphereCollider> sphereCollider;

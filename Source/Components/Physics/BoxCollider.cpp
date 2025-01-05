@@ -1,7 +1,5 @@
 #include "BoxCollider.h"
 
-#include <DirectXColors.h>
-
 #include "../../Game/GameObjects/Core/GameObject.h"
 
 using namespace DirectX;
@@ -76,7 +74,7 @@ void BoxCollider::DrawWireframe(ID3D11DeviceContext* deviceContext)
 		for (size_t i = 0; i < 8; i++)
 		{
 			XMStoreFloat3(&worldVertices[i].position, XMVector3Transform(vertices[i], worldMatrix));
-			XMStoreFloat4(&worldVertices[i].color, Colors::LawnGreen);
+			XMStoreFloat4(&worldVertices[i].color, colour);
 		}
 
 		batchEffect->Apply(deviceContext);

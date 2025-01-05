@@ -7,7 +7,7 @@ Sphere::Sphere()
 {
 	// TODO: Add proper material
 	mesh = AddComponent<Mesh>(this, "Sphere", "TestMaterial");
-	sphereCollider = AddComponent<SphereCollider>(this, 1.0f);
+	sphereCollider = AddComponent<SphereCollider>(this, 3.0f);
 }
 
 Sphere::~Sphere()

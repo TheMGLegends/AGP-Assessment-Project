@@ -17,6 +17,9 @@ public:
 	inline DirectX::BoundingSphere& GetSphere() { return sphere; }
 
 private:
+	void DrawRing(ID3D11DeviceContext* deviceContext, const DirectX::XMVECTOR& centre, const DirectX::XMVECTOR& majorAxis, const DirectX::XMVECTOR& minorAxis);
+
+private:
 	DirectX::BoundingSphere sphere;
 };
 

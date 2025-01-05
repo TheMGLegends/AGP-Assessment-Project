@@ -9,7 +9,7 @@ public:
 	virtual ~BoxCollider() override;
 
 	virtual void Update(float deltaTime) override;
-	virtual void DrawWireframe() override;
+	virtual void DrawWireframe(ID3D11DeviceContext* deviceContext) override;
 
 	inline DirectX::BoundingOrientedBox& GetOrientedBox() { return orientedBox; }
 

@@ -1,5 +1,7 @@
 #include "SphereCollider.h"
 
+#include <VertexTypes.h>
+
 #include "../../Game/GameObjects/Core/GameObject.h"
 
 using namespace DirectX;
@@ -29,7 +31,7 @@ void SphereCollider::Update(float deltaTime)
 	}
 }
 
-void SphereCollider::DrawWireframe()
+void SphereCollider::DrawWireframe(ID3D11DeviceContext* deviceContext)
 {
 	// TODO: Setup DirectXCollision PrimitiveBatch to draw the wire frame of the sphere
 }

@@ -2,6 +2,7 @@
 
 #include "../Core/Component.h"
 
+#include <d3d11.h>
 #include <functional>
 #include <memory>
 
@@ -19,7 +20,7 @@ public:
 public:
 	Collider(GameObject* _gameObject);
 
-	virtual void DrawWireframe() {}
+	virtual void DrawWireframe(ID3D11DeviceContext* deviceContext) {}
 
 	inline Collider::Type GetColliderType() const { return colliderType; }
 

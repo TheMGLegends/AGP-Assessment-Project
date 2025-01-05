@@ -1,5 +1,7 @@
 #include "BoxCollider.h"
 
+#include <VertexTypes.h>
+
 #include "../../Game/GameObjects/Core/GameObject.h"
 
 using namespace DirectX;
@@ -32,7 +34,7 @@ void BoxCollider::Update(float deltaTime)
 	}
 }
 
-void BoxCollider::DrawWireframe()
+void BoxCollider::DrawWireframe(ID3D11DeviceContext* deviceContext)
 {
 	// TODO: Setup DirectXCollision PrimitiveBatch to draw the wire frame of the orientedBox
 }

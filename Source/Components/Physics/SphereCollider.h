@@ -9,7 +9,7 @@ public:
 	virtual ~SphereCollider() override;
 
 	virtual void Update(float deltaTime) override;
-	virtual void DrawWireframe() override;
+	virtual void DrawWireframe(ID3D11DeviceContext* deviceContext) override;
 
 	inline void SetRadius(float radius) { sphere.Radius = radius; }
 	inline float GetRadius() const { return sphere.Radius; }

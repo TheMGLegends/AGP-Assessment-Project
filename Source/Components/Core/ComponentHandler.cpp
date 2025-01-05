@@ -73,8 +73,8 @@ void ComponentHandler::CheckCollisions()
 				// INFO: If a collision did occur
 				if (box1->GetOrientedBox().Contains(box2->GetOrientedBox()) != DirectX::DISJOINT)
 				{
-					box1->SetColour(Colors::Red);
-					box2->SetColour(Colors::Red);
+					box1->SetWireframeColour(Colors::Red);
+					box2->SetWireframeColour(Colors::Red);
 
 					// INFO: Handle via Trigger or Collision functions
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
@@ -92,8 +92,8 @@ void ComponentHandler::CheckCollisions()
 				}
 				else
 				{
-					box1->SetColour(Colors::LimeGreen);
-					box2->SetColour(Colors::LimeGreen);
+					box1->SetWireframeColour(Colors::LimeGreen);
+					box2->SetWireframeColour(Colors::LimeGreen);
 				}
 			}
 			else if (collider1->GetColliderType() == Collider::Type::Sphere && collider2->GetColliderType() == Collider::Type::Sphere)
@@ -110,8 +110,8 @@ void ComponentHandler::CheckCollisions()
 				// INFO: If a collision did occur
 				if (sphere1->GetSphere().Contains(sphere2->GetSphere()) != DirectX::DISJOINT)
 				{
-					sphere1->SetColour(Colors::Red);
-					sphere2->SetColour(Colors::Red);
+					sphere1->SetWireframeColour(Colors::Red);
+					sphere2->SetWireframeColour(Colors::Red);
 
 					// INFO: Handle via Trigger or Collision functions
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
@@ -129,8 +129,8 @@ void ComponentHandler::CheckCollisions()
 				}
 				else
 				{
-					sphere1->SetColour(Colors::LimeGreen);
-					sphere2->SetColour(Colors::LimeGreen);
+					sphere1->SetWireframeColour(Colors::LimeGreen);
+					sphere2->SetWireframeColour(Colors::LimeGreen);
 				}
 			}
 			else if (collider1->GetColliderType() == Collider::Type::Box && collider2->GetColliderType() == Collider::Type::Sphere)
@@ -147,8 +147,8 @@ void ComponentHandler::CheckCollisions()
 				// INFO: If a collision did occur
 				if (box->GetOrientedBox().Contains(sphere->GetSphere()) != DirectX::DISJOINT)
 				{
-					box->SetColour(Colors::Red);
-					sphere->SetColour(Colors::Red);
+					box->SetWireframeColour(Colors::Red);
+					sphere->SetWireframeColour(Colors::Red);
 
 					// INFO: Handle via Trigger or Collision functions
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
@@ -166,8 +166,8 @@ void ComponentHandler::CheckCollisions()
 				}
 				else
 				{
-					box->SetColour(Colors::LimeGreen);
-					sphere->SetColour(Colors::LimeGreen);
+					box->SetWireframeColour(Colors::LimeGreen);
+					sphere->SetWireframeColour(Colors::LimeGreen);
 				}
 			}
 			else if (collider1->GetColliderType() == Collider::Type::Sphere && collider2->GetColliderType() == Collider::Type::Box)
@@ -184,8 +184,8 @@ void ComponentHandler::CheckCollisions()
 				// INFO: If a collision did occur
 				if (sphere->GetSphere().Contains(box->GetOrientedBox()) != DirectX::DISJOINT)
 				{
-					sphere->SetColour(Colors::Red);
-					box->SetColour(Colors::Red);
+					sphere->SetWireframeColour(Colors::Red);
+					box->SetWireframeColour(Colors::Red);
 
 					// INFO: Handle via Trigger or Collision functions
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
@@ -203,8 +203,8 @@ void ComponentHandler::CheckCollisions()
 				}
 				else
 				{
-					sphere->SetColour(Colors::LimeGreen);
-					box->SetColour(Colors::LimeGreen);
+					sphere->SetWireframeColour(Colors::LimeGreen);
+					box->SetWireframeColour(Colors::LimeGreen);
 				}
 			}
 		}

@@ -64,7 +64,7 @@ void SphereCollider::DrawRing(ID3D11DeviceContext* deviceContext, const DirectX:
 		position = DirectX::XMVectorMultiplyAdd(minorAxis, incrementalSin, position);
 
 		XMStoreFloat3(&vertices[i].position, position);
-		XMStoreFloat4(&vertices[i].color, colour);
+		XMStoreFloat4(&vertices[i].color, wireframeColour);
 
 		DirectX::XMVECTOR newCos = DirectX::XMVectorSubtract(DirectX::XMVectorMultiply(incrementalCos, cosSegment), DirectX::XMVectorMultiply(incrementalSin, sinSegment));
 		DirectX::XMVECTOR newSin = DirectX::XMVectorAdd(DirectX::XMVectorMultiply(incrementalCos, sinSegment), DirectX::XMVectorMultiply(incrementalSin, cosSegment));

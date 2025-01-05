@@ -29,7 +29,7 @@ public:
 
 	inline Collider::Type GetColliderType() const { return colliderType; }
 
-	inline void SetColour(DirectX::XMVECTORF32 _colour) { colour = _colour; }
+	inline void SetWireframeColour(DirectX::XMVECTORF32 _wireframeColour) { wireframeColour = _wireframeColour; }
 
 	inline void SetIsTrigger(bool _isTrigger) { isTrigger = _isTrigger; }
 	inline bool GetIsTrigger() const { return isTrigger; }
@@ -47,7 +47,7 @@ protected:
 
 protected:
 	Collider::Type colliderType;
-	DirectX::XMVECTORF32 colour;
+	DirectX::XMVECTORF32 wireframeColour;
 
 private:
 	bool isTrigger;

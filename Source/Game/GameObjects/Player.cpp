@@ -9,6 +9,7 @@ Player::Player()
 
 	// TEST CODE
 	AddComponent<Mesh>(this, "Cube", "TestMaterial");
+	//transform.lock()->SetScale(DirectX::SimpleMath::Vector3{ 1.0f, 1.0f, 1.0f });
 }
 
 Player::~Player()

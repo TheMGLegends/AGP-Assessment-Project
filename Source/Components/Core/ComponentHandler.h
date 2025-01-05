@@ -28,6 +28,7 @@ public:
 	static void RegisterComponent(const std::shared_ptr<Component>& component);
 
 	static const std::vector<std::weak_ptr<Mesh>>& GetMeshes();
+	static const std::vector<std::weak_ptr<Collider>>& GetColliders();
 
 private:
 	static void ResolveBoxBox(std::shared_ptr<BoxCollider>& box1, std::shared_ptr<BoxCollider>& box2);

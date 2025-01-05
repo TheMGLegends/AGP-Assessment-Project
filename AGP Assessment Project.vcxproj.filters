@@ -126,6 +126,9 @@
     <ClCompile Include="Source\Assets\Collections\ConstantBufferData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Utilities\Globals\Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -252,6 +255,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Lighting\PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utilities\Globals\Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

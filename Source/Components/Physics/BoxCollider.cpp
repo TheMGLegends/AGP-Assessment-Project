@@ -1,6 +1,6 @@
 #include "BoxCollider.h"
 
-#include <VertexTypes.h>
+#include <DirectXColors.h>
 
 #include "../../Game/GameObjects/Core/GameObject.h"
 
@@ -14,7 +14,7 @@ BoxCollider::BoxCollider(GameObject* _gameObject) : Collider(_gameObject)
 	if (std::shared_ptr<Transform> transform = GetGameObject()->transform.lock())
 	{
 		orientedBox.Center = transform->GetPosition();
-		orientedBox.Extents = transform->GetScale(); // TODO: Maybe / 2.0f?
+		orientedBox.Extents = transform->GetScale();
 		orientedBox.Orientation = transform->GetRotation();
 	}
 }
@@ -29,12 +29,64 @@ void BoxCollider::Update(float deltaTime)
 	if (std::shared_ptr<Transform> transform = GetGameObject()->transform.lock())
 	{
 		orientedBox.Center = transform->GetPosition();
-		orientedBox.Extents = transform->GetScale(); // TODO: Maybe / 2.0f?
+		orientedBox.Extents = transform->GetScale();
 		orientedBox.Orientation = transform->GetRotation();
 	}
 }
 
 void BoxCollider::DrawWireframe(ID3D11DeviceContext* deviceContext)
 {
-	// TODO: Setup DirectXCollision PrimitiveBatch to draw the wire frame of the orientedBox
+	static const XMVECTOR vertices[8] =
+	{
+		{ -1, -1, -1, 0 },
+		{ 1, -1, -1, 0 },
+		{ 1, -1, 1, 0 },
+		{ -1, -1, 1, 0 },
+		{ -1, 1, -1, 0 },
+		{ 1, 1, -1, 0 },
+		{ 1, 1, 1, 0 },
+		{ -1, 1, 1, 0 }
+	};
+
+	static const unsigned short indices[24] =
+	{
+		0, 1,
+		1, 2,
+		2, 3,
+		3, 0,
+		4, 5,
+		5, 6,
+		6, 7,
+		7, 4,
+		0, 4,
+		1, 5,
+		2, 6,
+		3, 7
+	};
+
+	std::shared_ptr<Transform> owningTransform = GetGameObject()->transform.lock();
+
+	if (owningTransform)
+	{
+		XMMATRIX worldMatrix = owningTransform->GetWorldMatrix();
+
+		// INFO: Translate the vertices to world space
+		VertexPositionColor worldVertices[8]{};
+
+		for (size_t i = 0; i < 8; i++)
+		{
+			XMStoreFloat3(&worldVertices[i].position, XMVector3Transform(vertices[i], worldMatrix));
+			XMStoreFloat4(&worldVertices[i].color, Colors::LawnGreen);
+		}
+
+		batchEffect->Apply(deviceContext);
+
+		deviceContext->IASetInputLayout(batchInputLayout.Get());
+
+		primitiveBatch->Begin();
+
+		primitiveBatch->DrawIndexed(D3D11_PRIMITIVE_TOPOLOGY_LINELIST, indices, 24, worldVertices, 8);
+
+		primitiveBatch->End();
+	}
 }

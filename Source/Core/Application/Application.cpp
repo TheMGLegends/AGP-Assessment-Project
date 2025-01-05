@@ -4,9 +4,11 @@
 #include "../Renderer/Renderer.h"
 #include "../Time/Time.h"
 #include "../../Components/Core/ComponentHandler.h"
+#include "../../Components/Physics/Collider.h"
 #include "../../Game/Camera/Camera.h"
 #include "../../Scene/GameScene.h"
 #include "../../Utilities/Debugging/DebugUtils.h"
+#include "../../Utilities/Globals/Globals.h"
 
 using namespace DebugUtils;
 using namespace DirectX;
@@ -30,6 +32,13 @@ Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& wi
 		return;
 	}
 
+	// INFO: Initialise the collider wireframes for debug rendering
+	if (FAILED(Collider::InitialiseWireframes(renderer->GetDevice(), renderer->GetDeviceContext())))
+	{
+		LogError("Application::Application(): Failed to initialise the collider wireframes!");
+		return;
+	}
+
 	// INFO: Initialise the scene
 	currentScene = std::make_unique<GameScene>();
 	if (!currentScene->Initialise())
@@ -43,6 +52,7 @@ Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& wi
 
 	// INFO: Setup input handling application specific bindings
 	InputHandler::BindKeyToAction(Keyboard::Keys::M, BindData(std::bind(&Application::SwitchMouseMode, this), ButtonState::Pressed));
+	InputHandler::BindKeyToAction(Keyboard::Keys::F1, BindData(std::bind(&Application::SwitchDebugMode, this), ButtonState::Pressed));
 
 	isRunning = true;
 }
@@ -98,4 +108,9 @@ void Application::SwitchMouseMode()
 		InputHandler::SetMouseMode(Mouse::Mode::MODE_RELATIVE);
 	else
 		InputHandler::SetMouseMode(Mouse::Mode::MODE_ABSOLUTE);
+}
+
+void Application::SwitchDebugMode()
+{
+	Globals::gIsInDebugMode = !Globals::gIsInDebugMode;
 }

@@ -1,7 +1,5 @@
 #include "SphereCollider.h"
 
-#include <VertexTypes.h>
-
 #include "../../Game/GameObjects/Core/GameObject.h"
 
 using namespace DirectX;

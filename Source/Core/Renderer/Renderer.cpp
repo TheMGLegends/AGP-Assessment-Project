@@ -6,12 +6,14 @@
 #include "../../Assets/Material/Material.h"
 #include "../../Components/Core/ComponentHandler.h"
 #include "../../Components/Mesh/Mesh.h"
+#include "../../Components/Physics/Collider.h"
 #include "../../Game/Camera/Camera.h"
 #include "../../Game/GameObjects/Core/GameObject.h"
 #include "../../Game/GameObjects/Default/Particle.h"
 #include "../../Lighting/PointLight.h"
 #include "../../Scene/Core/Scene.h"
 #include "../../UI/Core/UserInterfaceElement.h"
+#include "../../Utilities/Globals/Globals.h"
 #include "../../Utilities/Debugging/DebugUtils.h"
 
 using namespace ConstantBuffers;
@@ -348,6 +350,30 @@ void Renderer::RenderFrame(Scene* scene)
 		}
 
 		mesh->Draw(deviceContext.Get());
+	}
+
+	// INFO: Draw all wireframes for colliders
+	if (Globals::gIsInDebugMode)
+	{
+		Collider::GetBatchEffect()->SetView(viewMatrix);
+		Collider::GetBatchEffect()->SetProjection(projectionMatrix);
+
+		for (auto& weakCollider : ComponentHandler::GetColliders())
+		{
+			std::shared_ptr<Collider> collider = weakCollider.lock();
+
+			if (!collider)
+			{
+				LogWarning("Renderer::RenderFrame(): Collider is nullptr!");
+				continue;
+			}
+
+			// INFO: Continue if the collider is inactive
+			if (!collider->GetIsActive())
+				continue;
+
+			collider->DrawWireframe(deviceContext.Get());
+		}
 	}
 
 	// INFO: Render all UI elements

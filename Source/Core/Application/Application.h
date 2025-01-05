@@ -22,6 +22,7 @@ public:
 
 private:
 	void SwitchMouseMode();
+	void SwitchDebugMode();
 
 private:
 	Window window;

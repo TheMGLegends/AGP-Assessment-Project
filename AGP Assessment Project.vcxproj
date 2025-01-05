@@ -166,6 +166,7 @@
     <ClCompile Include="Source\Game\GameObjects\Default\Sphere.cpp" />
     <ClCompile Include="Source\UI\Core\UserInterfaceElement.cpp" />
     <ClCompile Include="Source\Utilities\Debugging\DebugUtils.cpp" />
+    <ClCompile Include="Source\Utilities\Globals\Globals.cpp" />
     <ClCompile Include="Source\Utilities\MathUtils.cpp" />
     <ClCompile Include="Source\Components\Physics\SphereCollider.cpp" />
   </ItemGroup>
@@ -212,6 +213,7 @@
     <ClInclude Include="Source\Assets\ReadData.h" />
     <ClInclude Include="Source\Game\GameObjects\Default\Sphere.h" />
     <ClInclude Include="Source\UI\Core\UserInterfaceElement.h" />
+    <ClInclude Include="Source\Utilities\Globals\Globals.h" />
     <ClInclude Include="Source\Utilities\MathUtils.h" />
     <ClInclude Include="Source\Components\Physics\SphereCollider.h" />
   </ItemGroup>

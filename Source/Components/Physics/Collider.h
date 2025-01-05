@@ -3,8 +3,12 @@
 #include "../Core/Component.h"
 
 #include <d3d11.h>
+#include <Effects.h>
 #include <functional>
 #include <memory>
+#include <PrimitiveBatch.h>
+#include <VertexTypes.h>
+#include <wrl.h>
 
 class Collider : public Component
 {
@@ -29,6 +33,14 @@ public:
 
 	inline void ExecuteOnCollision(std::shared_ptr<Collider> other) { OnCollision(other); }
 	inline void ExecuteOnTrigger(std::shared_ptr<Collider> other) { OnTrigger(other); }
+
+	static HRESULT InitialiseWireframes(ID3D11Device* device, ID3D11DeviceContext* deviceContext);
+	static DirectX::BasicEffect* GetBatchEffect() { return batchEffect.get(); }
+
+protected:
+	static std::unique_ptr<DirectX::BasicEffect> batchEffect;
+	static std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionColor>> primitiveBatch;
+	static Microsoft::WRL::ComPtr<ID3D11InputLayout> batchInputLayout;
 
 protected:
 	Collider::Type colliderType;

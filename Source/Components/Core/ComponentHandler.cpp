@@ -224,6 +224,11 @@ const std::vector<std::weak_ptr<Mesh>>& ComponentHandler::GetMeshes()
 	return meshes;
 }
 
+const std::vector<std::weak_ptr<Collider>>& ComponentHandler::GetColliders()
+{
+	return colliders;
+}
+
 void ComponentHandler::ResolveBoxBox(std::shared_ptr<BoxCollider>& box1, std::shared_ptr<BoxCollider>& box2)
 {
 	std::shared_ptr<Rigidbody> rb1 = box1->GetGameObject()->GetComponent<Rigidbody>().lock();

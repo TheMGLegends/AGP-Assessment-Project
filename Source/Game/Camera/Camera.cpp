@@ -128,7 +128,7 @@ void Camera::Reset()
 	if (!freeCamInfo.isFreeCam)
 		return;
 
-	position = Vector3::Zero;
+	position = Vector3(0.0f, 15.0f, 0.0f);
 	rotation = Quaternion::CreateFromYawPitchRoll(DirectX::XM_PI, 0.0f, 0.0f);
 }
 

@@ -29,7 +29,7 @@ bool Scene::Initialise()
 	ambientLight.SetColour(XMVectorSet(0.5f, 0.5f, 0.5f, 1.0f));
 
 	// INFO: Default directional light
-	directionalLight.SetColour(XMVectorSet(0.2788f, 0.7063f, 0.6506f, 1.0f));
+	directionalLight.SetColour(XMVectorSet(0.288f, 0.7063f, 0.6506f, 1.0f));
 	directionalLight.SetDirection(XMVectorSet(0.96f, 0.8f, 0.75f, 0.0f));
 
 	// INFO: Reference the scene in the scene context

@@ -149,6 +149,9 @@ HRESULT AssetHandler::LoadAssets()
 	Material* boxMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Box");
 	if (FAILED(LoadMaterial("BoxMaterial", boxMaterial))) return E_FAIL;
 
+	Material* boxMaterialLit = new Material("Lit", "Lit", ConstantBufferType::LitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Box");
+	if (FAILED(LoadMaterial("BoxMaterialLit", boxMaterialLit))) return E_FAIL;
+
 	Material* sphereMaterial = new Material("Reflective", "Reflective", ConstantBufferType::ReflectiveVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Blue", "GalaxySkybox");
 	sphereMaterial->AddConstantBuffer(ConstantBufferType::ReflectivePS, ConstantBufferInfo::ShaderType::Pixel);
 	sphereMaterial->SetReflectionAmount(1.0f);

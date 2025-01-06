@@ -278,7 +278,6 @@ void ComponentHandler::ResolveBoxBox(std::shared_ptr<BoxCollider>& box1, std::sh
 		if (staticOrientedBox.Intersects(XMLoadFloat3(&dynamicOrientedBox.Center), direction, distance))
 		{
 			Vector3 penetration = direction * distance;
-			//penetration *= 0.009f;
 			dynamicTransform->SetPosition(dynamicPosition - penetration, false);
 		}
 	}
@@ -314,7 +313,6 @@ void ComponentHandler::ResolveSphereSphere(std::shared_ptr<SphereCollider>& sphe
 		if (staticSphere.Intersects(XMLoadFloat3(&dynamicSphere.Center), direction, distance))
 		{
 			Vector3 penetration = direction * distance;
-			//penetration *= 0.009f;
 			dynamicTransform->SetPosition(dynamicPosition - penetration, false);
 		}
 	}
@@ -347,7 +345,6 @@ void ComponentHandler::ResolveBoxSphere(std::shared_ptr<BoxCollider>& box, std::
 		if (boundingSphere.Intersects(XMLoadFloat3(&orientedBox.Center), direction, distance))
 		{
 			Vector3 penetration = direction * distance;
-			//penetration *= 0.09f;
 			dynamicTransform->SetPosition(dynamicPosition - penetration, false);
 		}
 	}

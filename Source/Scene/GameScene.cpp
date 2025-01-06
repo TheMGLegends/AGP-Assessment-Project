@@ -55,16 +55,21 @@ bool GameScene::Initialise()
 	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ 0.0f, 2.5f, -15.0f }, false);
 	gameObjects.back()->transform.lock()->SetScale(XMVECTOR{ 2.0f, 2.0f, 2.0f });
 
-	gameObjects.emplace_back(std::make_unique<Cube>());
-	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ -10.0f, 3.25f, 15.0f }, false);
-	gameObjects.back()->transform.lock()->SetScale(XMVECTOR{ 3.0f, 3.0f, 3.0f });
+	std::unique_ptr<Cube> litCube = std::make_unique<Cube>();
+	std::shared_ptr<Transform> litCubeTransform = litCube->transform.lock();
+
+	litCube->GetComponent<Mesh>().lock()->SetMaterial("BoxMaterialLit");
+	litCubeTransform->SetPosition(XMVECTOR{ -10.0f, 3.25f, 15.0f }, false);
+	litCubeTransform->SetScale(XMVECTOR{ 3.0f, 3.0f, 3.0f });
 	Quaternion rotation = Quaternion::CreateFromYawPitchRoll(XMConvertToRadians(45.0f), 0.0f, 0.0f);
-	gameObjects.back()->transform.lock()->SetRotation(rotation);
+	litCubeTransform->SetRotation(rotation);
+
+	gameObjects.push_back(std::move(litCube));
 
 	// TODO: Initialise the game scene
-	// TEST CODE
 
-	AddPointLight(PointLight(XMVectorSet(0.9f, 0.0f, 0.85f, 1.0f), XMVECTOR{ 1.5f, 0.0f, -1.0f }, 10));
+	// TEST CODE
+	AddPointLight(PointLight(XMVectorSet(0.3f, 0.534f, 0.85f, 1.0f), XMVECTOR{ -10.0f, 5.0f, 15.0f }, 100));
 
 	return result;
 }

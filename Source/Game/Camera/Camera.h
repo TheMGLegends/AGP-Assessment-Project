@@ -12,7 +12,7 @@ struct FreeCamInfo
 	float movementSpeed;
 	float rotationSpeed;
 
-	FreeCamInfo() : isFreeCam(true), movementSpeed(5.0f), rotationSpeed(0.001f) {};
+	FreeCamInfo() : isFreeCam(true), movementSpeed(10.0f), rotationSpeed(0.001f) {};
 	FreeCamInfo(bool _isFreeCam, float _movementSpeed, float _rotationSpeed) : isFreeCam(_isFreeCam), 
 																			   movementSpeed(_movementSpeed), 
 																			   rotationSpeed(_rotationSpeed) {};

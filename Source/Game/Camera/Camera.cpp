@@ -62,8 +62,6 @@ void Camera::Update(float deltaTime)
 	// INFO: Different update behavior based on if camera is free or not
 	if (freeCamInfo.isFreeCam)
 	{
-		// TODO: Implement Free Camera Update Logic
-
 		// INFO: Rotation
 		if (InputHandler::GetMouseMode() == DirectX::Mouse::Mode::MODE_RELATIVE)
 		{
@@ -95,6 +93,32 @@ void Camera::Update(float deltaTime)
 	}
 	else if (target != nullptr)
 	{
+		// TODO: Rotation that rotates players yaw, but not pitch only camera gets pitch
+		
+		// INFO: Rotation
+		if (InputHandler::GetMouseMode() == DirectX::Mouse::Mode::MODE_RELATIVE)
+		{
+			DirectX::XMINT2 mouseInput = InputHandler::GetMousePosition();
+
+			// INFO: Euler rotation in radians
+			Vector3 eulerRotation = rotation.ToEuler();
+
+			eulerRotation.y += mouseInput.x * freeCamInfo.rotationSpeed;
+			eulerRotation.x -= mouseInput.y * freeCamInfo.rotationSpeed;
+
+			eulerRotation.x = Clamp(eulerRotation.x, pitchConstraints.x, pitchConstraints.y);
+
+			rotation = Quaternion::CreateFromYawPitchRoll(eulerRotation.y, eulerRotation.x, 0.0f);
+		}
+
+		// INFO: Adjust target yaw rotation based on camera yaw
+		Vector3 cameraEuler = rotation.ToEuler();
+		Vector3 targetEuler = target->GetRotation().ToEuler();
+
+		targetEuler.y = cameraEuler.y;
+
+		target->SetRotation(Quaternion::CreateFromYawPitchRoll(targetEuler.y, targetEuler.x, targetEuler.z));
+
 		position = target->GetPosition() + offset;
 	}
 }

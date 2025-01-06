@@ -15,14 +15,19 @@ Mesh::Mesh(GameObject* _gameObject, const std::string& modelName, const std::str
 	if (!model)
 		LogWarning("Mesh::Mesh(): Model is nullptr! Model name: " + modelName);
 
-	material = AssetHandler::GetMaterial(materialName);
-
-	if (!material)
-		LogWarning("Mesh::Mesh(): Material is nullptr! Material name: " + materialName);
+	SetMaterial(materialName);
 }
 
 Mesh::~Mesh()
 {
+}
+
+void Mesh::SetMaterial(const std::string& materialName)
+{
+	material = AssetHandler::GetMaterial(materialName);
+
+	if (!material)
+		LogWarning("Mesh::SetMaterial(): Material is nullptr! Material name: " + materialName);
 }
 
 Material* Mesh::GetMaterial() const

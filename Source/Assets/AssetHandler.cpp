@@ -102,6 +102,7 @@ HRESULT AssetHandler::LoadAssets()
 	if (FAILED(LoadTexture("Blue", L"Resources/Textures/Blue.png"))) return E_FAIL;
 	if (FAILED(LoadTexture("Gun", L"Resources/Textures/Gun.png"))) return E_FAIL;
 	if (FAILED(LoadTexture("Coin", L"Resources/Textures/Coin.jpg"))) return E_FAIL;
+	if (FAILED(LoadTexture("Grey", L"Resources/Textures/Grey.png"))) return E_FAIL;
 
 	if (FAILED(LoadTexture("DebugSkybox", L"Resources/Textures/DebugSkybox.dds", true))) return E_FAIL;
 	if (FAILED(LoadTexture("GalaxySkybox", L"Resources/Textures/GalaxySkybox.dds", true))) return E_FAIL;
@@ -140,6 +141,8 @@ HRESULT AssetHandler::LoadAssets()
 
 	Material* playerMaterial = new Material("Lit", "Lit", ConstantBufferType::LitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Blue");
 	if (FAILED(LoadMaterial("PlayerMaterial", playerMaterial))) return E_FAIL;
+	Material* floorMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Grey");
+	if (FAILED(LoadMaterial("FloorMaterial", floorMaterial))) return E_FAIL;
 
 	// TODO: TEST MATERIAL
 	Material* testMaterial = new Material("Reflective", "Reflective", ConstantBufferType::ReflectiveVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Box", "GalaxySkybox");

@@ -14,6 +14,7 @@ public:
 	Mesh(GameObject* _gameObject, const std::string& modelName, const std::string& materialName);
 	virtual ~Mesh() override;
 
+	void SetMaterial(const std::string& materialName);
 	Material* GetMaterial() const;
 
 	/// @brief Wrapper function for calling model->Draw() and setting the material properties

@@ -23,21 +23,36 @@ void ComponentHandler::Update(float deltaTime)
 	for (const auto& rb : rigidbodies)
 	{
 		if (std::shared_ptr<Rigidbody> rigidbody = rb.lock())
+		{
+			if (!rigidbody->GetIsActive())
+				continue;
+
 			rigidbody->Update(deltaTime);
+		}
 	}
 
 	// INFO: update Colliders
 	for (const auto& c : colliders)
 	{
 		if (std::shared_ptr<Collider> collider = c.lock())
+		{
+			if (!collider->GetIsActive())
+				continue;
+
 			collider->Update(deltaTime);
+		}
 	}
 
 	// INFO: Update Emitters
 	for (const auto& e : emitters)
 	{
 		if (std::shared_ptr<Emitter> emitter = e.lock())
+		{
+			if (!emitter->GetIsActive())
+				continue;
+
 			emitter->Update(deltaTime);
+		}
 	}
 }
 
@@ -73,9 +88,6 @@ void ComponentHandler::CheckCollisions()
 				// INFO: If a collision did occur
 				if (box1->GetOrientedBox().Contains(box2->GetOrientedBox()) != DirectX::DISJOINT)
 				{
-					box1->SetWireframeColour(Colors::Red);
-					box2->SetWireframeColour(Colors::Red);
-
 					// INFO: Handle via Trigger or Collision functions
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
 					{
@@ -89,11 +101,6 @@ void ComponentHandler::CheckCollisions()
 
 						ResolveBoxBox(box1, box2);
 					}
-				}
-				else
-				{
-					box1->SetWireframeColour(Colors::LimeGreen);
-					box2->SetWireframeColour(Colors::LimeGreen);
 				}
 			}
 			else if (collider1->GetColliderType() == Collider::Type::Sphere && collider2->GetColliderType() == Collider::Type::Sphere)
@@ -110,9 +117,6 @@ void ComponentHandler::CheckCollisions()
 				// INFO: If a collision did occur
 				if (sphere1->GetSphere().Contains(sphere2->GetSphere()) != DirectX::DISJOINT)
 				{
-					sphere1->SetWireframeColour(Colors::Red);
-					sphere2->SetWireframeColour(Colors::Red);
-
 					// INFO: Handle via Trigger or Collision functions
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
 					{
@@ -126,11 +130,6 @@ void ComponentHandler::CheckCollisions()
 
 						ResolveSphereSphere(sphere1, sphere2);
 					}
-				}
-				else
-				{
-					sphere1->SetWireframeColour(Colors::LimeGreen);
-					sphere2->SetWireframeColour(Colors::LimeGreen);
 				}
 			}
 			else if (collider1->GetColliderType() == Collider::Type::Box && collider2->GetColliderType() == Collider::Type::Sphere)
@@ -147,9 +146,6 @@ void ComponentHandler::CheckCollisions()
 				// INFO: If a collision did occur
 				if (box->GetOrientedBox().Contains(sphere->GetSphere()) != DirectX::DISJOINT)
 				{
-					box->SetWireframeColour(Colors::Red);
-					sphere->SetWireframeColour(Colors::Red);
-
 					// INFO: Handle via Trigger or Collision functions
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
 					{
@@ -163,11 +159,6 @@ void ComponentHandler::CheckCollisions()
 
 						ResolveBoxSphere(box, sphere);
 					}
-				}
-				else
-				{
-					box->SetWireframeColour(Colors::LimeGreen);
-					sphere->SetWireframeColour(Colors::LimeGreen);
 				}
 			}
 			else if (collider1->GetColliderType() == Collider::Type::Sphere && collider2->GetColliderType() == Collider::Type::Box)
@@ -184,9 +175,6 @@ void ComponentHandler::CheckCollisions()
 				// INFO: If a collision did occur
 				if (sphere->GetSphere().Contains(box->GetOrientedBox()) != DirectX::DISJOINT)
 				{
-					sphere->SetWireframeColour(Colors::Red);
-					box->SetWireframeColour(Colors::Red);
-
 					// INFO: Handle via Trigger or Collision functions
 					if (collider1->GetIsTrigger() || collider2->GetIsTrigger())
 					{
@@ -200,11 +188,6 @@ void ComponentHandler::CheckCollisions()
 
 						ResolveBoxSphere(box, sphere);
 					}
-				}
-				else
-				{
-					sphere->SetWireframeColour(Colors::LimeGreen);
-					box->SetWireframeColour(Colors::LimeGreen);
 				}
 			}
 		}
@@ -277,7 +260,7 @@ void ComponentHandler::ResolveBoxBox(std::shared_ptr<BoxCollider>& box1, std::sh
 		std::shared_ptr<BoxCollider>& dynamicCollider = rb1 ? box1 : box2;
 
 		std::shared_ptr<Transform> dynamicTransform = dynamicCollider->GetGameObject()->transform.lock();
-		Vector3 dynamicPreviousPosition = dynamicCollider->GetPreviousPosition();
+		Vector3 dynamicPreviousPosition = dynamicTransform->GetPreviousPosition();
 		Vector3 dynamicPosition = dynamicTransform->GetPosition();
 
 		BoundingOrientedBox& staticOrientedBox = staticCollider->GetOrientedBox();
@@ -322,7 +305,7 @@ void ComponentHandler::ResolveSphereSphere(std::shared_ptr<SphereCollider>& sphe
 		std::shared_ptr<SphereCollider>& dynamicCollider = rb1 ? sphere1 : sphere2;
 
 		std::shared_ptr<Transform> dynamicTransform = dynamicCollider->GetGameObject()->transform.lock();
-		Vector3 dynamicPreviousPosition = dynamicCollider->GetPreviousPosition();
+		Vector3 dynamicPreviousPosition = dynamicTransform->GetPreviousPosition();
 		Vector3 dynamicPosition = dynamicTransform->GetPosition();
 
 		BoundingSphere& staticSphere = staticCollider->GetSphere();
@@ -367,7 +350,7 @@ void ComponentHandler::ResolveBoxSphere(std::shared_ptr<BoxCollider>& box, std::
 		BoundingSphere& boundingSphere = sphere->GetSphere();
 
 		std::shared_ptr<Transform> dynamicTransform = rbBox ? box->GetGameObject()->transform.lock() : sphere->GetGameObject()->transform.lock();
-		Vector3 dynamicPreviousPosition = rbBox ? box->GetPreviousPosition() : sphere->GetPreviousPosition();
+		Vector3 dynamicPreviousPosition = dynamicTransform->GetPreviousPosition();
 		Vector3 dynamicPosition = dynamicTransform->GetPosition();
 
 		// INFO: Check for collision on each axis individually

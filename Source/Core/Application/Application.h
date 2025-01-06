@@ -22,7 +22,12 @@ public:
 
 private:
 	void SwitchMouseMode();
+
+	/// @brief Enables collider wireframes and changes skybox to debug mode
 	void SwitchDebugMode();
+
+	/// @brief Switch between freeCam and target
+	void SwitchCameraMode();
 
 private:
 	Window window;
@@ -30,5 +35,6 @@ private:
 	std::unique_ptr<Scene> currentScene;
 
 	bool isRunning;
+	bool isFirstUpdate;
 };
 

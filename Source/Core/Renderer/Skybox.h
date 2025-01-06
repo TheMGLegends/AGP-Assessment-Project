@@ -15,6 +15,8 @@ public:
 
 	void Draw(ID3D11DeviceContext* deviceContext, DirectX::XMMATRIX translationMatrix, DirectX::XMMATRIX viewMatrix, DirectX::XMMATRIX projectionMatrix);
 
+	inline Mesh* GetMesh() const { return mesh.get(); }
+
 private:
 	std::unique_ptr<Mesh> mesh;
 };

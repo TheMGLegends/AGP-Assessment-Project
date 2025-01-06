@@ -135,9 +135,11 @@ HRESULT AssetHandler::LoadAssets()
 	// INFO: Load Materials
 	Material* debugSkyboxMaterial = new Material("Skybox", "Skybox", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Disabled, CullingModeType::FrontSolid, BlendStateType::None, "DebugSkybox");
 	if (FAILED(LoadMaterial("DebugSkyboxMaterial", debugSkyboxMaterial))) return E_FAIL;
-
 	Material* galaxySkyboxMaterial = new Material("Skybox", "Skybox", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Disabled, CullingModeType::FrontSolid, BlendStateType::None, "GalaxySkybox");
 	if (FAILED(LoadMaterial("GalaxySkyboxMaterial", galaxySkyboxMaterial))) return E_FAIL;
+
+	Material* playerMaterial = new Material("Lit", "Lit", ConstantBufferType::LitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Blue");
+	if (FAILED(LoadMaterial("PlayerMaterial", playerMaterial))) return E_FAIL;
 
 	// TODO: TEST MATERIAL
 	Material* testMaterial = new Material("Reflective", "Reflective", ConstantBufferType::ReflectiveVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Box", "GalaxySkybox");

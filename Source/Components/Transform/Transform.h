@@ -9,6 +9,7 @@ public:
 	virtual ~Transform() override;
 
 	DirectX::XMMATRIX GetWorldMatrix() const;
+	DirectX::XMMATRIX GetWorldMatrix(const DirectX::SimpleMath::Vector3& additionalScale) const;
 
 	DirectX::SimpleMath::Vector3 GetForwardVector() const;
 	DirectX::SimpleMath::Vector3 GetRightVector() const;

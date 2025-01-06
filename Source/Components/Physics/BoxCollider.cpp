@@ -3,8 +3,9 @@
 #include "../../Game/GameObjects/Core/GameObject.h"
 
 using namespace DirectX;
+using namespace DirectX::SimpleMath;
 
-BoxCollider::BoxCollider(GameObject* _gameObject) : Collider(_gameObject)
+BoxCollider::BoxCollider(GameObject* _gameObject) : Collider(_gameObject), offsetScale(Vector3::Zero)
 {
 	colliderType = Type::Box;
 
@@ -12,7 +13,7 @@ BoxCollider::BoxCollider(GameObject* _gameObject) : Collider(_gameObject)
 	if (std::shared_ptr<Transform> transform = GetGameObject()->transform.lock())
 	{
 		orientedBox.Center = transform->GetPosition();
-		orientedBox.Extents = transform->GetScale();
+		orientedBox.Extents = transform->GetScale() + offsetScale;
 		orientedBox.Orientation = transform->GetRotation();
 	}
 }
@@ -27,7 +28,7 @@ void BoxCollider::Update(float deltaTime)
 	if (std::shared_ptr<Transform> transform = GetGameObject()->transform.lock())
 	{
 		orientedBox.Center = transform->GetPosition();
-		orientedBox.Extents = transform->GetScale();
+		orientedBox.Extents = transform->GetScale() + offsetScale;
 		orientedBox.Orientation = transform->GetRotation();
 	}
 }
@@ -66,7 +67,7 @@ void BoxCollider::DrawWireframe(ID3D11DeviceContext* deviceContext)
 
 	if (owningTransform)
 	{
-		XMMATRIX worldMatrix = owningTransform->GetWorldMatrix();
+		XMMATRIX worldMatrix = owningTransform->GetWorldMatrix(offsetScale);
 
 		// INFO: Translate the vertices to world space
 		VertexPositionColor worldVertices[8]{};

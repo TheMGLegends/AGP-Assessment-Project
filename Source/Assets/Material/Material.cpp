@@ -6,17 +6,17 @@
 using namespace DebugUtils;
 using namespace DirectXConfig;
 
-Material::Material(std::string vertexShaderName, std::string pixelShaderName, ConstantBufferType constantBufferType, 
+Material::Material(const std::string& vertexShaderName, const std::string& pixelShaderName, ConstantBufferType constantBufferType, 
 				   ConstantBufferInfo::ShaderType shaderType, DepthWriteType depthWriteType, CullingModeType cullingModeType, 
-				   BlendStateType blendStateType, std::string textureName, std::string skyboxTextureName) : vertexShader(nullptr),
-																											pixelShader(nullptr),
-																											inputLayout(nullptr),
-																											depthWrite(nullptr),
-																											cullingMode(nullptr),
-																											blendState(nullptr),
-																											texture(nullptr),
-																											reflectedTexture(nullptr),
-																											sampler(nullptr)
+				   BlendStateType blendStateType, const std::string& textureName, const std::string& skyboxTextureName) : vertexShader(nullptr),
+																														  pixelShader(nullptr),
+																														  inputLayout(nullptr),
+																														  depthWrite(nullptr),
+																														  cullingMode(nullptr),
+																														  blendState(nullptr),
+																														  texture(nullptr),
+																														  reflectedTexture(nullptr),
+																														  sampler(nullptr)
 {
 	// INFO: Use asset handler to populate the material properties from the asset files
 
@@ -58,6 +58,11 @@ void Material::AddConstantBuffer(DirectXConfig::ConstantBufferType constantBuffe
 	const ConstantBufferData& constantBufferData = AssetHandler::GetConstantBufferData(constantBufferType);
 	ConstantBufferInfo constantBufferInfo = { constantBufferData.GetConstantBuffer(), shaderType };
 	constantBuffers[constantBufferData.GetConstantBufferType()] = constantBufferInfo;
+}
+
+void Material::SetTexture(const std::string& textureName)
+{
+	texture = AssetHandler::GetTexture(textureName);
 }
 
 void Material::Set(ID3D11DeviceContext* deviceContext)

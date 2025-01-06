@@ -19,6 +19,6 @@ Sphere::~Sphere()
 void Sphere::Update(float deltaTime)
 {
 	// TEST CODE
-	DirectX::SimpleMath::Vector3 position = DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.5f * deltaTime);
-	transform.lock()->Translate(position);
+	//DirectX::SimpleMath::Vector3 position = DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.5f * deltaTime);
+	//transform.lock()->Translate(position);
 }

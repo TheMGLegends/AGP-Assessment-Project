@@ -2,8 +2,11 @@
 
 #include "../Input/InputHandler.h"
 #include "../Renderer/Renderer.h"
+#include "../Renderer/Skybox.h"
 #include "../Time/Time.h"
+#include "../../Assets/Material/Material.h"
 #include "../../Components/Core/ComponentHandler.h"
+#include "../../Components/Mesh/Mesh.h"
 #include "../../Components/Physics/Collider.h"
 #include "../../Game/Camera/Camera.h"
 #include "../../Scene/GameScene.h"
@@ -13,7 +16,7 @@
 using namespace DebugUtils;
 using namespace DirectX;
 
-Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& windowInfo) : window(), isRunning(false)
+Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& windowInfo) : window(), isRunning(false), isFirstUpdate(true)
 {
 	srand(static_cast<unsigned int>(time(nullptr)));
 
@@ -53,6 +56,7 @@ Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& wi
 	// INFO: Setup input handling application specific bindings
 	InputHandler::BindKeyToAction(Keyboard::Keys::M, BindData(std::bind(&Application::SwitchMouseMode, this), ButtonState::Pressed));
 	InputHandler::BindKeyToAction(Keyboard::Keys::F1, BindData(std::bind(&Application::SwitchDebugMode, this), ButtonState::Pressed));
+	InputHandler::BindKeyToAction(Keyboard::Keys::F2, BindData(std::bind(&Application::SwitchCameraMode, this), ButtonState::Pressed));
 
 	isRunning = true;
 }
@@ -79,7 +83,6 @@ void Application::Run()
 
 		InputHandler::HandleInput();
 		Update(Time::GetDeltaTime());
-		ComponentHandler::Update(Time::GetDeltaTime());
 		ComponentHandler::CheckCollisions();
 		RenderFrame();
 
@@ -90,8 +93,16 @@ void Application::Run()
 
 void Application::Update(float deltaTime)
 {
+	if (isFirstUpdate)
+	{
+		isFirstUpdate = false;
+		return;
+	}
+
 	currentScene->Update(deltaTime);
 	currentScene->LateUpdate(deltaTime);
+
+	ComponentHandler::Update(Time::GetDeltaTime());
 }
 
 void Application::RenderFrame()
@@ -113,4 +124,15 @@ void Application::SwitchMouseMode()
 void Application::SwitchDebugMode()
 {
 	Globals::gIsInDebugMode = !Globals::gIsInDebugMode;
+
+	if (Globals::gIsInDebugMode)
+		currentScene->GetSkybox()->GetMesh()->GetMaterial()->SetTexture("DebugSkybox");
+	else
+		currentScene->GetSkybox()->GetMesh()->GetMaterial()->SetTexture("GalaxySkybox");
+}
+
+void Application::SwitchCameraMode()
+{
+	Camera* camera = currentScene->GetCamera();
+	camera->SetIsFreeCam(!camera->GetIsFreeCam());
 }

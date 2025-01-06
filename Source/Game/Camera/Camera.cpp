@@ -11,6 +11,7 @@ Camera::Camera() : position(Vector3::Zero), offset(Vector3::Zero),
 				   rotation(Quaternion::CreateFromYawPitchRoll(DirectX::XM_PI, 0.0f, 0.0f)),
 				   pitchConstraints(-1.49f, 1.49f), target(nullptr), freeCamInfo(FreeCamInfo()), projectionInfo(ProjectionInfo())
 {
+	InputHandler::BindKeyToAction(DirectX::Keyboard::Keys::R, BindData(std::bind(&Camera::Reset, this), ButtonState::Pressed));
 }
 
 Camera::Camera(const Vector3& _position, const Vector3& _offset, const Quaternion& _rotation, const Vector2& _pitchConstraints, 
@@ -19,6 +20,7 @@ Camera::Camera(const Vector3& _position, const Vector3& _offset, const Quaternio
 																											 freeCamInfo(_freeCamInfo), projectionInfo(_projectionInfo),
 																											 target(_target)
 {
+	InputHandler::BindKeyToAction(DirectX::Keyboard::Keys::R, BindData(std::bind(&Camera::Reset, this), ButtonState::Pressed));
 }
 
 Camera::~Camera()
@@ -93,7 +95,7 @@ void Camera::Update(float deltaTime)
 	}
 	else if (target != nullptr)
 	{
-		position += target->GetPosition() + offset;
+		position = target->GetPosition() + offset;
 	}
 }
 
@@ -103,5 +105,13 @@ void Camera::Reset()
 		return;
 
 	position = Vector3::Zero;
-	rotation = Quaternion::CreateFromYawPitchRoll(0.0f, DirectX::XM_PIDIV2, 0.0f);
+	rotation = Quaternion::CreateFromYawPitchRoll(DirectX::XM_PI, 0.0f, 0.0f);
+}
+
+void Camera::SetIsFreeCam(bool _isFreeCam)
+{
+	freeCamInfo.isFreeCam = _isFreeCam;
+
+	// INFO: Notify observers of free cam change
+	NotifyIsFreeCamChanged(freeCamInfo.isFreeCam);
 }

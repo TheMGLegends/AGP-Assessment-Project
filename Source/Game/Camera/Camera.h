@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../Observer/Subject.h"
+
 #include <SimpleMath.h>
 
 class Transform;
@@ -10,7 +12,7 @@ struct FreeCamInfo
 	float movementSpeed;
 	float rotationSpeed;
 
-	FreeCamInfo() : isFreeCam(false), movementSpeed(5.0f), rotationSpeed(0.001f) {};
+	FreeCamInfo() : isFreeCam(true), movementSpeed(5.0f), rotationSpeed(0.001f) {};
 	FreeCamInfo(bool _isFreeCam, float _movementSpeed, float _rotationSpeed) : isFreeCam(_isFreeCam), 
 																			   movementSpeed(_movementSpeed), 
 																			   rotationSpeed(_rotationSpeed) {};
@@ -33,7 +35,7 @@ struct ProjectionInfo
 		: fovAngleY(_fovAngleY), aspectRatio(width / height), nearZ(_nearZ), farZ(_farZ) {};
 };
 
-class Camera
+class Camera : public Subject
 {
 public:
 	Camera();
@@ -52,7 +54,7 @@ public:
 
 	void Update(float deltaTime);
 
-	/// @brief Only resets cameras position and rotation
+	/// @brief Only resets cameras position and rotation if camera is free
 	void Reset();
 
 	inline const DirectX::SimpleMath::Vector3& GetPosition() const { return position; }
@@ -61,11 +63,10 @@ public:
 	inline void SetPitchConstraints(float minPitch, float maxPitch) { pitchConstraints = DirectX::SimpleMath::Vector2(minPitch, maxPitch); }
 	inline const DirectX::SimpleMath::Vector2& GetPitchConstraints() const { return pitchConstraints; }
 
-	/// @brief Setting target automatically sets camera to not be free
-	inline void SetTarget(Transform* _target) { target = _target; freeCamInfo.isFreeCam = false; }
+	inline void SetTarget(Transform* _target) { target = _target; }
 
-	/// @return Used to modify cameras FreeCamInfo
-	FreeCamInfo& GetFreeCamInfo() { return freeCamInfo; }
+	void SetIsFreeCam(bool _isFreeCam);
+	inline bool GetIsFreeCam() const { return freeCamInfo.isFreeCam; }
 
 	/// @return Used to modify cameras ProjectionInfo
 	ProjectionInfo& GetProjectionInfo() { return projectionInfo; }

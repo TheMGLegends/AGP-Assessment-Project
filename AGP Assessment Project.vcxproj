@@ -169,11 +169,13 @@
     <ClCompile Include="Source\Utilities\Globals\Globals.cpp" />
     <ClCompile Include="Source\Utilities\MathUtils.cpp" />
     <ClCompile Include="Source\Components\Physics\SphereCollider.cpp" />
+    <ClCompile Include="Source\Observer\Subject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Observer\IObserver.h" />
     <ClInclude Include="Source\Lighting\PointLight.h" />
     <ClInclude Include="Source\Lighting\DirectionalLight.h" />
     <ClInclude Include="Source\Lighting\AmbientLight.h" />
@@ -216,6 +218,7 @@
     <ClInclude Include="Source\Utilities\Globals\Globals.h" />
     <ClInclude Include="Source\Utilities\MathUtils.h" />
     <ClInclude Include="Source\Components\Physics\SphereCollider.h" />
+    <ClInclude Include="Source\Observer\Subject.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

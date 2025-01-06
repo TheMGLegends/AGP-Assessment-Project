@@ -7,7 +7,7 @@
 
 using namespace DirectX::SimpleMath;
 
-const Vector3 Rigidbody::GLOBAL_GRAVITY = Vector3(0.0f, -200.0f, 0.0f);
+const Vector3 Rigidbody::GLOBAL_GRAVITY = Vector3(0.0f, -500.0f, 0.0f);
 
 Rigidbody::Rigidbody(GameObject* _gameObject) : Component(_gameObject), gravity(GLOBAL_GRAVITY), velocity(Vector3::Zero), 
 												acceleration(Vector3::Zero), useGravity(true)

@@ -9,6 +9,9 @@ public:
 	Player();
 	virtual ~Player() override;
 
+	virtual void Update(float deltaTime) override;
+	virtual void OnCollision(std::shared_ptr<Collider> other) override;
+
 	inline void SetMovementSpeed(float _movementSpeed) { movementSpeed = _movementSpeed; }
 	inline float GetMovementSpeed() const { return movementSpeed; }
 
@@ -21,11 +24,20 @@ private:
 	void MoveLeft();
 	void MoveRight();
 
+	void Jump();
+
 private:
 	std::weak_ptr<Mesh> mesh;
 	std::weak_ptr<BoxCollider> boxCollider;
 	std::weak_ptr<Rigidbody> rigidbody;
 
 	float movementSpeed;
+	float jumpStrength;
+
+	bool isGrounded;
+	bool isJumping;
+
+	float jumpDuration;
+	float jumpTimer;
 };
 

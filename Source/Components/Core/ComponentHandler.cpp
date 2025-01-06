@@ -266,26 +266,21 @@ void ComponentHandler::ResolveBoxBox(std::shared_ptr<BoxCollider>& box1, std::sh
 		BoundingOrientedBox& staticOrientedBox = staticCollider->GetOrientedBox();
 		BoundingOrientedBox& dynamicOrientedBox = dynamicCollider->GetOrientedBox();
 
-		// INFO: Check for collision on each axis individually
-		
-		// INFO: X-axis
-		dynamicOrientedBox.Center.x = dynamicPreviousPosition.x; // NOTE: Doesn't require changing back because it'll get updated in the next frame
+		Vector3 direction = dynamicPosition - dynamicPreviousPosition;
+		direction.Normalize();
 
-		// INFO: By reverting a singular axis, if they are no longer colliding we revert the dynamic object's position on that axis only
-		if (staticOrientedBox.Contains(dynamicOrientedBox) == DirectX::DISJOINT)
-			dynamicTransform->SetPosition(Vector3(dynamicPreviousPosition.x, dynamicPosition.y, dynamicPosition.z), false);
+		if (box1->GetGameObject()->GetLayer() == Layer::Player && box2->GetGameObject()->GetLayer() == Layer::Ground ||
+			box1->GetGameObject()->GetLayer() == Layer::Ground && box2->GetGameObject()->GetLayer() == Layer::Player)
+			return;
 
-		// INFO: Y-axis
-		dynamicOrientedBox.Center.y = dynamicPreviousPosition.y; 
+		float distance = 0.0f;
 
-		if (staticOrientedBox.Contains(dynamicOrientedBox) == DirectX::DISJOINT)
-			dynamicTransform->SetPosition(Vector3(dynamicPosition.x, dynamicPreviousPosition.y, dynamicPosition.z), false);
-
-		// INFO: Z-axis
-		dynamicOrientedBox.Center.z = dynamicPreviousPosition.z;
-
-		if (staticOrientedBox.Contains(dynamicOrientedBox) == DirectX::DISJOINT)
-			dynamicTransform->SetPosition(Vector3(dynamicPosition.x, dynamicPosition.y, dynamicPreviousPosition.z), false);
+		if (staticOrientedBox.Intersects(XMLoadFloat3(&dynamicOrientedBox.Center), direction, distance))
+		{
+			Vector3 penetration = direction * distance;
+			//penetration *= 0.009f;
+			dynamicTransform->SetPosition(dynamicPosition - penetration, false);
+		}
 	}
 }
 
@@ -311,26 +306,17 @@ void ComponentHandler::ResolveSphereSphere(std::shared_ptr<SphereCollider>& sphe
 		BoundingSphere& staticSphere = staticCollider->GetSphere();
 		BoundingSphere& dynamicSphere = dynamicCollider->GetSphere();
 
-		// INFO: Check for collision on each axis individually
+		Vector3 direction = dynamicPosition - dynamicPreviousPosition;
+		direction.Normalize();
 
-		// INFO: X-axis
-		dynamicSphere.Center.x = dynamicPreviousPosition.x; // NOTE: Doesn't require changing back because it'll get updated in the next frame
+		float distance = 0.0f;
 
-		// INFO: By reverting a singular axis, if they are no longer colliding we revert the dynamic object's position on that axis only
-		if (staticSphere.Contains(dynamicSphere) == DirectX::DISJOINT)
-			dynamicTransform->SetPosition(Vector3(dynamicPreviousPosition.x, dynamicPosition.y, dynamicPosition.z), false);
-
-		// INFO: Y-axis
-		dynamicSphere.Center.y = dynamicPreviousPosition.y;
-
-		if (staticSphere.Contains(dynamicSphere) == DirectX::DISJOINT)
-			dynamicTransform->SetPosition(Vector3(dynamicPosition.x, dynamicPreviousPosition.y, dynamicPosition.z), false);
-
-		// INFO: Z-axis
-		dynamicSphere.Center.z = dynamicPreviousPosition.z;
-
-		if (staticSphere.Contains(dynamicSphere) == DirectX::DISJOINT)
-			dynamicTransform->SetPosition(Vector3(dynamicPosition.x, dynamicPosition.y, dynamicPreviousPosition.z), false);
+		if (staticSphere.Intersects(XMLoadFloat3(&dynamicSphere.Center), direction, distance))
+		{
+			Vector3 penetration = direction * distance;
+			//penetration *= 0.009f;
+			dynamicTransform->SetPosition(dynamicPosition - penetration, false);
+		}
 	}
 }
 
@@ -353,34 +339,16 @@ void ComponentHandler::ResolveBoxSphere(std::shared_ptr<BoxCollider>& box, std::
 		Vector3 dynamicPreviousPosition = dynamicTransform->GetPreviousPosition();
 		Vector3 dynamicPosition = dynamicTransform->GetPosition();
 
-		// INFO: Check for collision on each axis individually
+		Vector3 direction = dynamicPosition - dynamicPreviousPosition;
+		direction.Normalize();
 
-		// INFO: X-axis
-		if (rbBox)
-			orientedBox.Center.x = dynamicPreviousPosition.x; // NOTE: Doesn't require changing back because it'll get updated in the next frame
-		else
-			boundingSphere.Center.x = dynamicPreviousPosition.x; // NOTE: Doesn't require changing back because it'll get updated in the next frame
+		float distance = 0.0f;
 
-		// INFO: By reverting a singular axis, if they are no longer colliding we revert the dynamic object's position on that axis only
-		if (orientedBox.Contains(boundingSphere) == DirectX::DISJOINT)
-			dynamicTransform->SetPosition(Vector3(dynamicPreviousPosition.x, dynamicPosition.y, dynamicPosition.z), false);
-
-		// INFO: Y-axis
-		if (rbBox)
-			orientedBox.Center.y = dynamicPreviousPosition.y;
-		else
-			boundingSphere.Center.y = dynamicPreviousPosition.y;
-
-		if (orientedBox.Contains(boundingSphere) == DirectX::DISJOINT)
-			dynamicTransform->SetPosition(Vector3(dynamicPosition.x, dynamicPreviousPosition.y, dynamicPosition.z), false);
-
-		// INFO: Z-axis
-		if (rbBox)
-			orientedBox.Center.z = dynamicPreviousPosition.z;
-		else
-			boundingSphere.Center.z = dynamicPreviousPosition.z;
-
-		if (orientedBox.Contains(boundingSphere) == DirectX::DISJOINT)
-			dynamicTransform->SetPosition(Vector3(dynamicPosition.x, dynamicPosition.y, dynamicPreviousPosition.z), false);
+		if (boundingSphere.Intersects(XMLoadFloat3(&orientedBox.Center), direction, distance))
+		{
+			Vector3 penetration = direction * distance;
+			//penetration *= 0.09f;
+			dynamicTransform->SetPosition(dynamicPosition - penetration, false);
+		}
 	}
 }

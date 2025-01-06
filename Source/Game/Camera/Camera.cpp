@@ -7,7 +7,7 @@
 using namespace DirectX::SimpleMath;
 using namespace MathUtils;
 
-Camera::Camera() : position(Vector3::Zero), offset(Vector3::Zero),
+Camera::Camera() : position(Vector3(0.0f, 15.0f, 0.0f)), offset(Vector3::Zero),
 				   rotation(Quaternion::CreateFromYawPitchRoll(DirectX::XM_PI, 0.0f, 0.0f)),
 				   pitchConstraints(-1.49f, 1.49f), target(nullptr), freeCamInfo(FreeCamInfo()), projectionInfo(ProjectionInfo())
 {

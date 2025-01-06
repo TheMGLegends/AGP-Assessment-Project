@@ -16,7 +16,7 @@
 using namespace DebugUtils;
 using namespace DirectX;
 
-Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& windowInfo) : window(), isRunning(false), isFirstUpdate(true)
+Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& windowInfo) : window(), isRunning(false), isFirstLoop(true)
 {
 	srand(static_cast<unsigned int>(time(nullptr)));
 
@@ -74,6 +74,12 @@ void Application::Run()
 	{
 		Time::Tick();
 
+		if (isFirstLoop)
+		{
+			isFirstLoop = false;
+			continue;
+		}
+
 		// INFO: Terminate if quit message received
 		if (Window::ProcessMessages() == -1)
 			break;
@@ -93,12 +99,6 @@ void Application::Run()
 
 void Application::Update(float deltaTime)
 {
-	if (isFirstUpdate)
-	{
-		isFirstUpdate = false;
-		return;
-	}
-
 	currentScene->Update(deltaTime);
 	currentScene->LateUpdate(deltaTime);
 

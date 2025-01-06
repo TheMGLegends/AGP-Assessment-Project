@@ -5,8 +5,7 @@
 
 Cube::Cube()
 {
-	// TODO: Add proper material
-	mesh = AddComponent<Mesh>(this, "Cube", "TestMaterial");
+	mesh = AddComponent<Mesh>(this, "Cube", "BoxMaterial");
 	boxCollider = AddComponent<BoxCollider>(this);
 }
 

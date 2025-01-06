@@ -10,6 +10,7 @@
 #include "../Game/GameObjects/Default/Sphere.h"
 
 using namespace DirectX;
+using namespace DirectX::SimpleMath;
 
 GameScene::~GameScene()
 {
@@ -22,7 +23,7 @@ bool GameScene::Initialise()
 	// INFO: Player & Camera Setup
 	std::unique_ptr<Player> player = std::make_unique<Player>();
 	std::shared_ptr<Transform> playerTransform = player->transform.lock();
-	playerTransform->SetPosition(XMVECTOR{ 0.0f, 0.0f, 5.0f }, false);
+	playerTransform->SetPosition(XMVECTOR{ 0.0f, 2.5f, 0.0f }, false);
 
 	// INFO: Camera has target and inline with players head
 	camera->AddObserver(player.get());
@@ -40,18 +41,29 @@ bool GameScene::Initialise()
 
 	floor->GetComponent<Mesh>().lock()->SetMaterial("FloorMaterial");
 	floor->SetLayer(Layer::Ground);
-	floorTransform->SetPosition(XMVECTOR{ 0.0f, -5.0f, 0.0f }, false);
+	floorTransform->SetPosition(XMVECTOR{ 0.0f, 0.0f, 0.0f }, false);
 	floorTransform->SetScale(XMVECTOR{ 50.0f, 0.25f, 50.0f });
 
 	gameObjects.push_back(std::move(floor));
 
+	// INFO: Reflective Sphere
+	gameObjects.emplace_back(std::make_unique<Sphere>());
+	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ 0.0f, 20.0f, 0.0f }, false);
+
+	// INFO: Boxes
+	gameObjects.emplace_back(std::make_unique<Cube>());
+	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ 0.0f, 2.5f, -15.0f }, false);
+	gameObjects.back()->transform.lock()->SetScale(XMVECTOR{ 2.0f, 2.0f, 2.0f });
+
+	gameObjects.emplace_back(std::make_unique<Cube>());
+	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ -10.0f, 3.25f, 15.0f }, false);
+	gameObjects.back()->transform.lock()->SetScale(XMVECTOR{ 3.0f, 3.0f, 3.0f });
+	Quaternion rotation = Quaternion::CreateFromYawPitchRoll(XMConvertToRadians(45.0f), 0.0f, 0.0f);
+	gameObjects.back()->transform.lock()->SetRotation(rotation);
+
 	// TODO: Initialise the game scene
 	// TEST CODE
 
-	gameObjects.emplace_back(std::make_unique<Sphere>());
-	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ 0.0f, 0.0f, -5.0f }, false);
-	gameObjects.emplace_back(std::make_unique<Cube>());
-	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ 0.0f, 0.0f, -15.0f }, false);
 	AddPointLight(PointLight(XMVectorSet(0.9f, 0.0f, 0.85f, 1.0f), XMVECTOR{ 1.5f, 0.0f, -1.0f }, 10));
 
 	return result;

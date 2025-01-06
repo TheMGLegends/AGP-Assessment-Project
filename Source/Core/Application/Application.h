@@ -35,6 +35,6 @@ private:
 	std::unique_ptr<Scene> currentScene;
 
 	bool isRunning;
-	bool isFirstUpdate;
+	bool isFirstLoop;
 };
 

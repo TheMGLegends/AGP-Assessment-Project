@@ -136,19 +136,23 @@ HRESULT AssetHandler::LoadAssets()
 	// INFO: Load Materials
 	Material* debugSkyboxMaterial = new Material("Skybox", "Skybox", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Disabled, CullingModeType::FrontSolid, BlendStateType::None, "DebugSkybox");
 	if (FAILED(LoadMaterial("DebugSkyboxMaterial", debugSkyboxMaterial))) return E_FAIL;
+
 	Material* galaxySkyboxMaterial = new Material("Skybox", "Skybox", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Disabled, CullingModeType::FrontSolid, BlendStateType::None, "GalaxySkybox");
 	if (FAILED(LoadMaterial("GalaxySkyboxMaterial", galaxySkyboxMaterial))) return E_FAIL;
 
 	Material* playerMaterial = new Material("Lit", "Lit", ConstantBufferType::LitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Blue");
 	if (FAILED(LoadMaterial("PlayerMaterial", playerMaterial))) return E_FAIL;
+
 	Material* floorMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Grey");
 	if (FAILED(LoadMaterial("FloorMaterial", floorMaterial))) return E_FAIL;
 
-	// TODO: TEST MATERIAL
-	Material* testMaterial = new Material("Reflective", "Reflective", ConstantBufferType::ReflectiveVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Box", "GalaxySkybox");
-	testMaterial->AddConstantBuffer(ConstantBufferType::ReflectivePS, ConstantBufferInfo::ShaderType::Pixel);
-	testMaterial->SetReflectionAmount(1.0f);
-	if (FAILED(LoadMaterial("TestMaterial", testMaterial))) return E_FAIL;
+	Material* boxMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Box");
+	if (FAILED(LoadMaterial("BoxMaterial", boxMaterial))) return E_FAIL;
+
+	Material* sphereMaterial = new Material("Reflective", "Reflective", ConstantBufferType::ReflectiveVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Blue", "GalaxySkybox");
+	sphereMaterial->AddConstantBuffer(ConstantBufferType::ReflectivePS, ConstantBufferInfo::ShaderType::Pixel);
+	sphereMaterial->SetReflectionAmount(1.0f);
+	if (FAILED(LoadMaterial("SphereMaterial", sphereMaterial))) return E_FAIL;
 
 	// INFO: Load Models
 	if (FAILED(LoadModel("Cube", (char*)"Resources/Models/Cube.obj"))) return E_FAIL;

@@ -50,6 +50,14 @@ bool GameScene::Initialise()
 	gameObjects.emplace_back(std::make_unique<Sphere>());
 	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ 0.0f, 20.0f, 0.0f }, false);
 
+	// INFO: Sphere
+	std::unique_ptr<Sphere> litSphere = std::make_unique<Sphere>();
+	std::shared_ptr<Transform> litSphereTransform = litSphere->transform.lock();
+
+	litSphere->GetComponent<Mesh>().lock()->SetMaterial("BoxMaterialLit");
+	litSphereTransform->SetPosition(XMVECTOR{ 10.0f, 3.25f, 15.0f }, false);
+	gameObjects.push_back(std::move(litSphere));
+
 	// INFO: Boxes
 	gameObjects.emplace_back(std::make_unique<Cube>());
 	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ 0.0f, 2.5f, -15.0f }, false);

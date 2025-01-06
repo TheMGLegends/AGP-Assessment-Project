@@ -27,6 +27,7 @@ public:
 	void Update(float deltaTime);
 	void LateUpdate(float deltaTime);
 	void ProcessDestroyedGameObjects();
+	void SwitchDebugMode();
 
 	const std::vector<std::unique_ptr<UserInterfaceElement>>& GetUserInterfaceElements() const;
 

@@ -16,7 +16,8 @@ Material::Material(const std::string& vertexShaderName, const std::string& pixel
 																														  blendState(nullptr),
 																														  texture(nullptr),
 																														  reflectedTexture(nullptr),
-																														  sampler(nullptr)
+																														  sampler(nullptr),
+																														  reflectionAmount(0.5f)
 {
 	// INFO: Use asset handler to populate the material properties from the asset files
 
@@ -63,6 +64,11 @@ void Material::AddConstantBuffer(DirectXConfig::ConstantBufferType constantBuffe
 void Material::SetTexture(const std::string& textureName)
 {
 	texture = AssetHandler::GetTexture(textureName);
+}
+
+void Material::SetReflectedTexture(const std::string& reflectedTextureName)
+{
+	reflectedTexture = AssetHandler::GetTexture(reflectedTextureName);
 }
 
 void Material::Set(ID3D11DeviceContext* deviceContext)

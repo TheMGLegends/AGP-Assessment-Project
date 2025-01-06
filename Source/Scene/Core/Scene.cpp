@@ -3,13 +3,19 @@
 #include <DirectXMath.h>
 
 #include "SceneContext.h"
+#include "../../Assets/Config/DirectXConfig.h"
+#include "../../Assets/Material/Material.h"
+#include "../../Components/Mesh/Mesh.h"
 #include "../../Game/Camera/Camera.h"
 #include "../../Game/GameObjects/Core/GameObject.h"
 #include "../../Core/Renderer/Skybox.h"
 #include "../../UI/Core/UserInterfaceElement.h"
 #include "../../Utilities/Debugging/DebugUtils.h"
+#include "../../Utilities/Globals/Globals.h"
+
 
 using namespace DebugUtils;
+using namespace DirectXConfig;
 using namespace DirectX;
 
 Scene::Scene() : gameObjects(), uiElements(), camera(nullptr), skybox(nullptr), ambientLight(), directionalLight(), pointLights()
@@ -112,6 +118,38 @@ void Scene::ProcessDestroyedGameObjects()
 		std::remove_if(gameObjects.begin(), gameObjects.end(),
 		[](const std::unique_ptr<GameObject>& gameObject) { return gameObject->GetIsMarkedForDeletion(); }),
 	gameObjects.end());
+}
+
+void Scene::SwitchDebugMode()
+{
+	if (Globals::gIsInDebugMode)
+	{
+		skybox->GetMesh()->GetMaterial()->SetTexture("DebugSkybox");
+
+		// INFO: Go through all game objects and change reflected texture for all materials that are reflective
+		for (auto& gameObject : gameObjects)
+		{
+			if (Material* material = gameObject->GetComponent<Mesh>().lock()->GetMaterial())
+			{
+				if (material->HasConstantBuffer(ConstantBufferType::ReflectiveVS))
+					material->SetReflectedTexture("DebugSkybox");
+			}
+		}
+	}
+	else
+	{
+		skybox->GetMesh()->GetMaterial()->SetTexture("GalaxySkybox");
+
+		// INFO: Go through all game objects and change reflected texture for all materials that are reflective
+		for (auto& gameObject : gameObjects)
+		{
+			if (Material* material = gameObject->GetComponent<Mesh>().lock()->GetMaterial())
+			{
+				if (material->HasConstantBuffer(ConstantBufferType::ReflectiveVS))
+					material->SetReflectedTexture("GalaxySkybox");
+			}
+		}
+	}
 }
 
 const std::vector<std::unique_ptr<UserInterfaceElement>>& Scene::GetUserInterfaceElements() const

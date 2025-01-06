@@ -2,11 +2,8 @@
 
 #include "../Input/InputHandler.h"
 #include "../Renderer/Renderer.h"
-#include "../Renderer/Skybox.h"
 #include "../Time/Time.h"
-#include "../../Assets/Material/Material.h"
 #include "../../Components/Core/ComponentHandler.h"
-#include "../../Components/Mesh/Mesh.h"
 #include "../../Components/Physics/Collider.h"
 #include "../../Game/Camera/Camera.h"
 #include "../../Scene/GameScene.h"
@@ -125,10 +122,7 @@ void Application::SwitchDebugMode()
 {
 	Globals::gIsInDebugMode = !Globals::gIsInDebugMode;
 
-	if (Globals::gIsInDebugMode)
-		currentScene->GetSkybox()->GetMesh()->GetMaterial()->SetTexture("DebugSkybox");
-	else
-		currentScene->GetSkybox()->GetMesh()->GetMaterial()->SetTexture("GalaxySkybox");
+	currentScene->SwitchDebugMode();
 }
 
 void Application::SwitchCameraMode()

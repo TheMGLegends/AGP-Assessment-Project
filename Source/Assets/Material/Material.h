@@ -45,6 +45,7 @@ public:
 	void AddConstantBuffer(DirectXConfig::ConstantBufferType constantBufferType, ConstantBufferInfo::ShaderType shaderType);
 
 	void SetTexture(const std::string& textureName);
+	void SetReflectedTexture(const std::string& reflectedTextureName);
 
 	inline void SetReflectionAmount(float amount) { reflectionAmount = amount; }
 	inline float GetReflectionAmount() const { return reflectionAmount; }

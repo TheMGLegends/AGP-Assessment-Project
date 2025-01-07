@@ -29,6 +29,8 @@ private:
 	/// @brief Switch between freeCam and target
 	void SwitchCameraMode();
 
+	void SwitchVSync();
+
 private:
 	Window window;
 	std::unique_ptr<Renderer> renderer;

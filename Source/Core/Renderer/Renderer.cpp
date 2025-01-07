@@ -393,5 +393,5 @@ void Renderer::RenderFrame(Scene* scene)
 	}
 	spriteBatch->End();
 
-	swapChain->Present(0, 0);
+	swapChain->Present(Globals::gEnableVSync ? 1 : 0, 0);
 }

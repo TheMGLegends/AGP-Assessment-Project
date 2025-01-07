@@ -54,6 +54,7 @@ Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& wi
 	InputHandler::BindKeyToAction(Keyboard::Keys::M, BindData(std::bind(&Application::SwitchMouseMode, this), ButtonState::Pressed));
 	InputHandler::BindKeyToAction(Keyboard::Keys::F1, BindData(std::bind(&Application::SwitchDebugMode, this), ButtonState::Pressed));
 	InputHandler::BindKeyToAction(Keyboard::Keys::F2, BindData(std::bind(&Application::SwitchCameraMode, this), ButtonState::Pressed));
+	InputHandler::BindKeyToAction(Keyboard::Keys::F3, BindData(std::bind(&Application::SwitchVSync, this), ButtonState::Pressed));
 
 	isRunning = true;
 }
@@ -129,4 +130,9 @@ void Application::SwitchCameraMode()
 {
 	Camera* camera = currentScene->GetCamera();
 	camera->SetIsFreeCam(!camera->GetIsFreeCam());
+}
+
+void Application::SwitchVSync()
+{
+	Globals::gEnableVSync = !Globals::gEnableVSync;
 }

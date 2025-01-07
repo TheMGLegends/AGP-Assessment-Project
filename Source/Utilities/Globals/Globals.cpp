@@ -3,4 +3,5 @@
 namespace Globals
 {
 	bool gIsInDebugMode = false;
+	bool gEnableVSync = false;
 }

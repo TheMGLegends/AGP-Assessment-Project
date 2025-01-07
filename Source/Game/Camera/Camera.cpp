@@ -1,5 +1,7 @@
 #include "Camera.h"
 
+#include <iostream>
+
 #include "../../Components/Transform/Transform.h"
 #include "../../Core/Input/InputHandler.h"
 #include "../../Utilities/MathUtils.h"
@@ -59,25 +61,27 @@ Vector3 Camera::GetUpVector() const
 
 void Camera::Update(float deltaTime)
 {
+	// INFO: Rotation
+	if (InputHandler::GetMouseMode() == DirectX::Mouse::Mode::MODE_RELATIVE)
+	{
+		DirectX::XMINT2 mouseInput = InputHandler::GetMousePosition();
+
+		std::cout << "Mouse Input: X: " << mouseInput.x << " Y: " << mouseInput.y << "\n";
+
+		// INFO: Euler rotation in radians
+		Vector3 eulerRotation = rotation.ToEuler();
+
+		eulerRotation.y += mouseInput.x * freeCamInfo.rotationSpeed;
+		eulerRotation.x -= mouseInput.y * freeCamInfo.rotationSpeed;
+
+		eulerRotation.x = Clamp(eulerRotation.x, pitchConstraints.x, pitchConstraints.y);
+
+		rotation = Quaternion::CreateFromYawPitchRoll(eulerRotation.y, eulerRotation.x, 0.0f);
+	}
+
 	// INFO: Different update behavior based on if camera is free or not
 	if (freeCamInfo.isFreeCam)
 	{
-		// INFO: Rotation
-		if (InputHandler::GetMouseMode() == DirectX::Mouse::Mode::MODE_RELATIVE)
-		{
-			DirectX::XMINT2 mouseInput = InputHandler::GetMousePosition();
-
-			// INFO: Euler rotation in radians
-			Vector3 eulerRotation = rotation.ToEuler(); 
-
-			eulerRotation.y += mouseInput.x * freeCamInfo.rotationSpeed;
-			eulerRotation.x -= mouseInput.y * freeCamInfo.rotationSpeed;
-
-			eulerRotation.x = Clamp(eulerRotation.x, pitchConstraints.x, pitchConstraints.y);
-
-			rotation = Quaternion::CreateFromYawPitchRoll(eulerRotation.y, eulerRotation.x, 0.0f);
-		}
-
 		// INFO: Movement
 		if (InputHandler::GetKey(DirectX::Keyboard::Keys::W))
 			position += GetForwardVector() * freeCamInfo.movementSpeed * deltaTime;
@@ -93,24 +97,6 @@ void Camera::Update(float deltaTime)
 	}
 	else if (target != nullptr)
 	{
-		// TODO: Rotation that rotates players yaw, but not pitch only camera gets pitch
-		
-		// INFO: Rotation
-		if (InputHandler::GetMouseMode() == DirectX::Mouse::Mode::MODE_RELATIVE)
-		{
-			DirectX::XMINT2 mouseInput = InputHandler::GetMousePosition();
-
-			// INFO: Euler rotation in radians
-			Vector3 eulerRotation = rotation.ToEuler();
-
-			eulerRotation.y += mouseInput.x * freeCamInfo.rotationSpeed;
-			eulerRotation.x -= mouseInput.y * freeCamInfo.rotationSpeed;
-
-			eulerRotation.x = Clamp(eulerRotation.x, pitchConstraints.x, pitchConstraints.y);
-
-			rotation = Quaternion::CreateFromYawPitchRoll(eulerRotation.y, eulerRotation.x, 0.0f);
-		}
-
 		// INFO: Adjust target yaw rotation based on camera yaw
 		Vector3 cameraEuler = rotation.ToEuler();
 		Vector3 targetEuler = target->GetRotation().ToEuler();

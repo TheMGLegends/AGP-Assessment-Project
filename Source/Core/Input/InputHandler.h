@@ -55,7 +55,7 @@ public:
 	static inline void ClearBindings() { keyboardActions.clear(); mouseActions.clear(); }
 
 	static void SetMouseMode(DirectX::Mouse::Mode mouseMode);
-	static inline DirectX::Mouse::Mode GetMouseMode() { return currentMouseMode; }
+	static inline DirectX::Mouse::Mode GetMouseMode() { return mouseState.positionMode; }
 
 	static inline void BindKeyToAction(DirectX::Keyboard::Keys key, BindData bindData) { keyboardActions[key] = bindData; }
 	static inline bool GetKey(DirectX::Keyboard::Keys key) { return keyboardState.IsKeyDown(key); }
@@ -83,7 +83,5 @@ private:
 	static DirectX::Mouse::State mouseState;
 	static DirectX::Mouse::ButtonStateTracker mouseStateTracker;
 	static std::unordered_map<MouseButton, BindData> mouseActions;
-
-	static DirectX::Mouse::Mode currentMouseMode;
 };
 

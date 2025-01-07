@@ -15,8 +15,6 @@ Mouse::State InputHandler::mouseState;
 Mouse::ButtonStateTracker InputHandler::mouseStateTracker;
 std::unordered_map<MouseButton, BindData> InputHandler::mouseActions;
 
-Mouse::Mode InputHandler::currentMouseMode = Mouse::Mode::MODE_ABSOLUTE;
-
 bool InputHandler::Initialise(HWND hWnd)
 {
 	// INFO: Create a keyboard and mouse
@@ -31,7 +29,7 @@ bool InputHandler::Initialise(HWND hWnd)
 
 	// INFO: Set mouse properties
 	mouse->SetWindow(hWnd);
-	mouse->SetMode(currentMouseMode);
+	mouse->SetMode(Mouse::Mode::MODE_ABSOLUTE);
 
 	return true;
 }
@@ -93,22 +91,15 @@ void InputHandler::HandleInput()
 
 void InputHandler::SetMouseMode(DirectX::Mouse::Mode mouseMode)
 {
-	if (mouseMode == currentMouseMode)
+	if (mouseMode == mouseState.positionMode)
 		return;
 	
-	currentMouseMode = mouseMode;
-	mouse->SetMode(currentMouseMode);
+	mouse->SetMode(mouseMode);
 
-	if (currentMouseMode == Mouse::Mode::MODE_ABSOLUTE)
+	if (mouseMode == Mouse::Mode::MODE_ABSOLUTE)
 		ShowCursor(TRUE);
-	else if (currentMouseMode == Mouse::Mode::MODE_RELATIVE)
-	{
-		// INFO: Prevents jumping of looking when switching to relative mode
-		mouseState.x = 0;
-		mouseState.y = 0;
-
+	else if (mouseMode == Mouse::Mode::MODE_RELATIVE)
 		ShowCursor(FALSE);
-	}
 }
 
 bool InputHandler::GetMouseButton(MouseButton mouseButton)

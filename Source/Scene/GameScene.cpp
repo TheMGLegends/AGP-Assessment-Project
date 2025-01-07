@@ -11,6 +11,7 @@
 #include "../Game/GameObjects/Default/Sphere.h"
 #include "../UI/FPSCounter.h"
 #include "../UI/ScoreCounter.h"
+#include "../UI/Tooltip.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -33,7 +34,7 @@ bool GameScene::Initialise()
 	uiElements.emplace_back(std::move(fpsCounter));
 
 	// INFO: Tooltip Text
-	std::unique_ptr<UserInterfaceElement> tooltipText = std::make_unique<UserInterfaceElement>("SimpleFont", Vector2(595, 0), Colors::White);
+	std::unique_ptr<Tooltip> tooltipText = std::make_unique<Tooltip>("SimpleFont", Vector2(0, 0), Colors::White);
 	tooltipText->SetText("M = Change Mouse Mode\nR = Reset Camera\nF1 = Change Debug Mode\nF2 = Possess Player\nF3 = Change VSync");
 	tooltipText->SetScale(Vector2(0.35f, 0.35f));
 	uiElements.emplace_back(std::move(tooltipText));

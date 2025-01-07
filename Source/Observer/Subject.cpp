@@ -35,3 +35,11 @@ void Subject::NotifyScoreChanged(int score)
 		observers[i]->OnNotifyScoreChange(score);
 	}
 }
+
+void Subject::NotifyWindowSizeChanged(int width, int height)
+{
+	for (size_t i = 0; i < observers.size(); i++)
+	{
+		observers[i]->OnNotifyWindowSizeChanged(width, height);
+	}
+}

@@ -173,6 +173,7 @@
     <ClCompile Include="Source\Utilities\MathUtils.cpp" />
     <ClCompile Include="Source\Components\Physics\SphereCollider.cpp" />
     <ClCompile Include="Source\Observer\Subject.cpp" />
+    <ClCompile Include="Source\UI\Tooltip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -225,6 +226,7 @@
     <ClInclude Include="Source\Utilities\MathUtils.h" />
     <ClInclude Include="Source\Components\Physics\SphereCollider.h" />
     <ClInclude Include="Source\Observer\Subject.h" />
+    <ClInclude Include="Source\UI\Tooltip.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

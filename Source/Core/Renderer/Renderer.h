@@ -6,9 +6,11 @@
 #include <Windows.h>
 #include <wrl.h>
 
+#include "../../Observer/IObserver.h"
+
 class Scene;
 
-class Renderer
+class Renderer : public IObserver
 {
 public:
 	Renderer();
@@ -20,6 +22,9 @@ public:
 
 	inline ID3D11Device* GetDevice() const { return device.Get(); }
 	inline ID3D11DeviceContext* GetDeviceContext() const { return deviceContext.Get(); }
+
+public:
+	virtual void OnNotifyWindowSizeChanged(int width, int height) override;
 
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device> device;

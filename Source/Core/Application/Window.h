@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../Observer/Subject.h"
+
 #include <functional>
 #include <Windows.h>
 
@@ -17,7 +19,7 @@ public:
 	int height;
 };
 
-class Window
+class Window : public Subject
 {
 public:
 	Window();

@@ -11,7 +11,7 @@ class UserInterfaceElement
 {
 public:
 	UserInterfaceElement(std::string fontName, DirectX::SimpleMath::Vector2 _position, DirectX::XMVECTORF32 _colour = DirectX::Colors::White);
-	virtual ~UserInterfaceElement();
+	virtual ~UserInterfaceElement() = 0;
 
 	virtual void Update(float deltaTime) {}
 	void Draw(DirectX::SpriteBatch* spriteBatch);

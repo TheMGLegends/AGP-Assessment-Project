@@ -31,6 +31,7 @@ Application::Application(HINSTANCE hInstance, int nCmdShow, const WindowInfo& wi
 		LogError("Application::Application(): Failed to initialise the renderer!");
 		return;
 	}
+	window.AddObserver(renderer.get());
 
 	// INFO: Initialise the collider wireframes for debug rendering
 	if (FAILED(Collider::InitialiseWireframes(renderer->GetDevice(), renderer->GetDeviceContext())))

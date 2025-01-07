@@ -66,7 +66,7 @@ VOut main(VIn input)
     }
 
     // INFO: Calculate the final colour based on the ambient light
-    output.colour = saturate(ambientLightColour + float4(directionalFinalColour, 1.0f) /*+ float4(pointFinalColour, 1.0f)*/);
+    output.colour = saturate(ambientLightColour + float4(directionalFinalColour, 1.0f) + float4(pointFinalColour, 1.0f));
 
     // INFO: The vertex position relative to the camera
     float3 wvPosition = mul(wv, float4(input.position, 1.0f)).xyz;

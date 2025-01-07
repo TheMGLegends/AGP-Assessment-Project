@@ -97,9 +97,7 @@ void InputHandler::SetMouseMode(DirectX::Mouse::Mode mouseMode)
 		return;
 	
 	currentMouseMode = mouseMode;
-
 	mouse->SetMode(currentMouseMode);
-
 
 	if (currentMouseMode == Mouse::Mode::MODE_ABSOLUTE)
 		ShowCursor(TRUE);

@@ -200,6 +200,8 @@ LRESULT Window::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 	{
 		windowInfo.width = LOWORD(lParam);
 		windowInfo.height = HIWORD(lParam);
+
+		NotifyWindowSizeChanged(windowInfo.width, windowInfo.height);
 		break;
 	}
 	default:

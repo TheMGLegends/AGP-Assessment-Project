@@ -157,6 +157,9 @@ HRESULT AssetHandler::LoadAssets()
 	sphereMaterial->SetReflectionAmount(1.0f);
 	if (FAILED(LoadMaterial("SphereMaterial", sphereMaterial))) return E_FAIL;
 
+	Material* coinMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Coin");
+	if (FAILED(LoadMaterial("CoinMaterial", coinMaterial))) return E_FAIL;
+
 	// INFO: Load Models
 	if (FAILED(LoadModel("Cube", (char*)"Resources/Models/Cube.obj"))) return E_FAIL;
 	if (FAILED(LoadModel("Quad", (char*)"Resources/Models/Quad.obj"))) return E_FAIL;

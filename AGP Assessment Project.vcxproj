@@ -131,6 +131,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\UI\FPSCounter.cpp" />
+    <ClCompile Include="Source\UI\ScoreCounter.cpp" />
+    <ClCompile Include="Source\Game\GameObjects\Coin.cpp" />
     <ClCompile Include="Source\Assets\Collections\ConstantBufferData.cpp" />
     <ClCompile Include="Source\Assets\Collections\VertexShaderData.cpp" />
     <ClCompile Include="Source\Lighting\PointLight.cpp" />
@@ -175,6 +178,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\UI\FPSCounter.h" />
+    <ClInclude Include="Source\UI\ScoreCounter.h" />
+    <ClInclude Include="Source\Game\GameObjects\Coin.h" />
     <ClInclude Include="Source\Observer\IObserver.h" />
     <ClInclude Include="Source\Lighting\PointLight.h" />
     <ClInclude Include="Source\Lighting\DirectionalLight.h" />

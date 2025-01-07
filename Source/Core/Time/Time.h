@@ -18,10 +18,14 @@ public:
 	static inline void SetTimeScale(const float _timeScale) { timeScale = _timeScale; }
 	static inline float GetTimeScale() { return timeScale; }
 
+	static void SetFrameCount(const unsigned int _frameCount) { frameCount = _frameCount; }
+	static inline unsigned int GetFrameCount() { return frameCount; }
+
 private:
 	static double deltaTime;
 	static double elapsedTime;
 	static float timeScale;
+	static unsigned int frameCount;
 
 	static std::chrono::time_point<std::chrono::steady_clock> currentTime;
 	static std::chrono::time_point<std::chrono::steady_clock> previousTime;

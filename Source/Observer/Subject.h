@@ -15,6 +15,7 @@ public:
 
 protected:
 	void NotifyIsFreeCamChanged(bool isFreeCam);
+	void NotifyScoreChanged(int score);
 
 private:
 	std::vector<IObserver*> observers;

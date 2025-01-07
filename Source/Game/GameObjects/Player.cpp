@@ -7,6 +7,7 @@
 #include "../../Components/Physics/Rigidbody.h"
 #include "../../Core/Input/InputHandler.h"
 #include "../../Core/Time/Time.h"
+#include "../../Game/GameObjects/Coin.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -56,6 +57,18 @@ void Player::OnCollision(std::shared_ptr<Collider> other)
 	{
 		rigidbody.lock()->SetIsActive(false);
 		isGrounded = true;
+	}
+}
+
+void Player::OnTrigger(std::shared_ptr<Collider> other)
+{
+	if (other->GetGameObject()->GetLayer() == Layer::Coin)
+	{
+		if (Coin* coin = dynamic_cast<Coin*>(other->GetGameObject()))
+		{
+			NotifyScoreChanged(coin->GetScoreValue());
+			coin->Destroy();
+		}
 	}
 }
 

@@ -6,8 +6,11 @@
 #include "../Assets/Material/Material.h"
 #include "../Game/Camera/Camera.h"
 #include "../Game/GameObjects/Player.h"
+#include "../Game/GameObjects/Coin.h"
 #include "../Game/GameObjects/Default/Cube.h"
 #include "../Game/GameObjects/Default/Sphere.h"
+#include "../UI/FPSCounter.h"
+#include "../UI/ScoreCounter.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -20,10 +23,20 @@ bool GameScene::Initialise()
 {
 	bool result = Scene::Initialise();
 
+	// INFO: Score Counter
+	std::unique_ptr<ScoreCounter> scoreCounter = std::make_unique<ScoreCounter>("SimpleFont", Vector2(0, 0));
+	scoreCounter->SetText("Score: 0");
+
+	// INFO: FPS Counter
+	uiElements.emplace_back(std::make_unique<FPSCounter>("SimpleFont", Vector2(0, 40)));
+
 	// INFO: Player & Camera Setup
 	std::unique_ptr<Player> player = std::make_unique<Player>();
+	player->AddObserver(scoreCounter.get());
 	std::shared_ptr<Transform> playerTransform = player->transform.lock();
 	playerTransform->SetPosition(XMVECTOR{ 0.0f, 2.5f, 0.0f }, false);
+	
+	uiElements.push_back(std::move(scoreCounter));
 
 	// INFO: Camera has target and inline with players head
 	camera->AddObserver(player.get());
@@ -73,6 +86,16 @@ bool GameScene::Initialise()
 	litCubeTransform->SetRotation(rotation);
 
 	gameObjects.push_back(std::move(litCube));
+
+	// INFO: Coins
+	gameObjects.emplace_back(std::make_unique<Coin>());
+	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ 10.0f, 2.5f, 0.0f }, false);
+	gameObjects.emplace_back(std::make_unique<Coin>());
+	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ 0.0f, 2.5f, 10.0f }, false);
+	gameObjects.emplace_back(std::make_unique<Coin>());
+	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ -10.0f, 2.5f, 0.0f }, false);
+	gameObjects.emplace_back(std::make_unique<Coin>());
+	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ 0.0f, 2.5f, -10.0f }, false);
 
 	// TODO: Initialise the game scene
 

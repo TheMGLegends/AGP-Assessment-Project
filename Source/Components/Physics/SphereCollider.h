@@ -5,7 +5,7 @@
 class SphereCollider : public Collider
 {
 public:
-	SphereCollider(GameObject* _gameObject, float radius);
+	SphereCollider(GameObject* _gameObject, float radius = 1.0f);
 	virtual ~SphereCollider() override;
 
 	virtual void Update(float deltaTime) override;

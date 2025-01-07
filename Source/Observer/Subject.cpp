@@ -27,3 +27,11 @@ void Subject::NotifyIsFreeCamChanged(bool isFreeCam)
 		observers[i]->OnNotifyIsFreeCamChange(isFreeCam);
 	}
 }
+
+void Subject::NotifyScoreChanged(int score)
+{
+	for (size_t i = 0; i < observers.size(); i++)
+	{
+		observers[i]->OnNotifyScoreChange(score);
+	}
+}

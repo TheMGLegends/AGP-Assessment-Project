@@ -2,8 +2,9 @@
 
 #include "Core/GameObject.h"
 #include "../../Observer/IObserver.h"
+#include "../../Observer/Subject.h"
 
-class Player : public GameObject, public IObserver
+class Player : public GameObject, public IObserver, public Subject
 {
 public:
 	Player();
@@ -11,6 +12,7 @@ public:
 
 	virtual void Update(float deltaTime) override;
 	virtual void OnCollision(std::shared_ptr<Collider> other) override;
+	virtual void OnTrigger(std::shared_ptr<Collider> other) override;
 
 	inline void SetMovementSpeed(float _movementSpeed) { movementSpeed = _movementSpeed; }
 	inline float GetMovementSpeed() const { return movementSpeed; }

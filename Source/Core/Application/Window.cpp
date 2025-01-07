@@ -165,6 +165,10 @@ LRESULT Window::HandleMessage(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		case VK_ESCAPE:
 			Quit();
 			break;
+		case VK_LWIN:
+		case VK_RWIN:
+			InputHandler::SetMouseMode(Mouse::Mode::MODE_ABSOLUTE);
+			break;
 		}
 		break;
 	}

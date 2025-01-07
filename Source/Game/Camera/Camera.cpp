@@ -1,7 +1,5 @@
 #include "Camera.h"
 
-#include <iostream>
-
 #include "../../Components/Transform/Transform.h"
 #include "../../Core/Input/InputHandler.h"
 #include "../../Utilities/MathUtils.h"
@@ -65,8 +63,6 @@ void Camera::Update(float deltaTime)
 	if (InputHandler::GetMouseMode() == DirectX::Mouse::Mode::MODE_RELATIVE)
 	{
 		DirectX::XMINT2 mouseInput = InputHandler::GetMousePosition();
-
-		std::cout << "Mouse Input: X: " << mouseInput.x << " Y: " << mouseInput.y << "\n";
 
 		// INFO: Euler rotation in radians
 		Vector3 eulerRotation = rotation.ToEuler();

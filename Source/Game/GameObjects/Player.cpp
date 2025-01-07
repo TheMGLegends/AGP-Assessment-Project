@@ -1,7 +1,5 @@
 #include "Player.h"
 
-#include <iostream>
-
 #include "../../Components/Mesh/Mesh.h"
 #include "../../Components/Physics/BoxCollider.h"
 #include "../../Components/Physics/Rigidbody.h"
@@ -12,7 +10,7 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-Player::Player() : movementSpeed(10.0f), jumpStrength(10.0f), isGrounded(false), isJumping(false), jumpDuration(0.5f), jumpTimer(0.0f)
+Player::Player() : movementSpeed(10.0f), jumpStrength(10.0f), isGrounded(false), isJumping(false), jumpDuration(1.0f), jumpTimer(0.0f)
 {
 	SetLayer(Layer::Player);
 
@@ -34,11 +32,6 @@ void Player::Update(float deltaTime)
 		if (std::shared_ptr<Rigidbody> rb = rigidbody.lock())
 		{
 			jumpTimer += deltaTime;
-
-			Vector3 rbVelocity = rb->GetVelocity();
-			Vector3 newVelocity = Vector3(rbVelocity.x, rbVelocity.y * 0.96f, rbVelocity.z);
-
-			rb->SetVelocity(newVelocity);
 
 			if (jumpTimer >= jumpDuration)
 			{

@@ -21,6 +21,7 @@ public:
 
 private:
 	static const DirectX::SimpleMath::Vector3 GLOBAL_GRAVITY;
+	static const DirectX::SimpleMath::Vector3 MAX_VELOCITY;
 
 	DirectX::SimpleMath::Vector3 gravity;
 	DirectX::SimpleMath::Vector3 velocity;

@@ -10,6 +10,7 @@ public:
 	Player();
 	virtual ~Player() override;
 
+	virtual void Start() override;
 	virtual void Update(float deltaTime) override;
 	virtual void OnCollision(std::shared_ptr<Collider> other) override;
 	virtual void OnTrigger(std::shared_ptr<Collider> other) override;
@@ -41,5 +42,7 @@ private:
 
 	float jumpDuration;
 	float jumpTimer;
+
+	GameObject* gun;
 };
 

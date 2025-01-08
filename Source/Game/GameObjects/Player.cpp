@@ -6,6 +6,7 @@
 #include "../../Core/Input/InputHandler.h"
 #include "../../Core/Time/Time.h"
 #include "../../Game/GameObjects/Coin.h"
+#include "../../Scene/Core/SceneContext.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -14,7 +15,7 @@ Player::Player() : movementSpeed(10.0f), jumpStrength(10.0f), isGrounded(false),
 {
 	SetLayer(Layer::Player);
 
-	mesh = AddComponent<Mesh>(this, "Cylinder", "PlayerMaterial");
+	playerMesh = AddComponent<Mesh>(this, "Cylinder", "PlayerMaterial");
 	boxCollider = AddComponent<BoxCollider>(this);
 	rigidbody = AddComponent<Rigidbody>(this);
 
@@ -25,8 +26,40 @@ Player::~Player()
 {
 }
 
+void Player::Start()
+{
+	// INFO: Create a gun and have it follow the player with an offset
+	if (std::shared_ptr<Transform> playerTransform = transform.lock())
+	{
+		gun = SceneContext::SpawnGameObject<GameObject>(playerTransform->GetPosition(), Quaternion::Identity);
+		gun->AddComponent<Mesh>(gun, "Gun", "GunMaterial");
+
+		if (std::shared_ptr<Transform> gunTransform = gun->transform.lock())
+		{
+			gunTransform->SetScale(Vector3(3.0f, 3.0f, 3.0f));
+		}
+	}
+}
+
 void Player::Update(float deltaTime)
 {
+	// INFO: Have the gun follow the player with an offset
+	if (std::shared_ptr<Transform> playerTransform = transform.lock())
+	{
+		if (std::shared_ptr<Transform> gunTransform = gun->transform.lock())
+		{
+			Vector3 playerPosition = playerTransform->GetPosition();
+			Vector3 playerForward = playerTransform->GetForwardVector();
+			Vector3 playerRight = playerTransform->GetRightVector();
+
+			gunTransform->SetPosition(playerPosition - playerRight * 0.5f + playerForward * 0.75f + Vector3(0.0f, 0.75f, 0.0f), false);
+
+			Quaternion newRotation = playerTransform->GetRotation() * Quaternion::CreateFromYawPitchRoll(XMConvertToRadians(180.0f), 0.0f, 0.0f);
+
+			gunTransform->SetRotation(newRotation);
+		}
+	}
+
 	if (isJumping)
 	{
 		if (std::shared_ptr<Rigidbody> rb = rigidbody.lock())

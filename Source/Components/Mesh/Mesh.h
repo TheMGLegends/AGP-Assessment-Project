@@ -14,6 +14,9 @@ public:
 	Mesh(GameObject* _gameObject, const std::string& modelName, const std::string& materialName);
 	virtual ~Mesh() override;
 
+	void SetModel(const std::string& modelName);
+	Model* GetModel() const;
+
 	void SetMaterial(const std::string& materialName);
 	Material* GetMaterial() const;
 

@@ -163,6 +163,9 @@ HRESULT AssetHandler::LoadAssets()
 	Material* particleMaterial = new Material("Particle", "Particle", ConstantBufferType::ParticleVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Blue");
 	if (FAILED(LoadMaterial("ParticleMaterial", particleMaterial))) return E_FAIL;
 
+	Material* gunMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Gun");
+	if (FAILED(LoadMaterial("GunMaterial", gunMaterial))) return E_FAIL;
+
 	// INFO: Load Models
 	if (FAILED(LoadModel("Cube", (char*)"Resources/Models/Cube.obj"))) return E_FAIL;
 	if (FAILED(LoadModel("Quad", (char*)"Resources/Models/Quad.obj"))) return E_FAIL;

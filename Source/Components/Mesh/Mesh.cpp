@@ -22,6 +22,19 @@ Mesh::~Mesh()
 {
 }
 
+void Mesh::SetModel(const std::string& modelName)
+{
+	model = AssetHandler::GetModel(modelName);
+
+	if (!model)
+		LogWarning("Mesh::SetModel(): Model is nullptr! Model name: " + modelName);
+}
+
+Model* Mesh::GetModel() const
+{
+	return model;
+}
+
 void Mesh::SetMaterial(const std::string& materialName)
 {
 	material = AssetHandler::GetMaterial(materialName);

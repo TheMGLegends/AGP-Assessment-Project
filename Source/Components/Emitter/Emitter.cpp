@@ -100,7 +100,7 @@ void Emitter::FountainEffect(float deltaTime)
 	// INFO: Go through the active particles and update them (Note: Drawing logic is done in renderer, not here)
 	if (!activeParticles.empty())
 	{
-		for (it = activeParticles.begin(); it != activeParticles.end(); ++it)
+		for (it = activeParticles.begin(); it != activeParticles.end();)
 		{
 			(*it)->age -= deltaTime;
 
@@ -109,11 +109,15 @@ void Emitter::FountainEffect(float deltaTime)
 				(*it)->SetIsActive(false);
 
 				inactiveParticles.push_back(*it);
-				activeParticles.erase(it++);
+				it = activeParticles.erase(it);
 
 				// INFO: If the emitter is not looping and all particles have been spawned, stop the emitter
 				if (!isLooping && particlesSpawned >= particleCount)
 					isTriggered = false;
+			}
+			else
+			{
+				++it;
 			}
 		}
 	}

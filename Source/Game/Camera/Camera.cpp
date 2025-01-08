@@ -57,7 +57,7 @@ Vector3 Camera::GetUpVector() const
 	return Vector3::Transform(Vector3::Up, rotation);
 }
 
-void Camera::Update(float deltaTime)
+void Camera::LateUpdate(float deltaTime)
 {
 	// INFO: Rotation
 	if (InputHandler::GetMouseMode() == DirectX::Mouse::Mode::MODE_RELATIVE)

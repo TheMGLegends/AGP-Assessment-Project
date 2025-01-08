@@ -140,7 +140,7 @@ HRESULT AssetHandler::LoadAssets()
 	Material* galaxySkyboxMaterial = new Material("Skybox", "Skybox", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Disabled, CullingModeType::FrontSolid, BlendStateType::None, "GalaxySkybox");
 	if (FAILED(LoadMaterial("GalaxySkyboxMaterial", galaxySkyboxMaterial))) return E_FAIL;
 
-	Material* playerMaterial = new Material("Lit", "Lit", ConstantBufferType::LitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Blue");
+	Material* playerMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Blue");
 	if (FAILED(LoadMaterial("PlayerMaterial", playerMaterial))) return E_FAIL;
 
 	Material* floorMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Grey");
@@ -159,6 +159,9 @@ HRESULT AssetHandler::LoadAssets()
 
 	Material* coinMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Coin");
 	if (FAILED(LoadMaterial("CoinMaterial", coinMaterial))) return E_FAIL;
+
+	Material* particleMaterial = new Material("Particle", "Particle", ConstantBufferType::ParticleVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Blue");
+	if (FAILED(LoadMaterial("ParticleMaterial", particleMaterial))) return E_FAIL;
 
 	// INFO: Load Models
 	if (FAILED(LoadModel("Cube", (char*)"Resources/Models/Cube.obj"))) return E_FAIL;

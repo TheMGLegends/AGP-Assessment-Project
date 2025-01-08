@@ -2,6 +2,7 @@
 
 #include <DirectXMath.h>
 
+#include "../Components/Emitter/Emitter.h"
 #include "../Components/Mesh/Mesh.h"
 #include "../Assets/Material/Material.h"
 #include "../Game/Camera/Camera.h"
@@ -106,10 +107,15 @@ bool GameScene::Initialise()
 	gameObjects.emplace_back(std::make_unique<Coin>());
 	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ 0.0f, 2.5f, -10.0f }, false);
 
+	// INFO: Particles
+	//std::unique_ptr<GameObject> particle = std::make_unique<GameObject>();
+	//particle->AddComponent<Emitter>(particle.get(), 10, "Quad", "ParticleMaterial");
+	//gameObjects.push_back(std::move(particle));
+
 	// TODO: Initialise the game scene
 
 	// TEST CODE
-	AddPointLight(PointLight(XMVectorSet(0.3f, 0.534f, 0.85f, 1.0f), XMVECTOR{ -10.0f, 5.0f, 15.0f }, 100));
+	AddPointLight(PointLight(XMVECTOR{0.0f, 0.384f, 0.98f, 1.0f}, XMVECTOR{0.0f, 2.5f, 0.0f}, 10));
 
 	return result;
 }

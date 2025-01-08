@@ -23,7 +23,7 @@ class GameObject
 {
 public:
 	GameObject();
-	virtual ~GameObject() = 0;
+	virtual ~GameObject();
 
 	template<class T>
 	std::weak_ptr<T> GetComponent();

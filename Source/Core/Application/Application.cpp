@@ -99,9 +99,9 @@ void Application::Run()
 void Application::Update(float deltaTime)
 {
 	currentScene->Update(deltaTime);
-	currentScene->LateUpdate(deltaTime);
-
 	ComponentHandler::Update(Time::GetDeltaTime());
+	ComponentHandler::CheckCollisions();
+	currentScene->LateUpdate(deltaTime);
 }
 
 void Application::RenderFrame()

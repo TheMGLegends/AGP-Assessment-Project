@@ -44,6 +44,25 @@ void Player::Start()
 
 void Player::Update(float deltaTime)
 {
+	if (isJumping)
+	{
+		if (std::shared_ptr<Rigidbody> rb = rigidbody.lock())
+		{
+			jumpTimer += deltaTime;
+
+			if (jumpTimer >= jumpDuration)
+			{
+				rb->SetVelocity(Vector3::Zero);
+
+				jumpTimer = 0.0f;
+				isJumping = false;
+			}
+		}
+	}
+}
+
+void Player::LateUpdate(float deltaTime)
+{
 	// INFO: Have the gun follow the player with an offset
 	if (std::shared_ptr<Transform> playerTransform = transform.lock())
 	{
@@ -58,22 +77,6 @@ void Player::Update(float deltaTime)
 			Quaternion newRotation = playerTransform->GetRotation() * Quaternion::CreateFromYawPitchRoll(XMConvertToRadians(180.0f), 0.0f, 0.0f);
 
 			gunTransform->SetRotation(newRotation);
-		}
-	}
-
-	if (isJumping)
-	{
-		if (std::shared_ptr<Rigidbody> rb = rigidbody.lock())
-		{
-			jumpTimer += deltaTime;
-
-			if (jumpTimer >= jumpDuration)
-			{
-				rb->SetVelocity(Vector3::Zero);
-
-				jumpTimer = 0.0f;
-				isJumping = false;
-			}
 		}
 	}
 }

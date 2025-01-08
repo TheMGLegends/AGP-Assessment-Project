@@ -31,7 +31,7 @@ void Rigidbody::Update(float deltaTime)
 	velocity.y = Clamp(velocity.y, -MAX_VELOCITY.y, MAX_VELOCITY.y);
 	velocity.z = Clamp(velocity.z, -MAX_VELOCITY.z, MAX_VELOCITY.z);
 
-	Vector3 displacement = 0.5f * acceleration * (deltaTime * deltaTime) + velocity * deltaTime;
+	displacement = 0.5f * acceleration * (deltaTime * deltaTime) + velocity * deltaTime;
 
 	// INFO: Update the position of the game object
 	if (std::shared_ptr<Transform> transform = GetGameObject()->transform.lock())

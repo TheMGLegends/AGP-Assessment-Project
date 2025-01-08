@@ -16,6 +16,8 @@ public:
 	inline void SetVelocity(const DirectX::SimpleMath::Vector3& _velocity) { velocity = _velocity; }
 	inline const DirectX::SimpleMath::Vector3& GetVelocity() const { return velocity; }
 
+	inline const DirectX::SimpleMath::Vector3& GetDisplacement() const { return displacement; }
+
 	inline void SetUseGravity(bool _useGravity) { useGravity = _useGravity; }
 	inline bool GetUseGravity() const { return useGravity; }
 
@@ -26,6 +28,7 @@ private:
 	DirectX::SimpleMath::Vector3 gravity;
 	DirectX::SimpleMath::Vector3 velocity;
 	DirectX::SimpleMath::Vector3 acceleration;
+	DirectX::SimpleMath::Vector3 displacement;
 
 	bool useGravity;
 };

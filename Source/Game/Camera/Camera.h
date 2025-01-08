@@ -52,7 +52,7 @@ public:
 	DirectX::SimpleMath::Vector3 GetRightVector() const;
 	DirectX::SimpleMath::Vector3 GetUpVector() const;
 
-	void Update(float deltaTime);
+	void LateUpdate(float deltaTime);
 
 	/// @brief Only resets cameras position and rotation if camera is free
 	void Reset();

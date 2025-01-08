@@ -90,12 +90,12 @@ void Scene::Update(float deltaTime)
 
 		uiElement->Update(deltaTime);
 	}
-
-	camera->Update(deltaTime);
 }
 
 void Scene::LateUpdate(float deltaTime)
 {
+	camera->LateUpdate(deltaTime);
+
 	for (auto& gameObject : gameObjects)
 	{
 		if (!gameObject)

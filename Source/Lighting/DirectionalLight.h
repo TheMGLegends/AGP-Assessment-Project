@@ -7,7 +7,7 @@ class DirectionalLight : public Light
 public:
 	DirectionalLight();
 	DirectionalLight(DirectX::XMVECTOR _colour, DirectX::XMVECTOR _direction);
-	virtual ~DirectionalLight() override;
+	~DirectionalLight();
 
 	inline void SetDirection(const DirectX::XMVECTOR& _direction) { direction = _direction; }
 	inline const DirectX::XMVECTOR& GetDirection() const { return direction; }

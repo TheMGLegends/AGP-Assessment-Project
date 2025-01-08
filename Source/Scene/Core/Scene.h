@@ -7,6 +7,7 @@
 #include "../../Lighting/AmbientLight.h"
 #include "../../Lighting/DirectionalLight.h"
 #include "../../Lighting/PointLight.h"
+#include "../../Utilities/Globals/Globals.h"
 
 class Camera;
 class GameObject;
@@ -38,7 +39,7 @@ public:
 	inline const DirectionalLight& GetDirectionalLight() const { return directionalLight; }
 
 	void AddPointLight(const PointLight& pointLight);
-	inline const std::array<PointLight, MAX_POINT_LIGHTS>& GetPointLights() const { return pointLights; }
+	inline const std::array<PointLight, Globals::MAX_POINT_LIGHTS>& GetPointLights() const { return pointLights; }
 
 protected:
 	std::vector<std::unique_ptr<GameObject>> gameObjects;
@@ -51,6 +52,6 @@ protected:
 	DirectionalLight directionalLight;
 
 private:
-	std::array<PointLight, MAX_POINT_LIGHTS> pointLights;
+	std::array<PointLight, Globals::MAX_POINT_LIGHTS> pointLights;
 };
 

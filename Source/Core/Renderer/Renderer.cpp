@@ -216,7 +216,7 @@ void Renderer::RenderFrame(Scene* scene)
 	// INFO: Get the lights we need
 	const AmbientLight& ambientLight = scene->GetAmbientLight();
 	const DirectionalLight& directionalLight = scene->GetDirectionalLight();
-	const std::array<PointLight, MAX_POINT_LIGHTS>& pointLights = scene->GetPointLights();
+	const std::array<PointLight, Globals::MAX_POINT_LIGHTS>& pointLights = scene->GetPointLights();
 
 	// INFO: Render the skybox
 	skybox->Draw(deviceContext.Get(), translationMatrix, viewMatrix, projectionMatrix);
@@ -265,7 +265,7 @@ void Renderer::RenderFrame(Scene* scene)
 				litVSBuffer.directionalLightDirection = XMVector3Transform(directionalLight.GetDirection(), transposeWorldMatrix);
 
 				// INFO: Go through all point lights
-				for (size_t i = 0; i < MAX_POINT_LIGHTS; ++i)
+				for (size_t i = 0; i < Globals::MAX_POINT_LIGHTS; ++i)
 				{
 					if (!pointLights[i].GetIsEnabled())
 						continue;
@@ -304,7 +304,7 @@ void Renderer::RenderFrame(Scene* scene)
 				reflectiveVSBuffer.directionalLightDirection = XMVector3Transform(directionalLight.GetDirection(), transposeWorldMatrix);
 
 				// INFO: Go through all point lights
-				for (size_t i = 0; i < MAX_POINT_LIGHTS; ++i)
+				for (size_t i = 0; i < Globals::MAX_POINT_LIGHTS; ++i)
 				{
 					if (!pointLights[i].GetIsEnabled())
 						continue;

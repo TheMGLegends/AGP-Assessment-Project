@@ -7,7 +7,7 @@ class Light
 public:
 	Light();
 	Light(DirectX::XMVECTOR _colour);
-	virtual ~Light() = 0;
+	~Light();
 
 	inline void SetColour(const DirectX::XMVECTOR& _colour) { colour = _colour; }
 	inline const DirectX::XMVECTOR& GetColour() const { return colour; }

@@ -4,15 +4,13 @@
 
 #include <Windows.h>
 
-constexpr int MAX_POINT_LIGHTS = 8;
-
 class PointLight : public Light
 {
 public:
 	/// @brief Default construction has point light disabled
 	PointLight();
 	PointLight(DirectX::XMVECTOR _colour, DirectX::XMVECTOR _position, float _strength);
-	virtual ~PointLight() override;
+	~PointLight();
 
 	inline void SetPosition(const DirectX::XMVECTOR& _position) { position = _position; }
 	inline const DirectX::XMVECTOR& GetPosition() const { return position; }

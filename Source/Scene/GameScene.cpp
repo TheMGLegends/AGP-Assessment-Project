@@ -108,14 +108,21 @@ bool GameScene::Initialise()
 	gameObjects.back()->transform.lock()->SetPosition(XMVECTOR{ 0.0f, 2.5f, -10.0f }, false);
 
 	// INFO: Particles
-	//std::unique_ptr<GameObject> particle = std::make_unique<GameObject>();
-	//particle->AddComponent<Emitter>(particle.get(), 10, "Quad", "ParticleMaterial");
-	//gameObjects.push_back(std::move(particle));
+	std::unique_ptr<GameObject> particle = std::make_unique<GameObject>();
+	std::shared_ptr<Transform> particleTransform = particle->transform.lock();
+	particleTransform->SetPosition(XMVECTOR{ 20.0f, 0.5f, 0.0f }, false);
+	particle->AddComponent<Emitter>(particle.get(), 50, "Quad", "ParticleMaterial");
+	gameObjects.push_back(std::move(particle));
+
+	// INFO: Point Lights
+	AddPointLight(PointLight(XMVECTOR{ 1.0f, 0.0f, 0.937f, 1.0f }, XMVECTOR{ -18.0f, 3.25f, 15.0f }, 10)); // Pink
+	AddPointLight(PointLight(XMVECTOR{ 0.251f, 0.0f, 1.0f, 1.0f }, XMVECTOR{ 0.0f, 2.5f, 0.0f }, 1000)); // Blue
+
 
 	// TODO: Initialise the game scene
 
 	// TEST CODE
-	AddPointLight(PointLight(XMVECTOR{0.0f, 0.384f, 0.98f, 1.0f}, XMVECTOR{0.0f, 2.5f, 0.0f}, 10));
+
 
 	return result;
 }

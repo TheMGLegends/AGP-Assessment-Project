@@ -129,10 +129,13 @@ void Scene::SwitchDebugMode()
 		// INFO: Go through all game objects and change reflected texture for all materials that are reflective
 		for (auto& gameObject : gameObjects)
 		{
-			if (Material* material = gameObject->GetComponent<Mesh>().lock()->GetMaterial())
+			if (std::shared_ptr<Mesh> mesh = gameObject->GetComponent<Mesh>().lock())
 			{
-				if (material->HasConstantBuffer(ConstantBufferType::ReflectiveVS))
-					material->SetReflectedTexture("DebugSkybox");
+				if (Material* material = mesh->GetMaterial())
+				{
+					if (material->HasConstantBuffer(ConstantBufferType::ReflectiveVS))
+						material->SetReflectedTexture("DebugSkybox");
+				}
 			}
 		}
 	}
@@ -143,10 +146,13 @@ void Scene::SwitchDebugMode()
 		// INFO: Go through all game objects and change reflected texture for all materials that are reflective
 		for (auto& gameObject : gameObjects)
 		{
-			if (Material* material = gameObject->GetComponent<Mesh>().lock()->GetMaterial())
+			if (std::shared_ptr<Mesh> mesh = gameObject->GetComponent<Mesh>().lock())
 			{
-				if (material->HasConstantBuffer(ConstantBufferType::ReflectiveVS))
-					material->SetReflectedTexture("GalaxySkybox");
+				if (Material* material = mesh->GetMaterial())
+				{
+					if (material->HasConstantBuffer(ConstantBufferType::ReflectiveVS))
+						material->SetReflectedTexture("GalaxySkybox");
+				}
 			}
 		}
 	}
@@ -169,7 +175,7 @@ Skybox* Scene::GetSkybox() const
 
 void Scene::AddPointLight(const PointLight& pointLight)
 {
-	for (size_t i = 0; i < MAX_POINT_LIGHTS; ++i)
+	for (size_t i = 0; i < Globals::MAX_POINT_LIGHTS; ++i)
 	{
 		// INFO: Overrides the first disabled point light
 		if (!pointLights[i].GetIsEnabled())
@@ -177,14 +183,14 @@ void Scene::AddPointLight(const PointLight& pointLight)
 			pointLights[i] = pointLight;
 
 			// INFO: Extra security to ensure the point light is enabled
-			pointLights[i].SetIsEnabled(TRUE);
+			pointLights[i].SetIsEnabled(true);
 			return;
 		}
 	}
 
 	// INFO: Given that no point light was disabled, the first point light is overridden
 	pointLights[0] = pointLight;
-	pointLights[0].SetIsEnabled(TRUE);
+	pointLights[0].SetIsEnabled(true);
 
 	LogWarning("Scene::AddPointLight(): No disabled point light found, overriding the first point light!");
 }

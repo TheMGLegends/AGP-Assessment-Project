@@ -6,6 +6,6 @@ class AmbientLight : public Light
 {
 public:
 	using Light::Light;
-	virtual ~AmbientLight() override;
+	~AmbientLight();
 };
 

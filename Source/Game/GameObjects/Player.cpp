@@ -17,7 +17,7 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-Player::Player() : movementSpeed(10.0f), jumpStrength(15.0f), isGrounded(false), isJumping(false), jumpDuration(1.0f), 
+Player::Player() : movementSpeed(10.0f), jumpStrength(15.0f), isGrounded(false), isJumping(false), jumpDuration(1.5f), 
 	jumpTimer(0.0f), gun(nullptr), movementDirection(Vector3::Zero), releasedForward(true), releasedBackward(true),
 	releasedLeft(true), releasedRight(true), disableGroundCheck(false)
 

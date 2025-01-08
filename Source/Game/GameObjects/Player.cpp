@@ -1,6 +1,8 @@
 #include "Player.h"
 
+
 #include "Bullet.h"
+#include "../Camera/Camera.h"
 #include "../../Components/Mesh/Mesh.h"
 #include "../../Components/Physics/BoxCollider.h"
 #include "../../Components/Physics/Rigidbody.h"
@@ -68,15 +70,23 @@ void Player::LateUpdate(float deltaTime)
 	{
 		if (std::shared_ptr<Transform> gunTransform = gun->transform.lock())
 		{
-			Vector3 playerPosition = playerTransform->GetPosition();
-			Vector3 playerForward = playerTransform->GetForwardVector();
-			Vector3 playerRight = playerTransform->GetRightVector();
+			if (Camera* camera = SceneContext::GetScene()->GetCamera())
+			{
+				if (camera->GetIsFreeCam()) 
+					return;
 
-			gunTransform->SetPosition(playerPosition - playerRight * 0.5f + playerForward * 0.75f + Vector3(0.0f, 0.75f, 0.0f), false);
+				gunTransform->SetPosition(camera->GetPosition() - camera->GetRightVector() * 0.5f + camera->GetForwardVector() * 0.75f - camera->GetUpVector() * 0.5f, false);
+				
+				Quaternion cameraRotation = camera->GetRotation();
 
-			Quaternion newRotation = playerTransform->GetRotation() * Quaternion::CreateFromYawPitchRoll(XMConvertToRadians(180.0f), 0.0f, 0.0f);
+				Vector3 cameraRotationEuler = cameraRotation.ToEuler();
+				cameraRotationEuler.x = -cameraRotationEuler.x;
 
-			gunTransform->SetRotation(newRotation);
+				Quaternion baseRotation = Quaternion::CreateFromYawPitchRoll(cameraRotationEuler.y, cameraRotationEuler.x, cameraRotationEuler.z);
+				Quaternion newRotation = baseRotation * Quaternion::CreateFromYawPitchRoll(XMConvertToRadians(180.0f), 0.0f, 0.0f);
+
+				gunTransform->SetRotation(newRotation);
+			}
 		}
 	}
 }
@@ -203,8 +213,11 @@ void Player::Shoot()
 	{
 		if (std::shared_ptr<Transform> gunTransform = gun->transform.lock())
 		{
-			Vector3 spawnLocation = gunTransform->GetPosition() - gunTransform->GetForwardVector() * 0.6f + gunTransform->GetUpVector() * 0.25f;
-			SceneContext::SpawnGameObject<Bullet>(spawnLocation, transform.lock()->GetRotation());
+			if (Camera* camera = SceneContext::GetScene()->GetCamera())
+			{
+				Vector3 spawnLocation = gunTransform->GetPosition() - gunTransform->GetForwardVector() * 0.6f + gunTransform->GetUpVector() * 0.25f;
+				SceneContext::SpawnGameObject<Bullet>(spawnLocation, camera->GetRotation());
+			}
 		}
 	}
 }

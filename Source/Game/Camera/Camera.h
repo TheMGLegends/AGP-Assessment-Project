@@ -60,6 +60,8 @@ public:
 	inline const DirectX::SimpleMath::Vector3& GetPosition() const { return position; }
 	inline void SetOffset(const DirectX::SimpleMath::Vector3& _offset) { offset = _offset; }
 
+	inline const DirectX::SimpleMath::Quaternion& GetRotation() const { return rotation; }
+
 	inline void SetPitchConstraints(float minPitch, float maxPitch) { pitchConstraints = DirectX::SimpleMath::Vector2(minPitch, maxPitch); }
 	inline const DirectX::SimpleMath::Vector2& GetPitchConstraints() const { return pitchConstraints; }
 

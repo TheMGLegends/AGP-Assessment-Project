@@ -51,5 +51,9 @@ void Bullet::OnTrigger(std::shared_ptr<Collider> other)
 			otherGameObject->Destroy();
 			Destroy();
 		}
+		else if (otherGameObject->GetLayer() == Layer::Ground)
+		{
+			Destroy();
+		}
 	}
 }

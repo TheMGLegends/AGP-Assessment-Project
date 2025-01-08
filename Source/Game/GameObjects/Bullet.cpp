@@ -7,7 +7,7 @@
 
 using namespace DirectX::SimpleMath;
 
-Bullet::Bullet() : bulletSpeed(50.0f), bulletLifeTime(5.0f)
+Bullet::Bullet() : bulletSpeed(50.0f), bulletLifeTime(5.0f), bulletTimer(0.0f)
 {
 	mesh = AddComponent<Mesh>(this, "Sphere", "BulletMaterial");
 	sphereCollider = AddComponent<SphereCollider>(this, 0.1f);

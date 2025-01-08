@@ -15,8 +15,8 @@ private:
 	std::weak_ptr<Mesh> mesh;
 	std::weak_ptr<SphereCollider> sphereCollider;
 
-	float bulletSpeed;
-	float bulletLifeTime;
-	float bulletTimer;
+	float movementSpeed;
+	float lifetimeDuration;
+	float lifetimeTimer;
 };
 

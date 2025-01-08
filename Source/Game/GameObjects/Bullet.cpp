@@ -7,7 +7,7 @@
 
 using namespace DirectX::SimpleMath;
 
-Bullet::Bullet() : bulletSpeed(50.0f), bulletLifeTime(5.0f), bulletTimer(0.0f)
+Bullet::Bullet() : movementSpeed(50.0f), lifetimeDuration(5.0f), lifetimeTimer(0.0f)
 {
 	mesh = AddComponent<Mesh>(this, "Sphere", "BulletMaterial");
 	sphereCollider = AddComponent<SphereCollider>(this, 0.1f);
@@ -29,16 +29,16 @@ Bullet::~Bullet()
 
 void Bullet::Update(float deltaTime)
 {
-	bulletTimer += deltaTime;
+	lifetimeTimer += deltaTime;
 
-	if (bulletTimer >= bulletLifeTime)
+	if (lifetimeTimer >= lifetimeDuration)
 	{
 		Destroy();
 	}
 
 	if (std::shared_ptr<Transform> t = transform.lock())
 	{
-		t->Translate(t->GetForwardVector() * bulletSpeed * deltaTime);
+		t->Translate(t->GetForwardVector() * movementSpeed * deltaTime);
 	}
 }
 

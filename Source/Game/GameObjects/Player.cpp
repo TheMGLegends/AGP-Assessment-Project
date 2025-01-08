@@ -1,5 +1,6 @@
 #include "Player.h"
 
+#include "Bullet.h"
 #include "../../Components/Mesh/Mesh.h"
 #include "../../Components/Physics/BoxCollider.h"
 #include "../../Components/Physics/Rigidbody.h"
@@ -11,11 +12,11 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-Player::Player() : movementSpeed(10.0f), jumpStrength(10.0f), isGrounded(false), isJumping(false), jumpDuration(1.0f), jumpTimer(0.0f)
+Player::Player() : movementSpeed(10.0f), jumpStrength(10.0f), isGrounded(false), isJumping(false), jumpDuration(1.0f), jumpTimer(0.0f), gun(nullptr)
 {
 	SetLayer(Layer::Player);
 
-	playerMesh = AddComponent<Mesh>(this, "Cylinder", "PlayerMaterial");
+	mesh = AddComponent<Mesh>(this, "Cylinder", "PlayerMaterial");
 	boxCollider = AddComponent<BoxCollider>(this);
 	rigidbody = AddComponent<Rigidbody>(this);
 
@@ -109,6 +110,8 @@ void Player::OnNotifyIsFreeCamChange(bool isFreeCam)
 		InputHandler::ClearKeyBinding(Keyboard::Keys::D);
 
 		InputHandler::ClearKeyBinding(Keyboard::Keys::Space);
+
+		InputHandler::ClearMouseButtonBinding(MouseButton::LeftMouseButton);
 	}
 	// INFO: Bind if is not free cam
 	else
@@ -119,6 +122,8 @@ void Player::OnNotifyIsFreeCamChange(bool isFreeCam)
 		InputHandler::BindKeyToAction(Keyboard::Keys::D, BindData(std::bind(&Player::MoveRight, this), ButtonState::Held));
 
 		InputHandler::BindKeyToAction(Keyboard::Keys::Space, BindData(std::bind(&Player::Jump, this), ButtonState::Held));
+
+		InputHandler::BindMouseButtonToAction(MouseButton::LeftMouseButton, BindData(std::bind(&Player::Shoot, this), ButtonState::Pressed));
 	}
 }
 
@@ -185,6 +190,18 @@ void Player::Jump()
 
 			isJumping = true;
 			isGrounded = false;
+		}
+	}
+}
+
+void Player::Shoot()
+{
+	if (gun)
+	{
+		if (std::shared_ptr<Transform> gunTransform = gun->transform.lock())
+		{
+			Vector3 spawnLocation = gunTransform->GetPosition() - gunTransform->GetForwardVector() * 0.6f + gunTransform->GetUpVector() * 0.25f;
+			SceneContext::SpawnGameObject<Bullet>(spawnLocation, transform.lock()->GetRotation());
 		}
 	}
 }

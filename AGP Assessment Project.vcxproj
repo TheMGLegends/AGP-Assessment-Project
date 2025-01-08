@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Game\GameObjects\Bullet.cpp" />
     <ClCompile Include="Source\UI\FPSCounter.cpp" />
     <ClCompile Include="Source\UI\ScoreCounter.cpp" />
     <ClCompile Include="Source\Game\GameObjects\Coin.cpp" />
@@ -179,6 +180,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Game\GameObjects\Bullet.h" />
     <ClInclude Include="Source\UI\FPSCounter.h" />
     <ClInclude Include="Source\UI\ScoreCounter.h" />
     <ClInclude Include="Source\Game\GameObjects\Coin.h" />

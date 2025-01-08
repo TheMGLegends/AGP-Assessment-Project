@@ -29,6 +29,8 @@ private:
 
 	void Jump();
 
+	void Shoot();
+
 private:
 	std::weak_ptr<Mesh> mesh;
 	std::weak_ptr<BoxCollider> boxCollider;

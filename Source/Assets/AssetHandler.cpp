@@ -103,6 +103,7 @@ HRESULT AssetHandler::LoadAssets()
 	if (FAILED(LoadTexture("Gun", L"Resources/Textures/Gun.png"))) return E_FAIL;
 	if (FAILED(LoadTexture("Coin", L"Resources/Textures/Coin.jpg"))) return E_FAIL;
 	if (FAILED(LoadTexture("Grey", L"Resources/Textures/Grey.png"))) return E_FAIL;
+	if (FAILED(LoadTexture("Yellow", L"Resources/Textures/Yellow.png"))) return E_FAIL;
 
 	if (FAILED(LoadTexture("DebugSkybox", L"Resources/Textures/DebugSkybox.dds", true))) return E_FAIL;
 	if (FAILED(LoadTexture("GalaxySkybox", L"Resources/Textures/GalaxySkybox.dds", true))) return E_FAIL;
@@ -165,6 +166,9 @@ HRESULT AssetHandler::LoadAssets()
 
 	Material* gunMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Gun");
 	if (FAILED(LoadMaterial("GunMaterial", gunMaterial))) return E_FAIL;
+
+	Material* bulletMaterial = new Material("Unlit", "Unlit", ConstantBufferType::UnlitVS, ConstantBufferInfo::ShaderType::Vertex, DepthWriteType::Enabled, CullingModeType::BackSolid, BlendStateType::None, "Yellow");
+	if (FAILED(LoadMaterial("BulletMaterial", bulletMaterial))) return E_FAIL;
 
 	// INFO: Load Models
 	if (FAILED(LoadModel("Cube", (char*)"Resources/Models/Cube.obj"))) return E_FAIL;

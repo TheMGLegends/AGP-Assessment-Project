@@ -28,6 +28,11 @@ private:
 	void MoveLeft();
 	void MoveRight();
 
+	void ReleaseForward();
+	void ReleaseBackward();
+	void ReleaseLeft();
+	void ReleaseRight();
+
 	void Jump();
 
 	void Shoot();
@@ -47,5 +52,14 @@ private:
 	float jumpTimer;
 
 	GameObject* gun;
+
+	DirectX::SimpleMath::Vector3 movementDirection;
+
+	bool releasedForward;
+	bool releasedBackward;
+	bool releasedLeft;
+	bool releasedRight;
+
+	bool disableGroundCheck;
 };
 

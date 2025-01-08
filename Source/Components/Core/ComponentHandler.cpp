@@ -266,20 +266,8 @@ void ComponentHandler::ResolveBoxBox(std::shared_ptr<BoxCollider>& box1, std::sh
 		BoundingOrientedBox& staticOrientedBox = staticCollider->GetOrientedBox();
 		BoundingOrientedBox& dynamicOrientedBox = dynamicCollider->GetOrientedBox();
 
-		Vector3 direction = dynamicPosition - dynamicPreviousPosition;
-		direction.Normalize();
-
-		if (box1->GetGameObject()->GetLayer() == Layer::Player && box2->GetGameObject()->GetLayer() == Layer::Ground ||
-			box1->GetGameObject()->GetLayer() == Layer::Ground && box2->GetGameObject()->GetLayer() == Layer::Player)
-			return;
-
-		float distance = 0.0f;
-
-		if (staticOrientedBox.Intersects(XMLoadFloat3(&dynamicOrientedBox.Center), direction, distance))
-		{
-			Vector3 penetration = direction * distance;
-			dynamicTransform->SetPosition(dynamicPosition - penetration, false);
-		}
+		if (staticOrientedBox.Intersects(dynamicOrientedBox))
+			dynamicTransform->SetPosition(dynamicPreviousPosition, false);
 	}
 }
 
@@ -305,16 +293,8 @@ void ComponentHandler::ResolveSphereSphere(std::shared_ptr<SphereCollider>& sphe
 		BoundingSphere& staticSphere = staticCollider->GetSphere();
 		BoundingSphere& dynamicSphere = dynamicCollider->GetSphere();
 
-		Vector3 direction = dynamicPosition - dynamicPreviousPosition;
-		direction.Normalize();
-
-		float distance = 0.0f;
-
-		if (staticSphere.Intersects(XMLoadFloat3(&dynamicSphere.Center), direction, distance))
-		{
-			Vector3 penetration = direction * distance;
-			dynamicTransform->SetPosition(dynamicPosition - penetration, false);
-		}
+		if (staticSphere.Intersects(dynamicSphere))
+			dynamicTransform->SetPosition(dynamicTransform->GetPreviousPosition(), false);
 	}
 }
 
@@ -337,15 +317,7 @@ void ComponentHandler::ResolveBoxSphere(std::shared_ptr<BoxCollider>& box, std::
 		Vector3 dynamicPreviousPosition = dynamicTransform->GetPreviousPosition();
 		Vector3 dynamicPosition = dynamicTransform->GetPosition();
 
-		Vector3 direction = dynamicPosition - dynamicPreviousPosition;
-		direction.Normalize();
-
-		float distance = 0.0f;
-
-		if (boundingSphere.Intersects(XMLoadFloat3(&orientedBox.Center), direction, distance))
-		{
-			Vector3 penetration = direction * distance;
-			dynamicTransform->SetPosition(dynamicPosition - penetration, false);
-		}
+		if (orientedBox.Intersects(boundingSphere))
+			dynamicTransform->SetPosition(dynamicTransform->GetPreviousPosition(), false);
 	}
 }

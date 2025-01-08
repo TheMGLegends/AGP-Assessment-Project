@@ -13,6 +13,7 @@ public:
 	inline void SetGravity(const DirectX::SimpleMath::Vector3& _gravity) { gravity = _gravity; }
 	inline const DirectX::SimpleMath::Vector3& GetGravity() const { return gravity; }
 
+	inline void AdjustVelocity(const DirectX::SimpleMath::Vector3& _velocity) { velocity += _velocity; }
 	inline void SetVelocity(const DirectX::SimpleMath::Vector3& _velocity) { velocity = _velocity; }
 	inline const DirectX::SimpleMath::Vector3& GetVelocity() const { return velocity; }
 

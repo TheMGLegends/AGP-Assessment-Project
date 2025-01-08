@@ -57,12 +57,12 @@ public:
 	static void SetMouseMode(DirectX::Mouse::Mode mouseMode);
 	static inline DirectX::Mouse::Mode GetMouseMode() { return mouseState.positionMode; }
 
-	static inline void BindKeyToAction(DirectX::Keyboard::Keys key, BindData bindData) { keyboardActions[key] = bindData; }
+	static inline void BindKeyToAction(DirectX::Keyboard::Keys key, BindData bindData) { keyboardActions.insert({ key, bindData }); }
 	static inline bool GetKey(DirectX::Keyboard::Keys key) { return keyboardState.IsKeyDown(key); }
 	static inline bool GetKeyDown(DirectX::Keyboard::Keys key) { return keyboardStateTracker.IsKeyPressed(key); }
 	static inline bool GetKeyUp(DirectX::Keyboard::Keys key) { return keyboardStateTracker.IsKeyReleased(key); }
 	static inline void ClearKeyBindings() { keyboardActions.clear(); }
-	static inline void ClearKeyBinding(DirectX::Keyboard::Keys key) { keyboardActions.erase(key); }
+	static void ClearKeyBinding(DirectX::Keyboard::Keys key, ButtonState buttonState);
 
 	static inline void BindMouseButtonToAction(MouseButton mouseButton, BindData bindData) { mouseActions[mouseButton] = bindData; }
 	static bool GetMouseButton(MouseButton mouseButton);
@@ -77,7 +77,7 @@ private:
 	static std::unique_ptr<DirectX::Keyboard> keyboard;
 	static DirectX::Keyboard::State keyboardState;
 	static DirectX::Keyboard::KeyboardStateTracker keyboardStateTracker;
-	static std::unordered_map<DirectX::Keyboard::Keys, BindData> keyboardActions;
+	static std::unordered_multimap<DirectX::Keyboard::Keys, BindData> keyboardActions;
 
 	static std::unique_ptr<DirectX::Mouse> mouse;
 	static DirectX::Mouse::State mouseState;

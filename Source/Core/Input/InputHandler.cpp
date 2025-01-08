@@ -8,7 +8,7 @@ using namespace DirectX;
 std::unique_ptr<Keyboard> InputHandler::keyboard;
 Keyboard::State InputHandler::keyboardState;
 Keyboard::KeyboardStateTracker InputHandler::keyboardStateTracker;
-std::unordered_map<Keyboard::Keys, BindData> InputHandler::keyboardActions;
+std::unordered_multimap<Keyboard::Keys, BindData> InputHandler::keyboardActions;
 
 std::unique_ptr<Mouse> InputHandler::mouse;
 Mouse::State InputHandler::mouseState;
@@ -100,6 +100,21 @@ void InputHandler::SetMouseMode(DirectX::Mouse::Mode mouseMode)
 		ShowCursor(TRUE);
 	else if (mouseMode == Mouse::Mode::MODE_RELATIVE)
 		ShowCursor(FALSE);
+}
+
+void InputHandler::ClearKeyBinding(DirectX::Keyboard::Keys key, ButtonState buttonState)
+{
+	auto range = keyboardActions.equal_range(key);
+
+	for (auto& it = range.first; it != range.second; ++it)
+	{
+		if (it->second.GetButtonState() == buttonState)
+		{
+			keyboardActions.erase(it);
+			break;
+		}
+	}
+
 }
 
 bool InputHandler::GetMouseButton(MouseButton mouseButton)

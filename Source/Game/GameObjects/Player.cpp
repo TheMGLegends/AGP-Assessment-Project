@@ -213,6 +213,18 @@ void Player::OnNotifyIsFreeCamChange(bool isFreeCam)
 		InputHandler::ClearKeyBinding(Keyboard::Keys::Space, ButtonState::Held);
 
 		InputHandler::ClearMouseButtonBinding(MouseButton::LeftMouseButton);
+
+		// INFO: Hide then gun mesh
+		if (gun)
+		{
+			if (std::shared_ptr<Mesh> gunMesh = gun->GetComponent<Mesh>().lock())
+			{
+				gunMesh->SetIsActive(false);
+			}
+		}
+
+		// INFO: Reset the movement direction
+		movementDirection = Vector3(0.0f, movementDirection.y, 0.0f);
 	}
 	// INFO: Bind if is not free cam
 	else
@@ -230,6 +242,15 @@ void Player::OnNotifyIsFreeCamChange(bool isFreeCam)
 		InputHandler::BindKeyToAction(Keyboard::Keys::Space, BindData(std::bind(&Player::Jump, this), ButtonState::Held));
 
 		InputHandler::BindMouseButtonToAction(MouseButton::LeftMouseButton, BindData(std::bind(&Player::Shoot, this), ButtonState::Pressed));
+
+		// INFO: Show the gun mesh
+		if (gun)
+		{
+			if (std::shared_ptr<Mesh> gunMesh = gun->GetComponent<Mesh>().lock())
+			{
+				gunMesh->SetIsActive(true);
+			}
+		}
 	}
 }
 

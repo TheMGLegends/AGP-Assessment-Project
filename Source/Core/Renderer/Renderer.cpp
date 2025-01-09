@@ -398,6 +398,9 @@ void Renderer::RenderFrame(Scene* scene)
 
 void Renderer::OnNotifyWindowSizeChanged(int width, int height)
 {
+	if (width == 0 || height == 0)
+		return;
+
 	if (swapChain)
 	{
 		deviceContext->OMSetRenderTargets(0, 0, 0);

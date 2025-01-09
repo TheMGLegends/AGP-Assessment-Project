@@ -13,7 +13,6 @@ public:
 	virtual void Start() override;
 	virtual void Update(float deltaTime) override;
 	virtual void LateUpdate(float deltaTime) override;
-	virtual void OnCollision(std::shared_ptr<Collider> other) override;
 	virtual void OnTrigger(std::shared_ptr<Collider> other) override;
 
 	inline void SetMovementSpeed(float _movementSpeed) { movementSpeed = _movementSpeed; }

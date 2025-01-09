@@ -183,49 +183,6 @@ void Player::LateUpdate(float deltaTime)
 	}
 }
 
-void Player::OnCollision(std::shared_ptr<Collider> other)
-{
-	// INFO: Perform a ray cast downwards to check if the player is grounded
-	/*Ray ray;
-	ray.position = transform.lock()->GetPosition();
-	ray.direction = Vector3::Down;
-
-	ray.position = XMVectorAdd(ray.position, XMVectorScale(ray.direction, 2.0f));
-
-	float intersectionDistance = 0.0f;
-
-	if (other->GetColliderType() == Collider::Type::Box)
-	{
-		if (std::shared_ptr<BoxCollider> box = std::dynamic_pointer_cast<BoxCollider>(other))
-		{
-			if (box->GetOrientedBox().Intersects(ray.position, ray.direction, intersectionDistance))
-			{
-				isGrounded = true;
-			}
-		}
-	}
-	else if (other->GetColliderType() == Collider::Type::Sphere)
-	{
-		if (std::shared_ptr<SphereCollider> sphere = std::dynamic_pointer_cast<SphereCollider>(other))
-		{
-			if (sphere->GetSphere().Intersects(ray.position, ray.direction, intersectionDistance))
-			{
-				isGrounded = true;
-			}
-		}
-	}
-
-	if (isGrounded)
-	{
-		if (std::shared_ptr<Rigidbody> rb = rigidbody.lock())
-		{
-			Vector3 velocity = rb->GetVelocity();
-			rb->SetUseGravity(false);
-			rb->SetVelocity(Vector3(velocity.x, 0.0f, velocity.z));
-		}
-	}*/
-}
-
 void Player::OnTrigger(std::shared_ptr<Collider> other)
 {
 	if (other->GetGameObject()->GetLayer() == Layer::Coin)

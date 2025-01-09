@@ -39,3 +39,12 @@ void Coin::Update(float deltaTime)
 		t->Translate(Vector3(0.0f, -sinf(Time::GetElapsedTime()) * travelDistance * deltaTime, 0.0f));
 	}
 }
+
+void Coin::OnDestroy()
+{
+	// INFO: De-activate collider to prevent multiple pickup
+	if (std::shared_ptr<SphereCollider> sc = sphereCollider.lock())
+	{
+		sc->SetIsActive(false);
+	}
+}

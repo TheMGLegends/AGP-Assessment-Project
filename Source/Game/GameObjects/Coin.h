@@ -9,6 +9,7 @@ public:
 	virtual ~Coin() override;
 
 	virtual void Update(float deltaTime) override;
+	virtual void OnDestroy() override;
 
 	inline int GetScoreValue() const { return scoreValue; }
 

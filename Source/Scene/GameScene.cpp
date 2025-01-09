@@ -118,11 +118,5 @@ bool GameScene::Initialise()
 	AddPointLight(PointLight(XMVECTOR{ 1.0f, 0.0f, 0.937f, 1.0f }, XMVECTOR{ -18.0f, 3.25f, 15.0f }, 10)); // Pink
 	AddPointLight(PointLight(XMVECTOR{ 0.251f, 0.0f, 1.0f, 1.0f }, XMVECTOR{ 0.0f, 2.5f, 0.0f }, 1000)); // Blue
 
-
-	// TODO: Initialise the game scene
-
-	// TEST CODE
-
-
 	return result;
 }
